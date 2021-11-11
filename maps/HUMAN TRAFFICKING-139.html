@@ -1,0 +1,50 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Google Maps - gmplot</title>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&key=AIzaSyC5DbWswLfC0oLuFLe8ZhSOfOL5VkCsJ60"></script>
+<script type="text/javascript">
+    function initialize() {
+        var map = new google.maps.Map(document.getElementById("map_canvas"), {
+            zoom: 13,
+            center: new google.maps.LatLng(41.878114, -87.629798)
+        });
+
+        new google.maps.visualization.HeatmapLayer({
+            threshold: 10,
+            radius: 10,
+            maxIntensity: 1,
+            opacity: 0.600000,
+            dissipating: true,
+            map: map,
+            data: [
+                new google.maps.LatLng(41.740598, -87.665619),
+                new google.maps.LatLng(41.887283, -87.756880),
+                new google.maps.LatLng(41.788699, -87.604954),
+                new google.maps.LatLng(41.887385, -87.624551),
+                new google.maps.LatLng(41.823320, -87.623203),
+                new google.maps.LatLng(41.830354, -87.678707),
+                new google.maps.LatLng(41.970861, -87.763419),
+                new google.maps.LatLng(41.880400, -87.753009),
+                new google.maps.LatLng(41.758615, -87.602549),
+                new google.maps.LatLng(41.801719, -87.630704),
+                new google.maps.LatLng(41.761381, -87.619990),
+                new google.maps.LatLng(41.921824, -87.795188),
+                new google.maps.LatLng(41.884576, -87.734752),
+                new google.maps.LatLng(41.793727, -87.627788),
+                new google.maps.LatLng(41.706124, -87.645241),
+                new google.maps.LatLng(41.952709, -87.747298),
+                new google.maps.LatLng(41.703732, -87.540104),
+                new google.maps.LatLng(41.758276, -87.622484),
+                new google.maps.LatLng(41.907421, -87.685925),
+            ]
+        });
+
+    }
+</script>
+</head>
+<body style="margin:0px; padding:0px;" onload="initialize()">
+    <div id="map_canvas" style="width: 100%; height: 100%;" />
+</body>
+</html>
