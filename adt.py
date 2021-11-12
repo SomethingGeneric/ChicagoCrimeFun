@@ -54,6 +54,7 @@ class AVLTree:
         self.root = self._insert(self.root, key, value)
 
     def _insert(self, root, key, value=None):
+        # TODO: Should I make a new root node? 
         # If the root is None, return a new node.
         if root is None:
             return CrimeNode(key, value)
@@ -68,20 +69,23 @@ class AVLTree:
             root.value = value
         return root
     
-    def remove(self, root, key):
-        self.root = self.remove(self.root, key)
-
+    def remove(self, key):
+        self.root = self._remove(self.root, key)
+    
     def _remove(self, root, key):
         if root is None:
             return root
         elif key < root.key:
             root.left = self._remove(root.left, key)
+        else:
+            root.right = self._remove(root.right, key)
+        return root 
 
     def rebalance(self, root):
         if root is None:
             return root
-        if root == 2:
-            pass
+    
+    # TODO: post order, inorder, preorder traversal functions.
 
     def __repr__(self):
         return (self.key, self.value)
