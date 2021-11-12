@@ -15,27 +15,27 @@ TRAIN_FILE = "Chicago_Crimes_2018-2019_Train.csv"
 API_KEY = "AIzaSyC5DbWswLfC0oLuFLe8ZhSOfOL5VkCsJ60"
 s = os.sep
 
+
 class ChicagoCrimeFun:
     def __init__(self):
         """
         Constructor that could do several things, including read in your training data
         """
         self.root = None
-
         self.data = []
-
         self.primary_types = []
-        
+        self.total_crimes = 0
         data = []
 
         # https://docs.python.org/3/library/csv.html
-        with open(TRAIN_FILE, newline='') as csvfile:
+        with open(TRAIN_FILE, newline="") as csvfile:
             csvreader = csv.reader(csvfile)  # read in the file, split it into a list.
             for lines in csvreader:
                 data.append(lines)
 
         # Create instance of crime data, then nodes
         for case in data:
+            self.total_crimes += 1
             data = CrimeData(case)
             self.data.append(data)
             new_node = CrimeNode()
@@ -47,8 +47,11 @@ class ChicagoCrimeFun:
 
         # item 0 is the label :(
         self.primary_types.pop(0)
-        #print(str(self.primary_types))
-            
+        # first "crime" is just the header
+        self.total_crimes -= 1
+
+        print("Total data points: " + str(self.total_crimes))
+
     def build_loc_priority(self):
         """
         Should be used to build your location-priority AVL tree
@@ -83,7 +86,7 @@ class ChicagoCrimeFun:
                     longitudes.append(float(item.longitude))
         gmap4 = gmplot.GoogleMapPlotter.from_geocode("Chicago, IL", apikey=API_KEY)
         gmap4.heatmap(latitudes, longitudes)
-        fn = "maps" + s + otype + "-" + str(randint(1,1000))+".html"
+        fn = "maps" + s + otype + "-" + str(randint(1, 1000)) + ".html"
         gmap4.draw(fn)
         if browser:
             webbrowser.open_new_tab(fn)
@@ -93,6 +96,7 @@ class ChicagoCrimeFun:
             print("Making map for " + primary)
             self.google_maps(otype=primary, browser=False)
 
+
 if __name__ == "__main__":
     ccf = ChicagoCrimeFun()
-    ccf.map_all_types()
+    # ccf.map_all_types()

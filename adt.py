@@ -5,6 +5,7 @@ class CrimeNode:
         self.left = None
         self.right = None
 
+
 class CrimeData:
     def __init__(self, data):
         self.id = data[0]
@@ -30,43 +31,60 @@ class CrimeData:
         self.longitude = data[20]
         self.location = data[21]
 
+
 class AVLTreeNode(CrimeNode):
     def __init__(self, key, value):
         super().__init__()
         self.key = key
         self.value = value
         self.height = 1
-    
+
+
+# TODO: Add the balancing to the AVL tree.
+# TODO: Make the repr function for the AVL tree.
+# TODO: Make the rebalance function for the AVL tree. 
+# TODO: Make the balance function for the AVL tree. 
+# (this is to see if the left or right is greater than the other side and using rotation to fix it.)
+# TODO: Make left rotation and right rotation for the AVL tree.
 class AVLTree:
     def __init__(self):
         self.root = None
-        
-    def insert(self, root: CrimeNode, key, value=None):
+    
+    def insert(self, key, value=None):
+        self.root = self._insert(self.root, key, value)
+
+    def _insert(self, root, key, value=None):
         # If the root is None, return a new node.
         if root is None:
-            return CrimeNode(key, value) 
+            return CrimeNode(key, value)
         # If the key is less than the root, insert it to the left.
         elif key < root.key:
-            root.left = self._insert(root.left, key, value) 
+            root.left = self._insert(root.left, key, value)
         # If the key is greater than the root, insert it to the right.
-        elif key > root.key:  
+        elif key > root.key:
             root.right = self._insert(root.right, key, value)
         else:
-            # If the key does not follow any of those confitions return the value of the root node. 
+            # If the key does not follow any of those confitions return the value of the root node.
             root.value = value
         return root
     
-    def remove(self, root: CrimeNode, key):
+    def remove(self, root, key):
+        self.root = self.remove(self.root, key)
+
+    def _remove(self, root, key):
         if root is None:
             return root
         elif key < root.key:
             root.left = self._remove(root.left, key)
-    
-    def rebalance(self, root: CrimeNode):
+
+    def rebalance(self, root):
         if root is None:
             return root
+        if root == 2:
+            pass
 
     def __repr__(self):
-        print(self.key, self.value)
-        
-            
+        return (self.key, self.value)
+
+a = AVLTree()
+a.insert()
