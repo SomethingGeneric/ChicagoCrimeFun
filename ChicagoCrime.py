@@ -9,7 +9,7 @@ import numpy as np
 import gmplot
 
 # Our own code
-from adt import CrimeData, CrimeNode
+from adt import AVLTree, CrimeData, AVLTreeNode
 
 TRAIN_FILE = "Chicago_Crimes_2018-2019_Train.csv"
 API_KEY = "AIzaSyC5DbWswLfC0oLuFLe8ZhSOfOL5VkCsJ60"
@@ -38,7 +38,7 @@ class ChicagoCrimeFun:
             self.total_crimes += 1
             data = CrimeData(case)
             self.data.append(data)
-            new_node = CrimeNode()
+            new_node = AVLTreeNode()
             new_node.value = data
             new_node.key = data.location
 
