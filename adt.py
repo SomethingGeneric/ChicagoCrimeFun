@@ -74,11 +74,24 @@ class AVLTree:
 
         return root
 
-    # Rotate right and left method (pivot attribute for the rotation)
-    def right_rotate(self):
-        pass
+    # Rotate the tree to the right.
+    def right_rotate(self, root):
+        """
+        The unbalanced node becomes the right child of the left child.
+        """
+        left_child = root.left
+        # Replace the left child with the right child. 
+        root.left = left_child.right
+        # 
+        left_child.right = root
+        
+        # Update the height of the node.
+        self.update_height(root)
+        self.update_height(left_child)
+        
+        return left_child
 
-    def left_rotate(self):
+    def left_rotate(self, root):
         pass
 
     # Check the balance of the node.
