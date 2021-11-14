@@ -199,10 +199,6 @@ class AVLTree:
         else:
             return ""
 
-    def __repr__(self):
-        return "{root.key} : {root.value}"
-
-
 a = AVLTree()
 root = None
 print(a.root)
