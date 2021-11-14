@@ -25,7 +25,7 @@ class CrimeData:  # use the key for data
 
 
 class AVLTreeNode:
-    def __init__(self, key, value):
+    def __init__(self, key, value=None):
         self.key = key
         self.value = value
         self.left = None
@@ -40,14 +40,16 @@ class AVLTree:
     def __init__(self):
         self.root = None
 
-    def insert(self, key, value=None):
+    def insert(self, root, key, value=None):
         # TODO: Value should be the node im inserting (make the object and and put it into value) I can call the data in CrimData because value is an object.
-        self.root = self._insert(self.root, key, CrimeData(value))
+        # value = CrimeData(value)
+        self.root = self._insert(root, key, value)
 
     def _insert(self, root, key, value=None):
+        # TODO: I should make a new node before this and pass it as the value in insert
         # If the root is None, return a new node.
-        if root is None:  # I should make a new node before this and pass it as the value in insert
-            self.root = AVLTreeNode(key, value)
+        if root is None: 
+            return AVLTreeNode(key, value)
         # If the key is less than the root, insert it to the left.
         elif key < root.key:
             root.left = self._insert(root.left, key, value)
@@ -133,7 +135,7 @@ class AVLTree:
     # Get the height of the node.
     def height(self, root):
         # If the node is None -1 will be returned. Else the height of the node will be returned.
-        return root.height if not root else -1
+        return root.height if root is not None else -1
 
     # Update the height of the node.
     def update_height(self, root):
@@ -160,9 +162,13 @@ class AVLTree:
     def _in_order(self, root):
         """Returns the string of an in_order traversal"""
         if root is not None:
-            before = self._in_order(root.left)
-            after = self._in_order(root.right)
-            return before + " " + str(root.data) + " " + after
+            return (
+                self._in_order(root.left)
+                + " " 
+                + str(root.key)
+                + " "
+                + self._in_order(root.right)
+            )
         else:
             return ""
 
@@ -177,7 +183,7 @@ class AVLTree:
                 self._postorder(root.left)
                 + self._postorder(root.right)
                 + " "
-                + str(root.data)
+                + str(root.key)
             )
         else:
             return ""
@@ -190,10 +196,11 @@ class AVLTree:
         """Returns the string of an preorder traversal"""
         if root is not None:
             return (
-                str(root.data)
-                + " "
+                " "
+                + str(root.key)
                 + self._preorder(root.left)
                 + self._preorder(root.right)
+                + " "
             )
         else:
             return ""
