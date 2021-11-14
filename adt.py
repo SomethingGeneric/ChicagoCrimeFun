@@ -121,6 +121,8 @@ class AVLTree:
         # Update the height of the node.
         self.update_height(pivot)
         self.update_height(right_child)
+        
+        return right_child
 
     # Check the balance of the node.
     def balance(self, root):
