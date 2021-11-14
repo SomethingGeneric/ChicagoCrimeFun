@@ -69,25 +69,27 @@ class AVLTree:
 
         # Update the balance factor.
         root.balance = self.balance(root)
-        
+
+        # FIXME: Implement a different method of balancing the tree.
+
         # Case 1: Left Left
         if self.balance(root) == 2 and key < root.left.key:
             return self.right_rotate(root)
-            
+
         # Case 2: Right Right
         if self.balance(root) == -2 and key > root.right.key:
             return self.left_rotate(root)
-        
+
         # Case 3: Left Right
         if self.balance(root) == 2 and key > root.left.key:
             root.left = self.left_rotate(root.left)
             return self.right_rotate(root)
-        
+
         # Case 4: Right Left
         if self.balance(root) == -2 and key < root.right.key:
             root.right = self.right_rotate(root.right)
-            return self.left_rotate(root)                
-        
+            return self.left_rotate(root)
+
         return root
 
     # Rotate the tree to the right.
@@ -101,11 +103,11 @@ class AVLTree:
         root.left = left_child.right
         # Make the right child of the left child the root.
         left_child.right = root
-        
+
         # Update the height of the node.
         self.update_height(root)
         self.update_height(left_child)
-        
+
         return left_child
 
     def left_rotate(self, root):
@@ -114,11 +116,11 @@ class AVLTree:
         """
         # Assign the attribute right_child to the right child of the root.
         right_child = root.right
-        # Make the right child of the root the left child of the right child. 
+        # Make the right child of the root the left child of the right child.
         root.right = right_child.left
         # Make the left child of the right child the root.
         right_child.left = root
-        
+
         # Update the height of the node.
         self.update_height(root)
         self.update_height(right_child)
@@ -152,7 +154,50 @@ class AVLTree:
             root.right = self._remove(root.right, key)
         return root
 
-    # TODO: post order, inorder, preorder traversal functions.
+    # Returns the tree as a string as an in_order traversal.
+    def in_order(self):
+        return self._in_order(self.root)
+
+    def _in_order(self, root):
+        """Returns the string of an in_order traversal"""
+        if root is not None:
+            before = self._in_order(root.left)
+            after = self._in_order(root.right)
+            return before + " " + str(root.data) + " " + after
+        else:
+            return ""
+
+    # Returns the tree as a string as a postorder traversal.
+    def postorder(self):
+        return self._postorder(self.root)
+
+    def _postorder(self, root):
+        """Returns the string of an postorder traversal"""
+        if root is not None:
+            return (
+                self._postorder(root.left)
+                + self._postorder(root.right)
+                + " "
+                + str(root.data)
+            )
+        else:
+            return ""
+
+    # Returns the tree as a string as a preorder traversal.
+    def preorder(self):
+        return self._preorder(self.root)
+
+    def _preorder(self, root):
+        """Returns the string of an preorder traversal"""
+        if root is not None:
+            return (
+                str(root.data)
+                + " "
+                + self._preorder(root.left)
+                + self._preorder(root.right)
+            )
+        else:
+            return ""
 
     def __repr__(self):
         return "{root.key} : {root.value}"
