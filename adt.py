@@ -23,13 +23,6 @@ class CrimeData:  # use the key for data
         self.longitude = data[20]
         self.location = data[21]
 
-# TODO: Add the balancing to the AVL tree.
-# TODO: Make the repr function for the AVL tree.
-# TODO: Make the rebalance function for the AVL tree.
-# TODO: Make the balance function for the AVL tree.
-# (this is to see if the left or right is greater than the other side and using rotation to fix it.)
-# TODO: Make left rotation and right rotation for the AVL tree.
-
 
 class AVLTreeNode:
     def __init__(self, key, value):
@@ -40,14 +33,15 @@ class AVLTreeNode:
         self.balance = 0
         self.height = 0
 
+# TODO: I want to insert all the data from CrimeData into the AVL tree. It has to have all those attributes.
+
 
 class AVLTree:
-    # I want to insert all the data from CrimeData into the AVL tree. It has to have all those attributes.
     def __init__(self):
         self.root = None
 
     def insert(self, key, value=None):
-        # value should be the node im inserting (make the object and and put it into value)
+        # TODO: Value should be the node im inserting (make the object and and put it into value) I can call the data in CrimData because value is an object.
         self.root = self._insert(self.root, key, CrimeData(value))
 
     def _insert(self, root, key, value=None):
@@ -70,12 +64,11 @@ class AVLTree:
         # Update the balance factor.
         root.balance = self.balance(root)
 
-        
         """
         A balance value of [-2, 2] means that the tree is unbalanced.
         Also, it has to check if values of the keys are greater than the others.
         """
-        
+
         # Case 1: Left Left
         if self.balance(root) == 2 and key < root.left.key:
             return self.right_rotate(root)
@@ -93,7 +86,7 @@ class AVLTree:
         if self.balance(root) == -2 and key < root.right.key:
             root.right = self.right_rotate(root.right)
             return self.left_rotate(root)
-                    
+
         return root
 
     # Rotate the tree to the right.
@@ -202,6 +195,7 @@ class AVLTree:
             )
         else:
             return ""
+
 
 a = AVLTree()
 root = None
