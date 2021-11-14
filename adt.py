@@ -70,8 +70,12 @@ class AVLTree:
         # Update the balance factor.
         root.balance = self.balance(root)
 
-        # FIXME: Implement a different method of balancing the tree.
-
+        
+        """
+        A balance value of [-2, 2] means that the tree is unbalanced.
+        Also, it has to check if values of the keys are greater than the others.
+        """
+        
         # Case 1: Left Left
         if self.balance(root) == 2 and key < root.left.key:
             return self.right_rotate(root)
@@ -89,20 +93,20 @@ class AVLTree:
         if self.balance(root) == -2 and key < root.right.key:
             root.right = self.right_rotate(root.right)
             return self.left_rotate(root)
-
+                    
         return root
 
     # Rotate the tree to the right.
-    def right_rotate(self, root):
+    def right_rotate(self, pivot):
         """
         The unbalanced node becomes the right child of the left child.
         """
         # Assign the attribute left_child to the left child of the root.
-        left_child = root.left
+        left_child = pivot.left
         # Make the left child of the root the right child of the left child.
-        root.left = left_child.right
+        pivot.left = left_child.right
         # Make the right child of the left child the root.
-        left_child.right = root
+        left_child.right = pivot
 
         # Update the height of the node.
         self.update_height(root)
@@ -110,19 +114,19 @@ class AVLTree:
 
         return left_child
 
-    def left_rotate(self, root):
+    def left_rotate(self, pivot):
         """
         The unbalanced node becomes the left child of the right child.
         """
         # Assign the attribute right_child to the right child of the root.
-        right_child = root.right
+        right_child = pivot.right
         # Make the right child of the root the left child of the right child.
-        root.right = right_child.left
+        pivot.right = right_child.left
         # Make the left child of the right child the root.
-        right_child.left = root
+        right_child.left = pivot
 
         # Update the height of the node.
-        self.update_height(root)
+        self.update_height(pivot)
         self.update_height(right_child)
 
     # Check the balance of the node.
