@@ -69,9 +69,25 @@ class AVLTree:
 
         # Update the balance factor.
         root.balance = self.balance(root)
-
-        # TODO: Make the four cases. I need to check the height of the left and right side and the balance.
-
+        
+        # Case 1: Left Left
+        if self.balance(root) == 2 and key < root.left.key:
+            return self.right_rotate(root)
+            
+        # Case 2: Right Right
+        if self.balance(root) == -2 and key > root.right.key:
+            return self.left_rotate(root)
+        
+        # Case 3: Left Right
+        if self.balance(root) == 2 and key > root.left.key:
+            root.left = self.left_rotate(root.left)
+            return self.right_rotate(root)
+        
+        # Case 4: Right Left
+        if self.balance(root) == -2 and key < root.right.key:
+            root.right = self.right_rotate(root.right)
+            return self.left_rotate(root)                
+        
         return root
 
     # Rotate the tree to the right.
