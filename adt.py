@@ -79,10 +79,11 @@ class AVLTree:
         """
         The unbalanced node becomes the right child of the left child.
         """
+        # Assign the attribute left_child to the left child of the root.
         left_child = root.left
-        # Replace the left child with the right child. 
+        # Make the left child of the root the right child of the left child.
         root.left = left_child.right
-        # 
+        # Make the right child of the left child the root.
         left_child.right = root
         
         # Update the height of the node.
@@ -92,7 +93,19 @@ class AVLTree:
         return left_child
 
     def left_rotate(self, root):
-        pass
+        """
+        The unbalanced node becomes the left child of the right child.
+        """
+        # Assign the attribute right_child to the right child of the root.
+        right_child = root.right
+        # Make the right child of the root the left child of the right child. 
+        root.right = right_child.left
+        # Make the left child of the right child the root.
+        right_child.left = root
+        
+        # Update the height of the node.
+        self.update_height(root)
+        self.update_height(right_child)
 
     # Check the balance of the node.
     def balance(self, root):
@@ -102,6 +115,7 @@ class AVLTree:
 
     # Get the height of the node.
     def height(self, root):
+        # If the node is None -1 will be returned. Else the height of the node will be returned.
         return root.height if not root else -1
 
     # Update the height of the node.
