@@ -37,7 +37,8 @@ class AVLTreeNode:
         self.value = value
         self.left = None
         self.right = None
-        self.height = 1
+        self.balance = 0
+        self.height = 0
 
 
 class AVLTree:
@@ -52,7 +53,7 @@ class AVLTree:
     def _insert(self, root, key, value=None):
         # If the root is None, return a new node.
         if root is None:  # I should make a new node before this and pass it as the value in insert
-            return AVLTreeNode(key, value)
+            self.root = AVLTreeNode(key, value)
         # If the key is less than the root, insert it to the left.
         elif key < root.key:
             root.left = self._insert(root.left, key, value)
@@ -62,15 +63,31 @@ class AVLTree:
         else:
             # Assign the value item to the value attribute.
             root.value = value
-
+            
+        # Update the height of the node.
+        root.height = max(self.height(root.left), self.height(root.right)) + 1
+            
+        # Update the balance factor.
+        root.balance = self.balance(root)
+                
         # TODO: Make the four cases. I need to check the height of the left and right side and the balance.
-        # determine balance
-        # determine case on balance
-        # rotate based on case
-        # do in order for the  avl tree and visualize of the tree.
+        
         return root
 
     # Rotate right and left method (pivot attribute for the rotation)
+    def right_rotate(self):
+        pass
+    
+    def left_rotate(self):
+        pass
+    
+    def balance(self, root):
+        if root is None:
+            return 0
+        return self.height(root.right) - self.height(root.left)
+    
+    def height(self, root):
+        return root.height if not root else -1
 
     def remove(self, key):
         self.root = self._remove(self.root, key)
@@ -83,18 +100,14 @@ class AVLTree:
         else:
             root.right = self._remove(root.right, key)
         return root
-
-    def rebalance(self, root):
-        if root is None:
-            return root
+        
 
     # TODO: post order, inorder, preorder traversal functions.
 
     def __repr__(self):
-        return (root.key, root.value)
+        return "{root.key} : {root.value}"
 
 
 a = AVLTree()
 root = None
-
 print(a.root)
