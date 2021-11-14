@@ -25,13 +25,16 @@ class CrimeData:  # use the key for data
 
 
 class AVLTreeNode:
-    def __init__(self, key, value=None):
+    def __init__(self, key, value):
         self.key = key
         self.value = value
         self.left = None
         self.right = None
         self.balance = 0
         self.height = 0
+    
+    def __str__(self):
+        return str(self.key) + " " + str(self.value) 
 
 # TODO: I want to insert all the data from CrimeData into the AVL tree. It has to have all those attributes.
 
@@ -39,57 +42,70 @@ class AVLTreeNode:
 class AVLTree:
     def __init__(self):
         self.root = None
+        self.n_inserts = 0
 
-    def insert(self, root, key, value=None):
-        # TODO: Value should be the node im inserting (make the object and and put it into value) I can call the data in CrimData because value is an object.
-        # value = CrimeData(value)
-        self.root = self._insert(root, key, value)
+    def insert(self, node):
+        self._insert(self.root, node)
 
-    def _insert(self, root, key, value=None):
-        # TODO: I should make a new node before this and pass it as the value in insert
+    def _insert(self, root, node):
+        print("root is: " + str(self.root))
+        print("new node is: " + str(node))
+        print("this is insert # " + str(self.n_inserts))
+        self.n_inserts += 1
         # If the root is None, return a new node.
         if root is None: 
-            return AVLTreeNode(key, value)
+            print("Creating new root node")
+            self.root = node
+            return node
         # If the key is less than the root, insert it to the left.
-        elif key < root.key:
-            root.left = self._insert(root.left, key, value)
+        elif node.value < root.value:
+            print("Value less than root")
+            root.left = self._insert(root.left, node)
         # If the key is greater than the root, insert it to the right.
-        elif key > root.key:
-            root.right = self._insert(root.right, key, value)
+        elif node.value > root.value:
+            print("Value greater than root")
+            root.right = self._insert(root.right, node)
         else:
             # Assign the value item to the value attribute.
-            root.value = value
+            print("what the fuck they're equal")
+            root.value = node.value
 
-        # Update the height of the node.
-        root.height = self.update_height(root)
+        node.height = self.update_height(node)
+        print("Update the height of the node to " + str(node.height))
 
-        # Update the balance factor.
-        root.balance = self.balance(root)
+        node.balance = self.balance(node)
+        print("Update the balance factor of this node to " + str(node.balance))
 
         """
         A balance value of [-2, 2] means that the tree is unbalanced.
         Also, it has to check if values of the keys are greater than the others.
         """
+        
 
         # Case 1: Left Left
-        if self.balance(root) == 2 and key < root.left.key:
-            return self.right_rotate(root)
+        if node.balance == 2 and node.value < root.left.value:
+            print("Left Left")
+            return self.right_rotate(node)
 
         # Case 2: Right Right
-        if self.balance(root) == -2 and key > root.right.key:
-            return self.left_rotate(root)
+        if node.balance == -2 and node.value > root.right.value:
+            print("Right Right")
+            return self.left_rotate(node)
 
         # Case 3: Left Right
-        if self.balance(root) == 2 and key > root.left.key:
-            root.left = self.left_rotate(root.left)
-            return self.right_rotate(root)
+        if node.balance == 2 and node.value > root.left.value:
+            print("Left Right")
+            node.left = self.left_rotate(node.left)
+            return self.right_rotate(node)
 
         # Case 4: Right Left
-        if self.balance(root) == -2 and key < root.right.key:
-            root.right = self.right_rotate(root.right)
-            return self.left_rotate(root)
+        if node.balance == -2 and node.value < root.right.value:
+            print("Right Left")
+            node.right = self.right_rotate(node.right)
+            return self.left_rotate(node)
 
-        return root
+        print()
+        return node
 
     # Rotate the tree to the right.
     def right_rotate(self, pivot):
@@ -127,19 +143,24 @@ class AVLTree:
         return right_child
 
     # Check the balance of the node.
-    def balance(self, root):
-        if root is None:
+    def balance(self, node):
+        if node is None:
             return 0
-        return self.height(root.right) - self.height(root.left)
+        return self.height(node.left) - self.height(node.right) 
 
     # Get the height of the node.
-    def height(self, root):
+    def height(self, node):
         # If the node is None -1 will be returned. Else the height of the node will be returned.
-        return root.height if root is not None else -1
+        # return node.height if node is not None else -1
+        if node is None:
+            return -1
+        else:
+            print("Node's height was " + str(node.height))
+            return node.height
 
     # Update the height of the node.
-    def update_height(self, root):
-        root.height = max(self.height(root.left), self.height(root.right)) + 1
+    def update_height(self, node):
+        return max(self.height(node.right), self.height(node.left)) + 1
 
     # Remove a specific node from the tree.
     def remove(self, key):
@@ -205,7 +226,7 @@ class AVLTree:
         else:
             return ""
 
-
-a = AVLTree()
-root = None
-print(a.root)
+if __name__ == "__main__":
+    a = AVLTree()
+    root = None
+    print(a.root)
