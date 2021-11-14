@@ -63,35 +63,43 @@ class AVLTree:
         else:
             # Assign the value item to the value attribute.
             root.value = value
-            
+
         # Update the height of the node.
-        root.height = max(self.height(root.left), self.height(root.right)) + 1
-            
+        root.height = self.update_height(root)
+
         # Update the balance factor.
         root.balance = self.balance(root)
-                
+
         # TODO: Make the four cases. I need to check the height of the left and right side and the balance.
-        
+
         return root
 
     # Rotate right and left method (pivot attribute for the rotation)
     def right_rotate(self):
         pass
-    
+
     def left_rotate(self):
         pass
-    
+
+    # Check the balance of the node.
     def balance(self, root):
         if root is None:
             return 0
         return self.height(root.right) - self.height(root.left)
-    
+
+    # Get the height of the node.
     def height(self, root):
         return root.height if not root else -1
 
+    # Update the height of the node.
+    def update_height(self, root):
+        root.height = max(self.height(root.left), self.height(root.right)) + 1
+
+    # Remove a specific node from the tree.
     def remove(self, key):
         self.root = self._remove(self.root, key)
 
+    # Helper function for the remove function.
     def _remove(self, root, key):
         if root is None:
             return root
@@ -100,7 +108,6 @@ class AVLTree:
         else:
             root.right = self._remove(root.right, key)
         return root
-        
 
     # TODO: post order, inorder, preorder traversal functions.
 
