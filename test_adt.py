@@ -4,13 +4,17 @@ from adt import *
 def main():
     # Creates a AVL (balancing binary search tree)
     print("Create binary search tree")
-    myTree = AVLTree() 
-    myTree.insert(AVLTreeNode(5,17))
-    myTree.insert(AVLTreeNode(2,13))
-    myTree.insert(AVLTreeNode(1,3))
-    myTree.insert(AVLTreeNode(3,7))
-    myTree.insert(AVLTreeNode(4, 14))
-    myTree.insert(AVLTreeNode(2,17))
+    myTree = AVLTree()
+    new_root = AVLTreeNode(6, 6)
+    myTree.insert(new_root)
+    myTree.insert(AVLTreeNode(5, 5))
+    myTree.insert(AVLTreeNode(8, 8))
+    myTree.insert(AVLTreeNode(3, 3))
+    # myTree.insert(AVLTreeNode(4, 4))
+    myTree.insert(AVLTreeNode(9, 9))
+    myTree.insert(AVLTreeNode(7, 7))
+    myTree.insert(AVLTreeNode(2, 2))
+    myTree.insert(AVLTreeNode(1, 1))
 
     print("Print preorder")
     pre_o = myTree.preorder()
@@ -22,6 +26,8 @@ def main():
     in_o = myTree.in_order()
     print(in_o)
 
+    myTree.root.print()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

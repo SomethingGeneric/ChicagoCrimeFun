@@ -32,11 +32,53 @@ class AVLTreeNode:
         self.right = None
         self.balance = 0
         self.height = 0
-    
-    def __str__(self):
-        return str(self.key) + " " + str(self.value) 
 
-# TODO: I want to insert all the data from CrimeData into the AVL tree. It has to have all those attributes.
+    def print(self):
+        """Print out the tree rooted at this node."""
+        lines = []
+        strings = []
+        self.print_nodes(lines, strings)
+        st = ""
+        for string in strings:
+            st = st + string
+        print(st)
+
+    def print_nodes(self, lines, strings):
+        """Helper function for print()."""
+        level = len(lines)
+        if self.right != None:
+            lines.append(False)
+            self.print_lines(lines, strings, "\n")
+            self.right.print_nodes(lines, strings)
+            lines.pop(level)
+        else:
+            self.print_lines(lines, strings, "\n")
+
+        if level > 0:
+            old = lines.pop(level - 1)
+            self.print_lines(lines, strings, "  +--")
+            lines.append(not old)
+            strings.append(str(self.key) + "\n")
+
+        if self.left != None:
+            lines.append(True)
+            self.left.print_nodes(lines, strings)
+            self.print_lines(lines, strings, "\n")
+            lines.pop(level)
+        else:
+            self.print_lines(lines, strings, "\n")
+
+    def print_lines(self, lines, strings, suffix):
+        """Helper function for print()."""
+        for line in lines:
+            if line:
+                strings.append("  |  ")
+            else:
+                strings.append("     ")
+        strings.append(suffix)
+
+    def __str__(self):
+        return str(self.key)
 
 
 class AVLTree:
@@ -48,119 +90,132 @@ class AVLTree:
         self._insert(self.root, node)
 
     def _insert(self, root, node):
-        print("root is: " + str(self.root))
-        print("new node is: " + str(node))
-        print("this is insert # " + str(self.n_inserts))
-        self.n_inserts += 1
         # If the root is None, return a new node.
-        if root is None: 
-            print("Creating new root node")
+        if self.root is None:
             self.root = node
-            return node
-        # If the key is less than the root, insert it to the left.
-        elif node.value < root.value:
-            print("Value less than root")
-            root.left = self._insert(root.left, node)
-        # If the key is greater than the root, insert it to the right.
-        elif node.value > root.value:
-            print("Value greater than root")
-            root.right = self._insert(root.right, node)
+            return self.root
+        # If the root value is greater than the node value, insert the node to the left.
+        if root.value > node.value:
+            if root.left is None:
+                root.left = node
+            else:
+                self._insert(root.left, node)
         else:
-            # Assign the value item to the value attribute.
-            print("what the fuck they're equal")
-            root.value = node.value
+            # If the root value is less than the node value, insert the node to the right.
+            if root.right is None:
+                root.right = node
+            else:
+                self._insert(root.right, node)
 
-        node.height = self.update_height(node)
-        print("Update the height of the node to " + str(node.height))
+        # Update the height of the node.
+        root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
 
-        node.balance = self.balance(node)
-        print("Update the balance factor of this node to " + str(node.balance))
+        print(str(root.height))
+        # Update the balance of the node.
+        bal = self.balance(root)
 
         """
         A balance value of [-2, 2] means that the tree is unbalanced.
         Also, it has to check if values of the keys are greater than the others.
         """
-        
-
         # Case 1: Left Left
-        if node.balance == 2 and node.value < root.left.value:
+        if bal < -1 and node.value > root.right.value:
             print("Left Left")
-            return self.right_rotate(node)
-
+            return self.left_rotate(root)
         # Case 2: Right Right
-        if node.balance == -2 and node.value > root.right.value:
+        if bal > 1 and root.left.value > node.value:
             print("Right Right")
-            return self.left_rotate(node)
-
+            return self.right_rotate(root)
         # Case 3: Left Right
-        if node.balance == 2 and node.value > root.left.value:
+        if bal > 1 and node.value > root.left.value:
             print("Left Right")
-            node.left = self.left_rotate(node.left)
-            return self.right_rotate(node)
-
+            root.left = self.left_rotate(root.left)
+            return self.right_rotate(root)
         # Case 4: Right Left
-        if node.balance == -2 and node.value < root.right.value:
+        if bal < -1 and node.value < root.right.value:
             print("Right Left")
-            node.right = self.right_rotate(node.right)
-            return self.left_rotate(node)
-
-        print()
-        return node
+            root.right = self.right_rotate(root.right)
+            return self.left_rotate(root)
+        return root
 
     # Rotate the tree to the right.
     def right_rotate(self, pivot):
         """
         The unbalanced node becomes the right child of the left child.
         """
-        # Assign the attribute left_child to the left child of the root.
-        left_child = pivot.left
-        # Make the left child of the root the right child of the left child.
-        pivot.left = left_child.right
-        # Make the right child of the left child the root.
-        left_child.right = pivot
+        child = pivot.left
+        gchild = child.right
+        child.right = pivot
+        pivot.left = gchild
+
+        # # Assign the attribute left_child to the left child of the root.
+        # left_child = pivot.left
+        # # Make the left child of the root the right child of the left child.
+        # pivot.left = left_child.right
+        # # Make the right child of the left child the root.
+        # left_child.right = pivot
 
         # Update the height of the node.
-        self.update_height(root)
-        self.update_height(left_child)
+        pivot.height = 1 + max(
+            self.get_height(pivot.left), self.get_height(pivot.right)
+        )
+        child.height = 1 + max(
+            self.get_height(child.left), self.get_height(child.right)
+        )
 
-        return left_child
+        # self.update_height(pivot)
+        # self.update_height(left_child)
+
+        return child
 
     def left_rotate(self, pivot):
         """
         The unbalanced node becomes the left child of the right child.
         """
-        # Assign the attribute right_child to the right child of the root.
-        right_child = pivot.right
-        # Make the right child of the root the left child of the right child.
-        pivot.right = right_child.left
-        # Make the left child of the right child the root.
-        right_child.left = pivot
+
+        child = pivot.right
+        gchild = child.left
+        child.left = pivot
+        pivot.right = gchild
+
+        # # Assign the attribute right_child to the right child of the root.
+        # right_child = pivot.right
+        # # Make the right child of the root the left child of the right child.
+        # pivot.right = right_child.left
+        # # Make the left child of the right child the root.
+        # right_child.left = pivot
 
         # Update the height of the node.
-        self.update_height(pivot)
-        self.update_height(right_child)
-        
-        return right_child
+        pivot.height = 1 + max(
+            self.get_height(pivot.left), self.get_height(pivot.right)
+        )
+        child.height = 1 + max(
+            self.get_height(child.left), self.get_height(child.right)
+        )
+
+        # self.update_height(pivot)
+        # self.update_height(right_child)
+
+        return child
 
     # Check the balance of the node.
     def balance(self, node):
         if node is None:
             return 0
-        return self.height(node.left) - self.height(node.right) 
+        return self.get_height(node.left) - self.get_height(node.right)
 
     # Get the height of the node.
-    def height(self, node):
+    def get_height(self, node):
         # If the node is None -1 will be returned. Else the height of the node will be returned.
-        # return node.height if node is not None else -1
         if node is None:
-            return -1
+            return 0
         else:
-            print("Node's height was " + str(node.height))
             return node.height
 
-    # Update the height of the node.
+    # FIXME: This function is not working.
     def update_height(self, node):
-        return max(self.height(node.right), self.height(node.left)) + 1
+        # Update the hieght of the node.
+        node.height = 1 + max(self.get_height(node.left), self.get_height(node.right))
 
     # Remove a specific node from the tree.
     def remove(self, key):
@@ -180,15 +235,15 @@ class AVLTree:
     def in_order(self):
         return self._in_order(self.root)
 
-    def _in_order(self, root):
+    def _in_order(self, node):
         """Returns the string of an in_order traversal"""
-        if root is not None:
+        if node is not None:
             return (
-                self._in_order(root.left)
-                + " " 
-                + str(root.key)
+                self._in_order(node.left)
                 + " "
-                + self._in_order(root.right)
+                + str(node.value)
+                + " "
+                + self._in_order(node.right)
             )
         else:
             return ""
@@ -197,14 +252,14 @@ class AVLTree:
     def postorder(self):
         return self._postorder(self.root)
 
-    def _postorder(self, root):
+    def _postorder(self, node):
         """Returns the string of an postorder traversal"""
-        if root is not None:
+        if node is not None:
             return (
-                self._postorder(root.left)
-                + self._postorder(root.right)
+                self._postorder(node.left)
+                + self._postorder(node.right)
                 + " "
-                + str(root.key)
+                + str(node.value)
             )
         else:
             return ""
@@ -213,20 +268,20 @@ class AVLTree:
     def preorder(self):
         return self._preorder(self.root)
 
-    def _preorder(self, root):
+    def _preorder(self, node):
         """Returns the string of an preorder traversal"""
-        if root is not None:
+        if node is not None:
             return (
                 " "
-                + str(root.key)
-                + self._preorder(root.left)
-                + self._preorder(root.right)
+                + str(node.value)
+                + self._preorder(node.left)
+                + self._preorder(node.right)
                 + " "
             )
         else:
             return ""
 
+
 if __name__ == "__main__":
     a = AVLTree()
     root = None
-    print(a.root)

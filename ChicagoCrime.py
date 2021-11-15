@@ -1,17 +1,24 @@
 # Python standard library
-import csv, webbrowser, os
+import csv, webbrowser, os, sys
 from random import randint
 
 # PIP3 packages
 import matplotlib
 import matplotlib.pyplot as plt
+import networkx as nx
+from networkx.drawing.nx_agraph import graphviz_layout
 import numpy as np
 import gmplot
 
 # Our own code
 from adt import AVLTree, CrimeData, AVLTreeNode
+from visualize import visualizer
 
-TRAIN_FILE = "Chicago_Crimes_2018-2019_Train.csv"
+test_fn = input("fn: ")
+
+
+TRAIN_FILE = "Chicago_Crimes_2018-2019_Train.csv" if test_fn == "" else test_fn
+
 API_KEY = "AIzaSyC5DbWswLfC0oLuFLe8ZhSOfOL5VkCsJ60"
 s = os.sep
 
@@ -21,32 +28,37 @@ class ChicagoCrimeFun:
         """
         Constructor that could do several things, including read in your training data
         """
-        self.root = None
         self.data = []
+        self.cds = []
         self.primary_types = []
         self.total_crimes = 0
-        data = []
+
+        self.location_tree = AVLTree()
+        self.type_tree = AVLTree()
 
         # https://docs.python.org/3/library/csv.html
         with open(TRAIN_FILE, newline="") as csvfile:
             csvreader = csv.reader(csvfile)  # read in the file, split it into a list.
             for lines in csvreader:
-                data.append(lines)
+                self.data.append(lines)
+
+        # load our list of crimes, where the top is the "worst"
+        # or most severe (there is a lot of bias here :(  )
+        self.priority_dict = {}
+        l = 0
+        with open("primary_types.txt") as f:
+            for line in f.read().split("\n"):
+                self.priority_dict[line] = l
+                l += 1
+
+        self.priority_dict["Primary Type"] = None
 
         # Create instance of crime data, then nodes
-        for case in data:
+        for case in self.data:
             self.total_crimes += 1
-            data = CrimeData(case)
-            self.data.append(data)
-            new_node = AVLTreeNode()
-            new_node.value = data
-            new_node.key = data.location
+            tc = CrimeData(case)
+            self.cds.append(tc)
 
-            if data.primary_type not in self.primary_types:
-                self.primary_types.append(data.primary_type)
-
-        # item 0 is the label :(
-        self.primary_types.pop(0)
         # first "crime" is just the header
         self.total_crimes -= 1
 
@@ -56,13 +68,36 @@ class ChicagoCrimeFun:
         """
         Should be used to build your location-priority AVL tree
         """
-        pass
+        for cd in self.cds:
+            if (
+                cd.primary_type in self.priority_dict
+                and self.priority_dict[cd.primary_type] != None
+            ):
+                location_node = AVLTreeNode(
+                    cd.location, self.priority_dict[cd.primary_type]
+                )
+                self.type_tree.insert(location_node)
+            else:
+                print("Ignoring data point w/ primary type: " + cd.primary_type)
 
     def build_crime_priority(self):
         """
         Should be used to build your location-priority AVL tree
         """
-        pass
+
+        for cd in self.cds:
+            if cd.primary_type in self.priority_dict:
+                type_node = AVLTreeNode(
+                    cd.primary_type, self.priority_dict[cd.primary_type]
+                )
+                self.type_tree.insert(type_node)
+            else:
+                print(
+                    "I've never seen primary type: "
+                    + cd.primary_type
+                    + " before!!! Failing."
+                )
+                sys.exit(1)
 
     def decide_next_patrol(self, new_request=None):
         """
@@ -96,7 +131,25 @@ class ChicagoCrimeFun:
             print("Making map for " + primary)
             self.google_maps(otype=primary, browser=False)
 
+    def _draw_tree(self, tree, fn):
+        vis = visualizer(tree)
+        vis.draw(fn)
+
+    def draw_this(self, name, filename="tree.png"):
+        if name == "loc" or name == "location":
+            self._draw_tree(self.location_tree, filename)
+        elif name == "type" or name == "primary_type":
+            self._draw_tree(self.type_tree, filename)
+
 
 if __name__ == "__main__":
+    print("1 - Loading data")
     ccf = ChicagoCrimeFun()
-    # ccf.map_all_types()
+    print("2 - Building location tree")
+    ccf.build_loc_priority()
+    print("3 - Loading type priority tree")
+    ccf.build_crime_priority()
+    print("4 - Graphing type tree")
+    ccf.draw_this("type", "type.png")
+    print("5 - Graphing location tree")
+    ccf.draw_this("location", "location.png")

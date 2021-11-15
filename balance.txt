@@ -1,0 +1,22 @@
+
+        # # Case 1: Left Left
+        # if node.balance == 2 and node.value < root.left.value:
+        #     print("Left Left")
+        #     return self.right_rotate(node)
+
+        # # Case 2: Right Right
+        # if node.balance == -2 and node.value > root.right.value:
+        #     print("Right Right")
+        #     return self.left_rotate(node)
+
+        # # Case 3: Left Right
+        # if node.balance == 2 and node.value > root.left.value:
+        #     print("Left Right")
+        #     node.left = self.left_rotate(node.left)
+        #     return self.right_rotate(node)
+
+        # # Case 4: Right Left
+        # if node.balance == -2 and node.value < root.right.value:
+        #     print("Right Left")
+        #     node.right = self.right_rotate(node.right)
+        #     return self.left_rotate(node)

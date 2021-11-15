@@ -5,4 +5,6 @@ format:
 setup:
 	python -m pip install -r requirements.txt
 web:
-	python visualize.py
+	python web.py
+test:
+	python test_adt.py

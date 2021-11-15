@@ -1,5 +1,8 @@
 black
 matplotlib
+networkx
+pygraphviz
+ete3
 numpy
 gmplot
 flask
