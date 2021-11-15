@@ -3,6 +3,8 @@ matplotlib
 networkx
 pygraphviz
 ete3
+newick
+toytree
 numpy
 gmplot
 flask

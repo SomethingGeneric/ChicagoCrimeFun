@@ -12,10 +12,9 @@ import gmplot
 
 # Our own code
 from adt import AVLTree, CrimeData, AVLTreeNode
-from visualize import visualizer
+from visualize import newick
 
 test_fn = input("fn: ")
-
 
 TRAIN_FILE = "Chicago_Crimes_2018-2019_Train.csv" if test_fn == "" else test_fn
 
@@ -132,8 +131,8 @@ class ChicagoCrimeFun:
             self.google_maps(otype=primary, browser=False)
 
     def _draw_tree(self, tree, fn):
-        vis = visualizer(tree)
-        vis.draw(fn)
+        n = newick()
+        print(n.to_newick(tree))
 
     def draw_this(self, name, filename="tree.png"):
         if name == "loc" or name == "location":

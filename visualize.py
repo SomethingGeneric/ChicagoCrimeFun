@@ -1,53 +1,48 @@
-import ete3
+import toytree
+import toyplot.html
+import newick as nw
 
-from random import randint
+
+class newick:
+    def __init__(self):
+        return
+
+    def to_newick(self, tree):
+        newick = ""
+        newick = self.traverse(tree, newick)
+        newick = f"{newick};"
+        print("Newick: " + newick)
+        return newick
+
+    def traverse(self, tree, newick):
+        if tree.left and not tree.right:
+            newick = f"(,{self.traverse(tree.left, newick)}){tree.key}"
+        elif not tree.left and tree.right:
+            newick = f"({self.traverse(tree.right, newick)},){tree.key}"
+        elif tree.left and tree.right:
+            newick = f"({self.traverse(tree.right, newick)},{self.traverse(tree.left, newick)}){tree.key}"
+        elif not tree.left and not tree.right:
+            newick = f"{tree.key}"
+        else:
+            pass
+        return newick
 
 
 class visualizer:
-    def __init__(self, tree):
-        self.srctree = tree
-        self.tree = ete3.Tree()
-        self.dist = 0.5
-        self.support = 50
+    def __init__(self):
+        return
 
-        self.node_above = None
+    def draw(self, tree, filename=None):
+        if filename is None:
+            filename = str(tree)
+        n = newick()
+        as_newick = n.to_newick(tree.root)
 
-    def draw_node(self, node):
-        pass
+        test = nw.loads(as_newick)
+        
+        print(test[0].ascii_art())
 
-    def draw(self, filename="output.png"):
-        self.tree.add_child(
-            name=self.srctree.root, dist=self.dist, support=self.support
-        )
-
-        self.draw_node(self.srctree.root.left)
-
-        self.tree.render(filename)
-
-
-class SimpleNode:
-    def __init__(self, val=None):
-        self.left = None
-        self.right = None
-        self.val = val
-        print("My value is " + str(self.val))
-
-    def __repr__(self):
-        return str(self.val)
-
-
-class SimpleTree:
-    def __init__(self, root=None):
-        self.root = root
-
-
-if __name__ == "__main__":
-
-    root = SimpleNode(randint(1, 100))
-    root.left = SimpleNode(randint(1, 100))
-    root.right = SimpleNode(randint(1, 100))
-
-    tree = SimpleTree(root)
-
-    v = visualizer(tree)
-    v.draw()
+        tree = toytree.tree(as_newick)
+        # rte = tree.root(wildcard="")
+        canvas, _, _ = tree.draw(width=400, height=300)
+        toyplot.html.render(canvas, filename)

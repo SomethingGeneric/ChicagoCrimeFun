@@ -1,5 +1,7 @@
 from adt import *
 
+from visualize import visualizer
+
 
 def main():
     # Creates a AVL (balancing binary search tree)
@@ -15,6 +17,11 @@ def main():
     myTree.insert(AVLTreeNode(7, 7))
     myTree.insert(AVLTreeNode(2, 2))
     myTree.insert(AVLTreeNode(1, 1))
+    myTree.insert(AVLTreeNode(4, 4))
+    myTree.insert(AVLTreeNode(10, 10))
+    myTree.insert(AVLTreeNode(11, 11))
+    myTree.insert(AVLTreeNode(12, 12))
+    myTree.insert(AVLTreeNode(13, 13))
 
     print("Print preorder")
     pre_o = myTree.preorder()
@@ -26,7 +33,10 @@ def main():
     in_o = myTree.in_order()
     print(in_o)
 
-    myTree.root.print()
+    # v = visualizer()
+    # v.draw(myTree, "foo.html")
+    
+    myTree.print_tree()
 
 
 if __name__ == "__main__":
