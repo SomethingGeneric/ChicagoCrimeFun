@@ -278,4 +278,4 @@ if __name__ == "__main__":
     #ccf.draw_this("type", "type.png")
     #print("5 - Graphing location tree")
     #ccf.draw_this("location", "location.png")
-    ccf.print_meta(input("Filename: "))
+    ccf.print_meta(input("Filename for metadata: "))
