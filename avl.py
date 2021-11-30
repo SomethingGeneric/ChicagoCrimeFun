@@ -1,5 +1,3 @@
-import newick
-
 class CrimeData:  # use the key for data
     def __init__(self, data):
         self.id = data[0]
@@ -47,54 +45,66 @@ class AVLTree:
         self._insert(self.root, node)
 
     def _insert(self, root, node):
+        print(node)
         # If the root is None, return a new node.
         if self.root is None:
             self.root = node
-            self.newick_tree = newick.Node(str(node.key))
             return self.root
-        # If the root value is greater than the node value, insert the node to the left.
-        if root.value > node.value:
-            if root.left is None:
-                root.left = node
-            else:
-                self._insert(root.left, node)
+            # If the root value is greater than the node value, insert the node to the left.
+        elif node.value < root.value:
+            # Check if the left child is None if not call the insert function again.
+            root.left = self._insert(root.left, node) if root.left is not None else node
+        # If the root value is less than the node value, insert the node to the right.
         else:
-            # If the root value is less than the node value, insert the node to the right.
-            if root.right is None:
-                root.right = node
-            else:
-                self._insert(root.right, node)
+            # Check if the right child is None if not call the insert function again.
+            root.right = self._insert(root.right, node) if root.right is not None else node
+
+        if node is not None:
+            print("Node: " + str(node.value))
 
         # Update the height of the node.
-        root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
+        root.height = self.update_height(root)
+        print("Root Height: " + str(root.height))
 
         # Update the balance of the node.
         balance = self.balance(root)
+        # FIXME: I'm just stupid... if its 3 and 4 that means it hasn't done the rotation properly.
+        if balance >= 3 or balance <= -3:
+            print("ERROR Balance: " + str(balance))
+        else:
+            print("Balance: " + str(balance))
 
         """
         A balance value of [-2, 2] means that the tree is unbalanced.
         Also, it has to check if values of the keys are greater than the others.
         """
+        print("--------------------------")
 
+        if root is None:
+            return root
+        
         # Case 1: Right Right
-        if balance == 2 and root.left.value > node.value:
+        if balance < -1 and node.value > root.right.value:
             print("Right Right")
-            return self.right_rotate(root)
-        # Case 2: Left Left
-        if balance == -2 and node.value > root.right.value:
-            print("Left Left")
             return self.left_rotate(root)
+        
+        # Case 2: Left Left
+        if balance > 1 and node.value < root.left.value:
+            print("Left Left")
+            return self.right_rotate(root)
+        
         # Case 3: Right Left
-        if balance == -2 and node.value < root.right.value:
+        if balance < -1 and node.value < root.right.value:
             print("Right Left")
             root.right = self.right_rotate(root.right)
             return self.left_rotate(root)
+
         # Case 4: Left Right
-        if balance == 2 and node.value > root.left.value:
+        if balance > 1 and node.value > root.left.value:
             print("Left Right")
             root.left = self.left_rotate(root.left)
             return self.right_rotate(root)
-        
+    
         return root
 
     # Rotate the tree to the right.
@@ -102,61 +112,36 @@ class AVLTree:
         """
         The unbalanced node becomes the right child of the left child.
         """
-                
-        child = pivot.left
-        gchild = child.right
-        child.right = pivot
-        pivot.left = gchild
 
-        # # Assign the attribute left_child to the left child of the root.
-        # left_child = pivot.left
-        # # Make the left child of the root the right child of the left child.
-        # pivot.left = left_child.right
-        # # Make the right child of the left child the root.
-        # left_child.right = pivot
+        if pivot.left is None:
+            return pivot
 
-        # Update the height of the node.
-        pivot.height = 1 + max(
-            self.get_height(pivot.left), self.get_height(pivot.right)
-        )
-        child.height = 1 + max(
-            self.get_height(child.left), self.get_height(child.right)
-        )
+        a = pivot.left
+        b = a.right
+        a.right = pivot
+        pivot.left = b
 
-        # self.update_height(pivot)
-        # self.update_height(left_child)
+        pivot.height = self.update_height(pivot)        
+        a.height = self.update_height(a)
 
-        return child
+        return a
 
     def left_rotate(self, pivot):
         """
         The unbalanced node becomes the left child of the right child.
-        """       
+        """
+        if pivot.right is None:
+            return pivot
 
-        child = pivot.right
-        gchild = child.left
-        child.left = pivot
-        pivot.right = gchild
+        a = pivot.right
+        b = a.left
+        a.left = pivot
+        pivot.right = b
 
-        # # Assign the attribute right_child to the right child of the root.
-        # right_child = pivot.right
-        # # Make the right child of the root the left child of the right child.
-        # pivot.right = right_child.left
-        # # Make the left child of the right child the root.
-        # right_child.left = pivot
+        pivot.height = self.update_height(pivot)
+        a.height = self.update_height(a)
 
-        # Update the height of the node.
-        pivot.height = 1 + max(
-            self.get_height(pivot.left), self.get_height(pivot.right)
-        )
-        child.height = 1 + max(
-            self.get_height(child.left), self.get_height(child.right)
-        )
-
-        # self.update_height(pivot)
-        # self.update_height(right_child)
-
-        return child
+        return a
 
     # Check the balance of the node.
     def balance(self, node):
@@ -164,18 +149,17 @@ class AVLTree:
             return 0
         return self.get_height(node.left) - self.get_height(node.right)
 
-    # Get the height of the node.
+        # Get the height of the node.
+
     def get_height(self, node):
         # If the node is None -1 will be returned. Else the height of the node will be returned.
         if node is None:
             return 0
-        else:
-            return node.height
+        return node.height
 
-    # FIXME: This function is not working.
     def update_height(self, node):
         # Update the height of the node.
-        node.height = 1 + max(self.get_height(node.left), self.get_height(node.right))
+        return max(self.get_height(node.left), self.get_height(node.right)) + 1
 
     # Remove a specific node from the tree.
     def remove(self, key):
@@ -240,6 +224,7 @@ class AVLTree:
             )
         else:
             return ""
+
 
 if __name__ == "__main__":
     a = AVLTree()

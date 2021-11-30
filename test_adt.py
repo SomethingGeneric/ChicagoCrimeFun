@@ -1,7 +1,5 @@
 from avl import *
 
-from visualize import visualizer
-
 
 def main():
     # Creates a AVL (balancing binary search tree)
@@ -12,7 +10,6 @@ def main():
     myTree.insert(AVLTreeNode(5, 5))
     myTree.insert(AVLTreeNode(8, 8))
     myTree.insert(AVLTreeNode(3, 3))
-    # myTree.insert(AVLTreeNode(4, 4))
     myTree.insert(AVLTreeNode(9, 9))
     myTree.insert(AVLTreeNode(7, 7))
     myTree.insert(AVLTreeNode(2, 2))
@@ -35,8 +32,6 @@ def main():
 
     # v = visualizer()
     # v.draw(myTree, "foo.html")
-    
-    myTree.print_tree()
 
 
 if __name__ == "__main__":

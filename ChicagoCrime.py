@@ -12,11 +12,13 @@ import gmplot
 
 # Our own code
 from avl import AVLTree, CrimeData, AVLTreeNode
-from visualize import newick
+from heap import MinHeap
 
-test_fn = input("fn: ")
+test_fn = sys.argv[1] if len(sys.argv) > 1 else ""
 
 TRAIN_FILE = "Chicago_Crimes_2018-2019_Train.csv" if test_fn == "" else test_fn
+
+print("Using dataset:" + TRAIN_FILE)
 
 API_KEY = "AIzaSyC5DbWswLfC0oLuFLe8ZhSOfOL5VkCsJ60"
 s = os.sep
@@ -35,7 +37,7 @@ class ChicagoCrimeFun:
         self.location_tree = AVLTree()
         self.type_tree = AVLTree()
 
-        self.meta = None
+        self.dispatch_queue = MinHeap()
 
         # https://docs.python.org/3/library/csv.html
         with open(TRAIN_FILE, newline="") as csvfile:
@@ -67,127 +69,6 @@ class ChicagoCrimeFun:
 
     def do_sort(self, x):
         return {k: v for k, v in sorted(x.items(), key=lambda item: item[1])}
-
-    def make_metadata(self):
-        blocks = {}
-        iucr = {}
-        type_freq = {}
-        description = {}
-        location_desc = {}
-        arrest = {}
-        domestic = {}
-        beat = {}
-        district = {}
-        ward = {}
-        community_area = {}
-        fbi_code = {}
-
-        for case in self.cds:
-            # Block
-            if case.block not in blocks:
-                blocks[case.block] = 1
-            else:
-                blocks[case.block] += 1
-            
-            # IUCR (what's that?)
-            if case.iucr not in iucr:
-                iucr[case.iucr] = 1
-            else:
-                iucr[case.iucr] += 1
-
-            # Primary Type frequency
-            if case.primary_type not in type_freq:
-                type_freq[case.primary_type] = 1
-            else:
-                type_freq[case.primary_type] += 1
-
-            # Description frequency
-            if case.description not in description:
-                description[case.description] = 1
-            else:
-                description[case.description] += 1
-
-            # Location Description frequency
-            if case.location_description not in location_desc:
-                location_desc[case.location_description] = 1
-            else:
-                location_desc[case.location_description] += 1
-
-            # was there an arrest?
-            if case.arrest not in arrest:
-                arrest[case.arrest] = 1
-            else:
-                arrest[case.arrest] += 1
-
-            # was it domestic?
-            if case.domestic not in domestic:
-                domestic[case.domestic] = 1
-            else:
-                domestic[case.domestic] += 1
-
-            # beat (?)
-            if case.beat not in beat:
-                beat[case.beat] = 1
-            else:
-                beat[case.beat] += 1
-
-            # district
-            if case.district not in district:
-                district[case.district] = 1
-            else:
-                district[case.district] += 1
-
-            # ward
-            if case.ward not in ward:
-                ward[case.ward] = 1
-            else:
-                ward[case.ward] += 1
-
-            # community area
-            if case.community_area not in community_area:
-                community_area[case.community_area] = 1
-            else:
-                community_area[case.community_area] += 1
-
-            # fbi code
-            if case.fbi_code not in fbi_code:
-                fbi_code[case.fbi_code] = 1
-            else:
-                fbi_code[case.fbi_code] += 1
-
-            self.meta = {
-                "blocks": blocks,
-                "iucr": iucr,
-                "type_freq": type_freq,
-                "description": description,
-                "location_desc": location_desc,
-                "arrest": arrest,
-                "domestic": domestic,
-                "beat": beat,
-                "district": district,
-                "ward": ward,
-                "community_area": community_area,
-                "fbi_code": fbi_code
-            }
-
-    def print_meta(self, filename=None):
-        fobj = None
-        if filename is not None:
-            fobj = open(filename, "w")
-
-        if self.meta is None:
-            self.make_metadata()
-        for key in self.meta:
-            print("Data for " + key + ":\n-----\n")
-            if fobj is not None:
-                fobj.write("Data for " + key + ":\n-----\n")
-            print(str(self.meta[key]))
-            if fobj is not None:
-                fobj.write(str(self.meta[key]) + "\n")
-
-        if fobj is not None:
-            fobj.close()
-
 
     def build_loc_priority(self):
         """
@@ -224,10 +105,42 @@ class ChicagoCrimeFun:
                 )
                 sys.exit(1)
 
+    def add_random_case(self, n):
+        with open(TRAIN_FILE) as f:
+            lines = f.readlines()
+        for i in range(n):
+            self.add_dispatch(lines[randint(0, len(lines))])
+
+    def add_dispatch(self, dispatch_string):
+        '''
+        Method to add a dispatch to our dispatch_queue
+        Parameters:
+            dispatch_string: [string] A string that represents a recent 911 dispatch call request that is reported to the police
+        '''
+        csv = dispatch_string.split(",")
+        primary_type = csv[5]
+        if primary_type in self.priority_dict:
+            priority = self.priority_dict[primary_type]
+            self.dispatch_queue.insert(priority, dispatch_string)
+        else:
+            print("Couldn't lookup primary type: " + primary_type)
+            sys.exit(1)
+
+    def dump_next(self):
+        if not self.dispatch_queue.is_empty():
+            print(self.dispatch_queue.remove())
+        else:
+            print("Nothing to dump")
+
     def decide_next_patrol(self, new_request=None):
-        """
-        You will need this later, but I'm just giving this here for you to keep it as a placeholder
-        """
+        '''
+        Used to decide next place to send patrol
+        Parameters:
+            new_request: [string][optional] A string that represents a 911 dispatch call that is reported to the police
+        Returns:
+            [tuple] A tuple of length 4 that represents the 4 points of an area to patrol.
+        '''
+        pass
 
     def google_maps(self, otype="THEFT", browser=True):
         """
@@ -256,26 +169,16 @@ class ChicagoCrimeFun:
             print("Making map for " + primary)
             self.google_maps(otype=primary, browser=False)
 
-    def _draw_tree(self, tree, fn):
-        n = newick()
-        print(n.to_newick(tree))
-
-    def draw_this(self, name, filename="tree.png"):
-        if name == "loc" or name == "location":
-            self._draw_tree(self.location_tree, filename)
-        elif name == "type" or name == "primary_type":
-            self._draw_tree(self.type_tree, filename)
-
-
 if __name__ == "__main__":
     print("1 - Loading data")
     ccf = ChicagoCrimeFun()
+
     print("2 - Building location tree")
-    #ccf.build_loc_priority()
+    ccf.build_loc_priority()
     print("3 - Loading type priority tree")
-    #ccf.build_crime_priority()
-    #print("4 - Graphing type tree")
-    #ccf.draw_this("type", "type.png")
-    #print("5 - Graphing location tree")
-    #ccf.draw_this("location", "location.png")
-    ccf.print_meta(input("Filename for metadata: "))
+    ccf.build_crime_priority()
+
+    print("4 - Adding random cases")
+    ccf.add_random_case(10000)
+    print("5 - testing highest priority report")
+    ccf.dump_next()
