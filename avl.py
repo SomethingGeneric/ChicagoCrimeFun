@@ -57,8 +57,9 @@ class AVLTree:
         # If the root value is less than the node value, insert the node to the right.
         else:
             # Check if the right child is None if not call the insert function again.
-            root.right = self._insert(root.right, node) if root.right is not None else node
-        
+            root.right = (
+                self._insert(root.right, node) if root.right is not None else node
+            )
 
         # Update the height of the node.
         root.height = self.update_height(root)
@@ -105,30 +106,30 @@ class AVLTree:
         if pivot.left is None:
             return pivot
 
-        a_ = pivot.left
-        b = a_.right
-        a_.right = pivot
+        left_child = pivot.left
+        b = left_child.right
+        left_child.right = pivot
         pivot.left = b
 
         pivot.height = self.update_height(pivot)
-        a_.height = self.update_height(a_)
+        left_child.height = self.update_height(left_child)
 
-        return a_
+        return left_child
 
     def left_rotate(self, pivot):
         """The unbalanced node becomes the left child of the right child."""
         if pivot.right is None:
             return pivot
 
-        a = pivot.right
-        b = a.left
-        a.left = pivot
+        right_child = pivot.right
+        b = right_child.left
+        right_child.left = pivot
         pivot.right = b
 
         pivot.height = self.update_height(pivot)
-        a.height = self.update_height(a)
+        right_child.height = self.update_height(right_child)
 
-        return a
+        return right_child
 
     # Check the balance of the node.
     def balance(self, node):
