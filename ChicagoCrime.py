@@ -88,7 +88,7 @@ class ChicagoCrimeFun:
 
     def build_crime_priority(self):
         """
-        Should be used to build your location-priority AVL tree
+        Should be used to build your crime type-priority AVL tree
         """
 
         for cd in self.cds:
@@ -150,11 +150,14 @@ class ChicagoCrimeFun:
         # have to rewrite this tomorrow :(
 
         if new_request is None:
+            print("We have no new request")
             if self.dispatch_queue.is_empty():
                 # Now we need to use some past data to make best use of our resources
-                pass
+                print("We've not done this part yet")
+                return "(0,0)"
             else:
                 # we have an existing call, hence we need to do something *right now*
+                print("we had a call in the queue, let's respond to that")
                 prio, recent_call = self.dispatch_queue.remove()
                 if len(recent_call.split(",")) >= 21:  # we have a location attribute
                     return recent_call.split(",")[21]
@@ -168,10 +171,12 @@ class ChicagoCrimeFun:
                     )
         else:
             # we have a new call, but is it more important than the previous one?
+            print("We have a new call, let's decide if we should respond to it or the existing one in queue")
             my_priority = self.priority_dict[new_request.split(",")[5]]
             prio, recent_call = self.dispatch_queue.peek()
             if my_priority < prio:
                 # this new request is more important than the other one.
+                print("responding to the new call")
                 if len(new_request.split(",")) >= 21:  # we have a location attribute
                     return new_request.split(",")[21]
                 else:  # we need to combine index 19 and 20
@@ -184,6 +189,9 @@ class ChicagoCrimeFun:
                     )
             else:
                 # new request is less important than the last one
+                print("responding to the existing call")
+                # we don't need to save this output since we defined it above w/ the peek call
+                self.dispatch_queue.remove()
                 if len(recent_call.split(",")) >= 21:  # we have a location attribute
                     return recent_call.split(",")[21]
                 else:  # we need to combine index 19 and 20
@@ -194,6 +202,8 @@ class ChicagoCrimeFun:
                         + recent_call.split(",")[20]
                         + ")"
                     )
+
+        return "default case?"        
 
     def google_maps(self, otype="THEFT", browser=True):
         """
@@ -234,5 +244,9 @@ if __name__ == "__main__":
 
     print("4 - Adding random cases")
     ccf.add_random_case(20)
-    print("5 - testing highest priority report")
-    ccf.dump_next()
+    
+    #print("5 - testing highest priority report")
+    #ccf.dump_next()
+
+    print("6 - Deciding next patrol location")
+    print(ccf.decide_next_patrol())

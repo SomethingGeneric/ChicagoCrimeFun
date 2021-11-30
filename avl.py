@@ -1,3 +1,5 @@
+import graphviz
+
 class CrimeData:  # use the key for data
     def __init__(self, data):
         self.id = data[0]
@@ -212,6 +214,8 @@ class AVLTree:
             )
         else:
             return ""
+        
+    
 
 
 if __name__ == "__main__":

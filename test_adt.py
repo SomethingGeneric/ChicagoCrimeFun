@@ -1,4 +1,5 @@
 from avl import *
+import visualize
 
 
 def main():
