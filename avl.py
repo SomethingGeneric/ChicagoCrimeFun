@@ -45,7 +45,7 @@ class AVLTree:
         self._insert(self.root, node)
 
     def _insert(self, root, node):
-        print(node)
+        #print(node)
         # If the root is None, return a new node.
         if self.root is None:
             self.root = node
@@ -60,48 +60,49 @@ class AVLTree:
             root.right = self._insert(root.right, node) if root.right is not None else node
 
         if node is not None:
-            print("Node: " + str(node.value))
+            #print("Node: " + str(node.value))
+            pass
 
         # Update the height of the node.
         root.height = self.update_height(root)
-        print("Root Height: " + str(root.height))
+        #print("Root Height: " + str(root.height))
 
         # Update the balance of the node.
         balance = self.balance(root)
         # FIXME: I'm just stupid... if its 3 and 4 that means it hasn't done the rotation properly.
-        if balance >= 3 or balance <= -3:
-            print("ERROR Balance: " + str(balance))
-        else:
-            print("Balance: " + str(balance))
+        # if balance >= 3 or balance <= -3:
+        #     #print("ERROR Balance: " + str(balance))
+        # else:
+        #     #print("Balance: " + str(balance))
 
         """
         A balance value of [-2, 2] means that the tree is unbalanced.
         Also, it has to check if values of the keys are greater than the others.
         """
-        print("--------------------------")
+        #print("--------------------------")
 
         if root is None:
             return root
         
         # Case 1: Right Right
         if balance < -1 and node.value > root.right.value:
-            print("Right Right")
+            #print("Right Right")
             return self.left_rotate(root)
         
         # Case 2: Left Left
         if balance > 1 and node.value < root.left.value:
-            print("Left Left")
+            #print("Left Left")
             return self.right_rotate(root)
         
         # Case 3: Right Left
         if balance < -1 and node.value < root.right.value:
-            print("Right Left")
+            #print("Right Left")
             root.right = self.right_rotate(root.right)
             return self.left_rotate(root)
 
         # Case 4: Left Right
         if balance > 1 and node.value > root.left.value:
-            print("Left Right")
+            #print("Left Right")
             root.left = self.left_rotate(root.left)
             return self.right_rotate(root)
     

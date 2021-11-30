@@ -8,3 +8,5 @@ toytree
 numpy
 gmplot
 flask
+graphviz
+plotnine

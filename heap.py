@@ -90,7 +90,11 @@ class MinHeap:
         self.size-= 1
         self.minheapify(self.FRONT)
         #return popped
-        return self.cheat[popped]
+        return (self.FRONT, self.cheat[popped])
+
+    # show next element, but don't remove it
+    def peek(self):
+        return (self.FRONT, self.cheat[self.heap[self.FRONT]])
 
 if __name__ == "__main__":
     minheap = MinHeap()

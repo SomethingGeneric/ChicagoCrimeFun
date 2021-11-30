@@ -109,7 +109,7 @@ class ChicagoCrimeFun:
         with open(TRAIN_FILE) as f:
             lines = f.readlines()
         for i in range(n):
-            self.add_dispatch(lines[randint(0, len(lines))])
+            self.add_dispatch(lines[randint(0, len(lines)-1)])
 
     def add_dispatch(self, dispatch_string):
         '''
@@ -123,12 +123,12 @@ class ChicagoCrimeFun:
             priority = self.priority_dict[primary_type]
             self.dispatch_queue.insert(priority, dispatch_string)
         else:
-            print("Couldn't lookup primary type: " + primary_type)
-            sys.exit(1)
+            print("Couldn't lookup primary type: " + primary_type + ", so we're assigning it a priority of 0 (MOST URGENT")
+            self.dispatch_queue.insert(0, dispatch_string)
 
     def dump_next(self):
         if not self.dispatch_queue.is_empty():
-            print(self.dispatch_queue.remove())
+            print(self.dispatch_queue.peek())
         else:
             print("Nothing to dump")
 
@@ -140,7 +140,38 @@ class ChicagoCrimeFun:
         Returns:
             [tuple] A tuple of length 4 that represents the 4 points of an area to patrol.
         '''
-        pass
+
+        # TODO: all the cases where we're going to a specific location are returning one point, rather than
+        # a bounding box as the project suggests. If Dancy can elaborate on why the box would be better then we'll 
+        # have to rewrite this tomorrow :(
+
+        if new_request is None:
+            if self.dispatch_queue.is_empty():
+                # Now we need to use some past data to make best use of our resources
+                pass
+            else:
+                # we have an existing call, hence we need to do something *right now*
+                prio, recent_call = self.dispatch_queue.remove()
+                if len(recent_call.split(",")) >= 21: # we have a location attribute
+                    return recent_call.split(",")[21]
+                else: # we need to combine index 19 and 20
+                    return "(" + recent_call.split(",")[19] + "," + recent_call.split(",")[20] + ")"
+        else:
+            # we have a new call, but is it more important than the previous one?
+            my_priority = self.priority_dict[new_request.split(",")[5]]
+            prio, recent_call = self.dispatch_queue.peek()
+            if my_priority < prio:
+                # this new request is more important than the other one.
+                if len(new_request.split(",")) >= 21: # we have a location attribute
+                    return new_request.split(",")[21]
+                else: # we need to combine index 19 and 20
+                    return "(" + new_request.split(",")[19] + "," + new_request.split(",")[20] + ")"
+            else:
+                # new request is less important than the last one
+                if len(recent_call.split(",")) >= 21: # we have a location attribute
+                    return recent_call.split(",")[21]
+                else: # we need to combine index 19 and 20
+                    return "(" + recent_call.split(",")[19] + "," + recent_call.split(",")[20] + ")"
 
     def google_maps(self, otype="THEFT", browser=True):
         """
@@ -179,6 +210,6 @@ if __name__ == "__main__":
     ccf.build_crime_priority()
 
     print("4 - Adding random cases")
-    ccf.add_random_case(10000)
+    ccf.add_random_case(20)
     print("5 - testing highest priority report")
     ccf.dump_next()
