@@ -11,7 +11,7 @@ import numpy as np
 import gmplot
 
 # Our own code
-from adt import AVLTree, CrimeData, AVLTreeNode
+from avl import AVLTree, CrimeData, AVLTreeNode
 from visualize import newick
 
 test_fn = input("fn: ")

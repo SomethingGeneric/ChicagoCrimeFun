@@ -1,4 +1,4 @@
-from adt import *
+from avl import *
 
 from visualize import visualizer
 
