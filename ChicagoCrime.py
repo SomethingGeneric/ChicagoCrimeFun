@@ -80,7 +80,7 @@ class ChicagoCrimeFun:
                 and self.priority_dict[cd.primary_type] != None
             ):
                 location_node = AVLTreeNode(
-                    cd.location, self.priority_dict[cd.primary_type]
+                    cd.beat, self.priority_dict[cd.primary_type]
                 )
                 self.type_tree.insert(location_node)
             else:
@@ -109,21 +109,25 @@ class ChicagoCrimeFun:
         with open(TRAIN_FILE) as f:
             lines = f.readlines()
         for i in range(n):
-            self.add_dispatch(lines[randint(0, len(lines)-1)])
+            self.add_dispatch(lines[randint(0, len(lines) - 1)])
 
     def add_dispatch(self, dispatch_string):
-        '''
+        """
         Method to add a dispatch to our dispatch_queue
         Parameters:
             dispatch_string: [string] A string that represents a recent 911 dispatch call request that is reported to the police
-        '''
+        """
         csv = dispatch_string.split(",")
         primary_type = csv[5]
         if primary_type in self.priority_dict:
             priority = self.priority_dict[primary_type]
             self.dispatch_queue.insert(priority, dispatch_string)
         else:
-            print("Couldn't lookup primary type: " + primary_type + ", so we're assigning it a priority of 0 (MOST URGENT")
+            print(
+                "Couldn't lookup primary type: "
+                + primary_type
+                + ", so we're assigning it a priority of 0 (MOST URGENT"
+            )
             self.dispatch_queue.insert(0, dispatch_string)
 
     def dump_next(self):
@@ -133,16 +137,16 @@ class ChicagoCrimeFun:
             print("Nothing to dump")
 
     def decide_next_patrol(self, new_request=None):
-        '''
+        """
         Used to decide next place to send patrol
         Parameters:
             new_request: [string][optional] A string that represents a 911 dispatch call that is reported to the police
         Returns:
             [tuple] A tuple of length 4 that represents the 4 points of an area to patrol.
-        '''
+        """
 
         # TODO: all the cases where we're going to a specific location are returning one point, rather than
-        # a bounding box as the project suggests. If Dancy can elaborate on why the box would be better then we'll 
+        # a bounding box as the project suggests. If Dancy can elaborate on why the box would be better then we'll
         # have to rewrite this tomorrow :(
 
         if new_request is None:
@@ -152,26 +156,44 @@ class ChicagoCrimeFun:
             else:
                 # we have an existing call, hence we need to do something *right now*
                 prio, recent_call = self.dispatch_queue.remove()
-                if len(recent_call.split(",")) >= 21: # we have a location attribute
+                if len(recent_call.split(",")) >= 21:  # we have a location attribute
                     return recent_call.split(",")[21]
-                else: # we need to combine index 19 and 20
-                    return "(" + recent_call.split(",")[19] + "," + recent_call.split(",")[20] + ")"
+                else:  # we need to combine index 19 and 20
+                    return (
+                        "("
+                        + recent_call.split(",")[19]
+                        + ","
+                        + recent_call.split(",")[20]
+                        + ")"
+                    )
         else:
             # we have a new call, but is it more important than the previous one?
             my_priority = self.priority_dict[new_request.split(",")[5]]
             prio, recent_call = self.dispatch_queue.peek()
             if my_priority < prio:
                 # this new request is more important than the other one.
-                if len(new_request.split(",")) >= 21: # we have a location attribute
+                if len(new_request.split(",")) >= 21:  # we have a location attribute
                     return new_request.split(",")[21]
-                else: # we need to combine index 19 and 20
-                    return "(" + new_request.split(",")[19] + "," + new_request.split(",")[20] + ")"
+                else:  # we need to combine index 19 and 20
+                    return (
+                        "("
+                        + new_request.split(",")[19]
+                        + ","
+                        + new_request.split(",")[20]
+                        + ")"
+                    )
             else:
                 # new request is less important than the last one
-                if len(recent_call.split(",")) >= 21: # we have a location attribute
+                if len(recent_call.split(",")) >= 21:  # we have a location attribute
                     return recent_call.split(",")[21]
-                else: # we need to combine index 19 and 20
-                    return "(" + recent_call.split(",")[19] + "," + recent_call.split(",")[20] + ")"
+                else:  # we need to combine index 19 and 20
+                    return (
+                        "("
+                        + recent_call.split(",")[19]
+                        + ","
+                        + recent_call.split(",")[20]
+                        + ")"
+                    )
 
     def google_maps(self, otype="THEFT", browser=True):
         """
@@ -199,6 +221,7 @@ class ChicagoCrimeFun:
         for primary in self.primary_types:
             print("Making map for " + primary)
             self.google_maps(otype=primary, browser=False)
+
 
 if __name__ == "__main__":
     print("1 - Loading data")

@@ -2,12 +2,12 @@
 
 import sys
 
-class MinHeap:
 
+class MinHeap:
     def __init__(self, maxsize=100000):
         self.maxsize = maxsize
         self.size = 0
-        self.heap = [0]*(self.maxsize + 1)
+        self.heap = [0] * (self.maxsize + 1)
         self.heap[0] = -1 * sys.maxsize
         self.FRONT = 1
 
@@ -20,7 +20,7 @@ class MinHeap:
 
     # Function to return the position of parent for the node currently at pos
     def parent(self, pos):
-        return pos//2
+        return pos // 2
 
     # Function to return the position of the left child for the node currently at pos
     def leftChild(self, pos):
@@ -33,7 +33,7 @@ class MinHeap:
     # Function that returns true if the passed
     # node is a leaf node
     def isLeaf(self, pos):
-        if pos >= (self.size//2) and pos <= self.size:
+        if pos >= (self.size // 2) and pos <= self.size:
             return True
         return False
 
@@ -46,8 +46,10 @@ class MinHeap:
 
         # If the node is a non-leaf node and greater than any of its child
         if not self.isLeaf(pos):
-            if (self.heap[pos] > self.heap[self.leftChild(pos)] or
-            self.heap[pos] > self.heap[self.rightChild(pos)]):
+            if (
+                self.heap[pos] > self.heap[self.leftChild(pos)]
+                or self.heap[pos] > self.heap[self.rightChild(pos)]
+            ):
 
                 # Swap with the left child and heapify the left child
                 if self.heap[self.leftChild(pos)] < self.heap[self.rightChild(pos)]:
@@ -62,14 +64,14 @@ class MinHeap:
     # Function to build the min heap using the minheapify function
     def minheap(self):
 
-        for pos in range(self.size//2, 0, -1):
+        for pos in range(self.size // 2, 0, -1):
             self.minheapify(pos)
 
     # Function to insert a node into the heap
     def insert(self, element, rep):
-        if self.size >= self.maxsize :
+        if self.size >= self.maxsize:
             return
-        self.size+= 1
+        self.size += 1
 
         self.heap[self.size] = element
 
@@ -87,24 +89,25 @@ class MinHeap:
     def remove(self):
         popped = self.heap[self.FRONT]
         self.heap[self.FRONT] = self.heap[self.size]
-        self.size-= 1
+        self.size -= 1
         self.minheapify(self.FRONT)
-        #return popped
+        # return popped
         return (self.FRONT, self.cheat[popped])
 
     # show next element, but don't remove it
     def peek(self):
         return (self.FRONT, self.cheat[self.heap[self.FRONT]])
 
+
 if __name__ == "__main__":
     minheap = MinHeap()
-    minheap.insert(5,"five")
-    minheap.insert(12,"twelve")
-    minheap.insert(2,"two")
-    minheap.insert(9,"nine")
-    minheap.insert(11,"eleven")
-    minheap.insert(13,"thirteen")
-    minheap.insert(7,"seven")
-    minheap.insert(6,"six")
-    minheap.insert(8,"eight")
+    minheap.insert(5, "five")
+    minheap.insert(12, "twelve")
+    minheap.insert(2, "two")
+    minheap.insert(9, "nine")
+    minheap.insert(11, "eleven")
+    minheap.insert(13, "thirteen")
+    minheap.insert(7, "seven")
+    minheap.insert(6, "six")
+    minheap.insert(8, "eight")
     print("The Min val is " + str(minheap.remove()))

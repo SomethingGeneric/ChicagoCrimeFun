@@ -1,4 +1,4 @@
-# ChicagoCrimeFun
+# ChicagoCrimeFun (CSCI 204 Final Project)
 ## Matt, Ramon, Zhengkai
 
 ## Requirements:
@@ -16,3 +16,6 @@
 * `make web` - serves the flask app which organizes the heatmaps that were previously generated
 * `make test` - small script w/ made-up data to test the ADT
 * `make yourmom` - Ramon makes your mom.
+
+## Outside resources related to dataset
+* https://news.wttw.com/sites/default/files/Map%20of%20Chicago%20Police%20Districts%20and%20Beats.pdf
