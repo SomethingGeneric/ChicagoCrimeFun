@@ -90,23 +90,19 @@ class AVLTree:
         
         # Case 1: Right Right
         if node.balance == -2:
-            print("Right Right")
             return self.left_rotate(node)
 
         # Case 2: Left Left
         if node.balance == 2:
-            print("Left Left")
             return self.right_rotate(node)
 
         # Case 3: Right Left
         if node.balance == -2 and node.right.balance > 0:
-            print("Right Left")
             node.right = self.right_rotate(node.right)
             return self.left_rotate(node)
 
         # Case 4: Left Right
         if node.balance == 2 and node.left.balance < 0:
-            print("Left Right")
             node.left = self.left_rotate(node.left)
             return self.right_rotate(node)
         
