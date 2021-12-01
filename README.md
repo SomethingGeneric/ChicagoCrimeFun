@@ -23,3 +23,5 @@
 
 ## Future to-do:
 * Label crime type in output suggestion map
+
+:shipit:
