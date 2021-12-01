@@ -13,7 +13,7 @@
 `make format`
 
 ## Run:
-* `make` (or `make run`) - to test our `ChicagoCrime.py` file, which, at the moment, outputs some metadata about the CSV
+* `make` (or `make run`) - to test our `ChicagoCrime.py` file, which, at the moment, outputs some metadata about the CSV :shipit:
 * `make web` - serves the flask app which organizes the heatmaps that were previously generated
 * `make test` - small script w/ made-up data to test the ADT
 * `make yourmom` - Ramon makes your mom.
@@ -23,5 +23,4 @@
 
 ## Future to-do:
 * Label crime type in output suggestion map
-
-:shipit:
+* Maybe try to visualize beats like Liam's group did?
