@@ -267,6 +267,8 @@ class ChicagoCrimeFun:
                 print("responding to the existing call")
                 # we don't need to save this output since we defined it above w/ the peek call
                 self.dispatch_queue.remove()
+                # let's also add the new call that we're ignoring *for now*
+                self.dispatch_queue.insert(new_request)
                 if len(recent_call.split(",")) >= 21:  # we have a location attribute
                     return recent_call.split(",")[21]
                 else:  # we need to combine index 19 and 20
