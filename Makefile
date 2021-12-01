@@ -1,5 +1,5 @@
 run:
-	python ChicagoCrime.py
+	python ChicagoCrime.py small_dataset.csv
 format:
 	black .
 setup:
