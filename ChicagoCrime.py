@@ -23,6 +23,12 @@ print("Using dataset:" + TRAIN_FILE)
 API_KEY = "AIzaSyC5DbWswLfC0oLuFLe8ZhSOfOL5VkCsJ60"
 s = os.sep
 
+class payload:
+    def __init__(self,key,value,points=None,label=""):
+        self.key = key
+        self.value = value
+        self.points = points
+        self.label = label
 
 class ChicagoCrimeFun:
     def __init__(self):
@@ -38,6 +44,7 @@ class ChicagoCrimeFun:
         self.type_tree = AVLTree()
 
         self.dispatch_queue = MinHeap()
+        self.crime_priority_list = []
 
         # https://docs.python.org/3/library/csv.html
         with open(TRAIN_FILE, newline="") as csvfile:
@@ -136,7 +143,52 @@ class ChicagoCrimeFun:
         else:
             print("Nothing to dump")
 
-    def decide_next_patrol(self, new_request=None):
+    def construct_crime_priority_list(self):
+        """
+        Construct a list of crime types, sorted by priority
+        """
+        for crime in self.priority_dict.keys():
+            print("Indexing all " + crime)
+            temp_list = []
+            for cd in self.cds:
+                if cd.primary_type == crime:
+                    temp_list.append(cd)
+
+            print("There are " + str(len(temp_list)) + " " + crime + "s")
+
+            if len(temp_list) > 1:
+                first = temp_list[-2]
+                x1, y1 = float(first.latitude), float(first.longitude)
+
+                second = temp_list[-1]
+                x2, y2 = float(second.latitude), float(second.longitude)
+
+                box = "((" + str(x1) + ", " + str(y1) + "), (" + str(x2) + ", " + str(y2) + "), (" + str(x1) + ", " + str(y2) + "), (" + str(x2) + ", " + str(y1) + "))"
+
+                points = (
+                    [x1, x2, x2, x1],
+                    [y1,y1,y2,y2])
+
+                p = payload(self.priority_dict[crime], box, points, label=crime)
+                self.crime_priority_list.append(p)
+            else:
+                print("Not enough data points to extrapolate " + crime)
+
+    def make_bounds(self, data, isPoint=True, marker_text="", filename="map.html"):
+        """
+        Construct a map of the data using the Google Maps API
+        """
+        gmap4 = gmplot.GoogleMapPlotter.from_geocode("Chicago, IL", apikey=API_KEY)
+        if isPoint:
+            x,y = data
+            gmap4.marker(x, y, color="cornflowerblue", title=marker_text)
+        else:
+            lats,longs = data.points
+            marker_text = data.label
+            gmap4.polygon(lats,longs, color="cornflowerblue", title=marker_text)
+        gmap4.draw(filename)
+
+    def decide_next_patrol(self, new_request=None, map_it=False, filename="map.html"):
         """
         Used to decide next place to send patrol
         Parameters:
@@ -153,8 +205,12 @@ class ChicagoCrimeFun:
             print("We have no new request")
             if self.dispatch_queue.is_empty():
                 # Now we need to use some past data to make best use of our resources
-                print("We've not done this part yet")
-                return "(0,0)"
+                if self.crime_priority_list == []:
+                    self.construct_crime_priority_list()
+
+                payload = self.crime_priority_list[0]
+                self.make_bounds(payload, False, filename)
+                return payload.value
             else:
                 # we have an existing call, hence we need to do something *right now*
                 print("we had a call in the queue, let's respond to that")
@@ -162,6 +218,8 @@ class ChicagoCrimeFun:
                 if len(recent_call.split(",")) >= 21:  # we have a location attribute
                     return recent_call.split(",")[21]
                 else:  # we need to combine index 19 and 20
+                    if map_it:
+                        self.make_bounds((recent_call.split(",")[19],recent_call.split(",")[20]), True, filename)
                     return (
                         "("
                         + recent_call.split(",")[19]
@@ -171,7 +229,9 @@ class ChicagoCrimeFun:
                     )
         else:
             # we have a new call, but is it more important than the previous one?
-            print("We have a new call, let's decide if we should respond to it or the existing one in queue")
+            print(
+                "We have a new call, let's decide if we should respond to it or the existing one in queue"
+            )
             my_priority = self.priority_dict[new_request.split(",")[5]]
             prio, recent_call = self.dispatch_queue.peek()
             if my_priority < prio:
@@ -180,6 +240,8 @@ class ChicagoCrimeFun:
                 if len(new_request.split(",")) >= 21:  # we have a location attribute
                     return new_request.split(",")[21]
                 else:  # we need to combine index 19 and 20
+                    if map_it:
+                        self.make_bounds((recent_call.split(",")[19],recent_call.split(",")[20]), True, filename)
                     return (
                         "("
                         + new_request.split(",")[19]
@@ -195,6 +257,8 @@ class ChicagoCrimeFun:
                 if len(recent_call.split(",")) >= 21:  # we have a location attribute
                     return recent_call.split(",")[21]
                 else:  # we need to combine index 19 and 20
+                    if map_it:
+                        self.make_bounds((recent_call.split(",")[19],recent_call.split(",")[20]), True, filename)
                     return (
                         "("
                         + recent_call.split(",")[19]
@@ -203,7 +267,7 @@ class ChicagoCrimeFun:
                         + ")"
                     )
 
-        return "default case?"        
+        return "default case?"
 
     def google_maps(self, otype="THEFT", browser=True):
         """
@@ -242,11 +306,11 @@ if __name__ == "__main__":
     print("3 - Loading type priority tree")
     ccf.build_crime_priority()
 
-    print("4 - Adding random cases")
-    ccf.add_random_case(20)
-    
-    #print("5 - testing highest priority report")
-    #ccf.dump_next()
+    #print("4 - Adding random cases")
+    #ccf.add_random_case(20)
+
+    # print("5 - testing highest priority report")
+    # ccf.dump_next()
 
     print("6 - Deciding next patrol location")
     print(ccf.decide_next_patrol())
