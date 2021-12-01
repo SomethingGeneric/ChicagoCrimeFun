@@ -214,9 +214,14 @@ class AVLTree:
             )
         else:
             return ""
-        
-    
 
+
+    def Rcode(self):
+        return self._Rnode(self.root)
+
+    def _Rcode(self,node):
+        if node is not None:
+            return(node.value)
 
 if __name__ == "__main__":
     a = AVLTree()

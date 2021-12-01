@@ -7,6 +7,7 @@
 
 ## Setup:
 `make setup`
+* Install graphiz package for your OS (ubuntu might have a seperate graphviz-devel?)
 
 ## Format (the code):
 `make format`

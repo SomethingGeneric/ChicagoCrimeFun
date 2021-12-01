@@ -1,5 +1,5 @@
 from avl import *
-import visualize
+from visualize import *
 
 
 def main():
@@ -31,9 +31,10 @@ def main():
     in_o = myTree.in_order()
     print(in_o)
 
-    # v = visualizer()
-    # v.draw(myTree, "foo.html")
-
+    v = VisualizeData()
+    v.visualize_data(myTree)
+    
 
 if __name__ == "__main__":
     main()
+
