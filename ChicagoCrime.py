@@ -13,6 +13,7 @@ import gmplot
 # Our own code
 from avl import AVLTree, CrimeData, AVLTreeNode
 from heap import MinHeap
+from visualize import VisualizeData
 
 test_fn = sys.argv[1] if len(sys.argv) > 1 else ""
 
@@ -89,9 +90,14 @@ class ChicagoCrimeFun:
                 location_node = AVLTreeNode(
                     cd.beat, self.priority_dict[cd.primary_type]
                 )
-                self.type_tree.insert(location_node)
+                self.location_tree.insert(location_node)
             else:
                 print("Ignoring data point w/ primary type: " + cd.primary_type)
+
+        v = VisualizeData()
+        dot = v.visualize_data(self.location_tree)
+        dot.format = 'png'
+        dot.view(filename='location_tree', directory='./')
 
     def build_crime_priority(self):
         """
@@ -111,6 +117,11 @@ class ChicagoCrimeFun:
                     + " before!!! Failing."
                 )
                 sys.exit(1)
+
+        v = VisualizeData()
+        dot = v.visualize_data(self.type_tree)
+        dot.format = 'png'
+        dot.view(filename='type_tree', directory='./')
 
     def add_random_case(self, n):
         with open(TRAIN_FILE) as f:

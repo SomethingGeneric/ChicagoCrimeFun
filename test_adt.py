@@ -16,7 +16,8 @@ def main():
     myTree.insert(AVLTreeNode(7, 7))
     myTree.insert(AVLTreeNode(8, 8))
     myTree.insert(AVLTreeNode(9, 9))
-
+    myTree.insert(AVLTreeNode(10, 10))
+    myTree.insert(AVLTreeNode(11, 11))
 
     print("Print preorder")
     pre_o = myTree.preorder()
