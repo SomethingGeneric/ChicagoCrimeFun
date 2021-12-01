@@ -99,6 +99,8 @@ class ChicagoCrimeFun:
         dot.format = 'png'
         dot.view(filename='location_tree', directory='./')
 
+    # i like david's group idea of a time tree
+    # should we do that?
     def build_crime_priority(self):
         """
         Should be used to build your crime type-priority AVL tree
