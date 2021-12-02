@@ -1,7 +1,7 @@
 from graphviz import Digraph
 
 class VisualizeData:    
-    def visualize_data(self, tree, dot=None, initial_call=True):
+    def visualize_data(self, tree, dot=None, initial_call=True):    
         # For first call use the root node. For subsequent calls use the node
         if initial_call:
             tree = tree.root
