@@ -2,7 +2,7 @@
 
 import sys, random
 
-
+# sorted dispatch queue for the heap
 class MinHeap:
     def __init__(self, maxsize=100000):
         self.maxsize = maxsize

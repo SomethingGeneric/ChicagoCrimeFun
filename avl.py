@@ -1,5 +1,7 @@
 import graphviz
 
+# TODO: Have a use case for the parent attribute. I update when I rotate it (i.e. left rotation and right rotation), but don't use it for any other purpose.
+# TODO: AVL, AVL --> f(x) --> heap (crime dispatch)
 class CrimeData:  # use the key for data
     def __init__(self, data):
         self.id = data[0]
@@ -106,6 +108,7 @@ class AVLTree:
         if node.left is None:
             return node
         
+        #TODO: Do a step before assigning the pivot.
         pivot = node.left
         temp_node = pivot.right
         pivot.right = node
@@ -130,6 +133,7 @@ class AVLTree:
         if node.right is None:
             return node
 
+        #TODO: Do a step before assigning the pivot. 
         pivot = node.right
         temp_node = pivot.left
         pivot.left = node
@@ -165,14 +169,24 @@ class AVLTree:
     def remove(self, key):
         self.root = self._remove(self.root, key)
 
-    def _remove(self, root, key):
-        if root is None:
-            return root
-        elif key < root.key:
-            root.left = self._remove(root.left, key)
+    def _remove(self, node, key):
+        # TODO: Get the successor and predecessor of the node.
+        if node is None:
+            return node
+        elif key < node.value:
+            node.left = self._remove(node.left, key)
+        elif key > node.value:
+            node.right = self._remove(node.right, key)
         else:
-            root.right = self._remove(root.right, key)
-        return root
+            pass # TODO: Code to be written.
+        
+        # Update the height of the nodes.
+        node.height = max(self._get_height(node.left), self._get_height(node.right)) + 1
+        
+        # Update the balance of the nodes.
+        node.balance = self._get_height(node.left) - self._get_height(node.right)
+            
+        return self.rebalance(node)
 
     # Returns the tree as a string as an in_order traversal.
     def in_order(self):

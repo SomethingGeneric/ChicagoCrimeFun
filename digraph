@@ -1,23 +1,39 @@
 digraph {
-	4 [label=4 xlabel=4]
+	8 [label=8 xlabel=5]
+	4 [label=4 xlabel=3]
+	8 -> 4
 	2 [label=2 xlabel=2]
 	4 -> 2
 	1 [label=1 xlabel=1]
 	2 -> 1
 	3 [label=3 xlabel=1]
 	2 -> 3
-	8 [label=8 xlabel=3]
-	4 -> 8
 	6 [label=6 xlabel=2]
-	8 -> 6
+	4 -> 6
 	5 [label=5 xlabel=1]
 	6 -> 5
 	7 [label=7 xlabel=1]
 	6 -> 7
+	12 [label=12 xlabel=4]
+	8 -> 12
 	10 [label=10 xlabel=2]
-	8 -> 10
+	12 -> 10
 	9 [label=9 xlabel=1]
 	10 -> 9
 	11 [label=11 xlabel=1]
 	10 -> 11
+	16 [label=16 xlabel=3]
+	12 -> 16
+	14 [label=14 xlabel=2]
+	16 -> 14
+	13 [label=13 xlabel=1]
+	14 -> 13
+	15 [label=15 xlabel=1]
+	14 -> 15
+	18 [label=18 xlabel=2]
+	16 -> 18
+	17 [label=17 xlabel=1]
+	18 -> 17
+	19 [label=19 xlabel=1]
+	18 -> 19
 }
