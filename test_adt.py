@@ -7,17 +7,9 @@ def main():
     # Creates a AVL (balancing binary search tree)
     print("Create binary search tree")
     myTree = AVLTree()
-    myTree.insert(AVLTreeNode(1, 1))
-    myTree.insert(AVLTreeNode(2, 2))
-    myTree.insert(AVLTreeNode(3, 3))
-    myTree.insert(AVLTreeNode(4, 4))
-    myTree.insert(AVLTreeNode(5, 5))
-    myTree.insert(AVLTreeNode(6, 6))
-    myTree.insert(AVLTreeNode(7, 7))
-    myTree.insert(AVLTreeNode(8, 8))
-    myTree.insert(AVLTreeNode(9, 9))
-    myTree.insert(AVLTreeNode(10, 10))
-    myTree.insert(AVLTreeNode(11, 11))
+    
+    for i in range(1, 20):
+        myTree.insert(AVLTreeNode(i,i))
 
     print("Print preorder")
     pre_o = myTree.preorder()

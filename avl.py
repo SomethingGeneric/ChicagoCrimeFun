@@ -289,50 +289,23 @@ class AVLTree:
 
     def _in_order(self, node):
         """Returns the string of an in_order traversal"""
-        if node is not None:
-            return (
-                self._in_order(node.left)
-                + " "
-                + str(node.value)
-                + " "
-                + self._in_order(node.right)
-            )
-        else:
-            return ""
-
+        return "{} {} {}".format(self._in_order(node.left), node.value, self._in_order(node.right)).strip()  if node is not None else ""
+    
     # Returns the tree as a string as a postorder traversal.
     def postorder(self):
         return self._postorder(self.root)
 
     def _postorder(self, node):
         """Returns the string of an postorder traversal"""
-        if node is not None:
-            return (
-                self._postorder(node.left)
-                + self._postorder(node.right)
-                + " "
-                + str(node.value)
-            )
-        else:
-            return ""
+        return "{} {} {}".format(self._postorder(node.left), self._postorder(node.right), node.value).strip()  if node is not None else ""
 
     # Returns the tree as a string as a preorder traversal.
     def preorder(self):
         return self._preorder(self.root)
 
     def _preorder(self, node):
-        """Returns the string of an preorder traversal"""
-        if node is not None:
-            return (
-                " "
-                + str(node.value)
-                + self._preorder(node.left)
-                + self._preorder(node.right)
-                + " "
-            )
-        else:
-            return ""
-
+        """Returns the string of an preorder traversal"""        
+        return "{} {} {}".format(node.value, self._preorder(node.left), self._preorder(node.right)).strip() if node is not None else ""
 
 if __name__ == "__main__":
     a = AVLTree()
