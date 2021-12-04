@@ -49,6 +49,7 @@ class AVLTree:
     def insert(self, node):
         self._insert(self.root, node)
 
+    # FIXME: The value is the priority make sure I am using it correctly.
     def _insert(self, root, node):
         # If the root is None, return a new node.
         if self.root is None:
@@ -68,9 +69,11 @@ class AVLTree:
             root.right.parent = root
 
         # Update the height of the nodes.
+        #self.update_height(root)
         root.height = max(self._get_height(root.left), self._get_height(root.right)) + 1
         
         # Update the balance of the nodes.
+        #self.balance(root)
         root.balance = self._get_height(root.left) - self._get_height(root.right)
         
         # Update the root node based on the new node.
@@ -117,10 +120,14 @@ class AVLTree:
         node.left = temp_node     
         
         # Update the height of the nodes.
+        # self.update_height(node)
+        # self.update_height(pivot)
         node.height = max(self._get_height(node.left), self._get_height(node.right)) + 1
         pivot.height = max(self._get_height(pivot.left), self._get_height(pivot.right)) + 1
 
         # Update the balance of the nodes.
+        # self.balance(node)
+        # self.balance(pivot)
         node.balance = self._get_height(node.left) - self._get_height(node.right)
         pivot.balance = self._get_height(pivot.left) - self._get_height(pivot.right)
         
@@ -142,10 +149,14 @@ class AVLTree:
         node.right = temp_node
                 
         # Update the height of the nodes.
+        # self.update_height(node)
+        # self.update_height(pivot)
         node.height = max(self._get_height(node.left), self._get_height(node.right)) + 1
         pivot.height = max(self._get_height(pivot.left), self._get_height(pivot.right)) + 1
 
         # Update the balance of the nodes.
+        # self.balance(node)
+        # self.balance(pivot)
         node.balance = self._get_height(node.left) - self._get_height(node.right)
         pivot.balance = self._get_height(pivot.left) - self._get_height(pivot.right)
         
@@ -188,6 +199,7 @@ class AVLTree:
             
         return self.rebalance(node)
 
+    # TODO: Find a better print statement to do this with. I don't know... it works, however, its ugly.
     # Returns the tree as a string as an in_order traversal.
     def in_order(self):
         return self._in_order(self.root)
