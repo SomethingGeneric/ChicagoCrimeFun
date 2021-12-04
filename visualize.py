@@ -1,5 +1,8 @@
 from graphviz import Digraph
-
+'''
+Key: The data.
+Value: Priority Ranking.
+'''
 class VisualizeData:    
     def visualize_data(self, tree, dot=None, initial_call=True):    
         # For first call use the root node. For subsequent calls use the node
@@ -8,13 +11,13 @@ class VisualizeData:
         
         # Create Digraph object
         if dot is None:
-            dot = Digraph()
-            dot.node(name=str(tree), label=str(tree.value), xlabel=str(tree.height))
+            dot = Digraph(strict=False)
+            dot.node(name=str(tree), label=str(tree.key), xlabel=str(tree.height))
 
         # Traverse through the left subtree.
         if tree.left:
             # Add node to the graph
-            dot.node(name=str(tree.left) , label=str(tree.left.value), xlabel=str(tree.left.height))
+            dot.node(name=str(tree.left), label=str(tree.left.key), xlabel=str(tree.left.height))
             # Add the child node to the parent node
             dot.edge(str(tree), str(tree.left))
             # Recursive call through left subtree.
@@ -23,7 +26,7 @@ class VisualizeData:
         # Traverse through the right subtree.  
         if tree.right:
             # Add node to the graph
-            dot.node(name=str(tree.right) ,label=str(tree.right.value), xlabel=str(tree.right.height))
+            dot.node(name=str(tree.right), label=str(tree.right.key), xlabel=str(tree.right.height))
             # Add the child node to the parent node
             dot.edge(str(tree), str(tree.right))
             # Recursive call through right subtree.
