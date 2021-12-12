@@ -30,25 +30,29 @@ def main():
             However, the underlying data structure is still the same and working its just about now doing with keys that are different does 
             it respect the priority order instead of numbers
         """
-        p = input("Enter the array of locations: ")
+        p = input("Enter the array of strings: ")
         list_of_nodes = p.split()
-        count = 0
+        count = 1
         for i in range(len(list_of_nodes)):
             j = (list_of_nodes[i])
+            # AVlTreeNode(key, value)
+            # J should be the attributes like location that I am passing in and then the value is the count and the first 
+            # attribute in the array should be near the top of the tree depending on the balancing.
             myTree.insert(AVLTreeNode(j, count))
             count+=1
+        # It will give the first attribute the highest priority in what you first inserted into the array.
     else:
         print("Exiting...")
         exit(0)
 
     # Print out tranversal of tree.
-    print("Print preorder")
+    print("Print Preorder:")
     pre_o = myTree.preorder()
     print(pre_o)
-    print("Print postorder")
+    print("Print Postorder:")
     post_o = myTree.postorder()
     print(post_o)
-    print("Print inorder")
+    print("Print Inorder:")
     in_o = myTree.in_order()
     print(in_o)
     
