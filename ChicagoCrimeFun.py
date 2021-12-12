@@ -32,7 +32,7 @@ class payload:
         self.label = label
 
 class ChicagoCrimeFun:
-    def __init__(self):
+    def __init__(self, filename=TRAIN_FILE):
         """
         Constructor that could do several things, including read in your training data
         """
@@ -48,7 +48,7 @@ class ChicagoCrimeFun:
         self.crime_priority_list = []
 
         # https://docs.python.org/3/library/csv.html
-        with open(TRAIN_FILE, newline="") as csvfile:
+        with open(filename, newline="") as csvfile:
             csvreader = csv.reader(csvfile)  # read in the file, split it into a list.
             for lines in csvreader:
                 self.data.append(lines)
