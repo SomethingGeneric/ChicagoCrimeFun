@@ -17,7 +17,8 @@ from visualize import VisualizeData
 
 test_fn = sys.argv[1] if len(sys.argv) > 1 else ""
 
-TRAIN_FILE = "Chicago_Crimes_2018-2019_Train.csv" if test_fn == "" else test_fn
+#TRAIN_FILE = "Chicago_Crimes_2018-2019_Train.csv" if test_fn == "" else test_fn
+TRAIN_FILE = "Chicago_Crimes_Test.csv"
 
 print("Using dataset:" + TRAIN_FILE)
 
@@ -94,13 +95,13 @@ class ChicagoCrimeFun:
             else:
                 print("Ignoring data point w/ primary type: " + cd.primary_type)
 
+        #Visualize the data
         v = VisualizeData()
         dot = v.visualize_data(self.location_tree)
         dot.format = 'png'
-        dot.view(filename='location_tree', directory='./')
+        dot.view(filename='location_tree', directory='./visualizations/')
 
-    # i like david's group idea of a time tree
-    # should we do that?
+    # Function that creates the crime priority. 
     def build_crime_priority(self):
         """
         Should be used to build your crime type-priority AVL tree
@@ -123,7 +124,7 @@ class ChicagoCrimeFun:
         v = VisualizeData()
         dot = v.visualize_data(self.type_tree)
         dot.format = 'png'
-        dot.view(filename='type_tree', directory='./')
+        dot.view(filename='type_tree', directory='./visualizations/')
 
     def add_random_case(self, n):
         with open(TRAIN_FILE) as f:

@@ -1,0 +1,797 @@
+digraph {
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=23]
+	0 [label=HOMICIDE xlabel=1]
+	3 -> 0
+	14 [label="OTHER OFFENSE" xlabel=22]
+	3 -> 14
+	14 [label="OTHER OFFENSE" xlabel=21]
+	14 -> 14
+	14 [label="OTHER OFFENSE" xlabel=20]
+	14 -> 14
+	14 [label="OTHER OFFENSE" xlabel=19]
+	14 -> 14
+	13 [label="CRIMINAL DAMAGE" xlabel=18]
+	14 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=17]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=16]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=15]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=14]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=13]
+	13 -> 13
+	5 [label="SEX OFFENSE" xlabel=12]
+	13 -> 5
+	5 [label="SEX OFFENSE" xlabel=11]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=10]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=9]
+	5 -> 5
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=8]
+	5 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=6]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=5]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=4]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=3]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=3]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=3]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=7]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=5]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=4]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=3]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=3]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=3]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=6]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=5]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=4]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=3]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=3]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=3]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	4 [label="CRIM SEXUAL ASSAULT" xlabel=5]
+	3 -> 4
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=4]
+	4 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=3]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=3]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=2]
+	3 -> 3
+	3 [label="OFFENSE INVOLVING CHILDREN" xlabel=1]
+	3 -> 3
+	4 [label="CRIM SEXUAL ASSAULT" xlabel=4]
+	4 -> 4
+	4 [label="CRIM SEXUAL ASSAULT" xlabel=3]
+	4 -> 4
+	4 [label="CRIM SEXUAL ASSAULT" xlabel=2]
+	4 -> 4
+	4 [label="CRIM SEXUAL ASSAULT" xlabel=1]
+	4 -> 4
+	4 [label="CRIM SEXUAL ASSAULT" xlabel=1]
+	4 -> 4
+	4 [label="CRIM SEXUAL ASSAULT" xlabel=2]
+	4 -> 4
+	4 [label="CRIM SEXUAL ASSAULT" xlabel=1]
+	4 -> 4
+	4 [label="CRIM SEXUAL ASSAULT" xlabel=1]
+	4 -> 4
+	4 [label="CRIM SEXUAL ASSAULT" xlabel=3]
+	4 -> 4
+	4 [label="CRIM SEXUAL ASSAULT" xlabel=1]
+	4 -> 4
+	4 [label="CRIM SEXUAL ASSAULT" xlabel=2]
+	4 -> 4
+	4 [label="CRIM SEXUAL ASSAULT" xlabel=1]
+	4 -> 4
+	5 [label="SEX OFFENSE" xlabel=3]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=2]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=1]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=1]
+	5 -> 5
+	11 [label="MOTOR VEHICLE THEFT" xlabel=11]
+	5 -> 11
+	9 [label=BATTERY xlabel=9]
+	11 -> 9
+	7 [label=BURGLARY xlabel=8]
+	9 -> 7
+	7 [label=BURGLARY xlabel=7]
+	7 -> 7
+	7 [label=BURGLARY xlabel=6]
+	7 -> 7
+	5 [label="SEX OFFENSE" xlabel=5]
+	7 -> 5
+	5 [label="SEX OFFENSE" xlabel=3]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=2]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=1]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=1]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=2]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=1]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=1]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=4]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=2]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=1]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=1]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=3]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=2]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=1]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=1]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=2]
+	5 -> 5
+	5 [label="SEX OFFENSE" xlabel=1]
+	5 -> 5
+	7 [label=BURGLARY xlabel=7]
+	7 -> 7
+	8 [label=ROBBERY xlabel=6]
+	7 -> 8
+	8 [label=ROBBERY xlabel=5]
+	8 -> 8
+	8 [label=ROBBERY xlabel=4]
+	8 -> 8
+	7 [label=BURGLARY xlabel=3]
+	8 -> 7
+	7 [label=BURGLARY xlabel=2]
+	7 -> 7
+	7 [label=BURGLARY xlabel=1]
+	7 -> 7
+	7 [label=BURGLARY xlabel=1]
+	7 -> 7
+	7 [label=BURGLARY xlabel=2]
+	7 -> 7
+	7 [label=BURGLARY xlabel=1]
+	7 -> 7
+	8 [label=ROBBERY xlabel=5]
+	8 -> 8
+	8 [label=ROBBERY xlabel=4]
+	8 -> 8
+	8 [label=ROBBERY xlabel=3]
+	8 -> 8
+	9 [label=BATTERY xlabel=2]
+	8 -> 9
+	8 [label=ROBBERY xlabel=1]
+	9 -> 8
+	9 [label=BATTERY xlabel=8]
+	9 -> 9
+	9 [label=BATTERY xlabel=6]
+	9 -> 9
+	9 [label=BATTERY xlabel=5]
+	9 -> 9
+	9 [label=BATTERY xlabel=4]
+	9 -> 9
+	9 [label=BATTERY xlabel=3]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=3]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=4]
+	9 -> 9
+	9 [label=BATTERY xlabel=3]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=3]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=4]
+	9 -> 9
+	9 [label=BATTERY xlabel=3]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=3]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	10 [label=ASSAULT xlabel=7]
+	9 -> 10
+	9 [label=BATTERY xlabel=6]
+	10 -> 9
+	9 [label=BATTERY xlabel=4]
+	9 -> 9
+	9 [label=BATTERY xlabel=3]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=3]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=5]
+	9 -> 9
+	9 [label=BATTERY xlabel=4]
+	9 -> 9
+	9 [label=BATTERY xlabel=3]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=3]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=4]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=3]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=2]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	9 [label=BATTERY xlabel=1]
+	9 -> 9
+	10 [label=ASSAULT xlabel=4]
+	10 -> 10
+	10 [label=ASSAULT xlabel=3]
+	10 -> 10
+	10 [label=ASSAULT xlabel=2]
+	10 -> 10
+	10 [label=ASSAULT xlabel=1]
+	10 -> 10
+	10 [label=ASSAULT xlabel=1]
+	10 -> 10
+	10 [label=ASSAULT xlabel=2]
+	10 -> 10
+	10 [label=ASSAULT xlabel=1]
+	10 -> 10
+	10 [label=ASSAULT xlabel=1]
+	10 -> 10
+	10 [label=ASSAULT xlabel=3]
+	10 -> 10
+	10 [label=ASSAULT xlabel=1]
+	10 -> 10
+	10 [label=ASSAULT xlabel=2]
+	10 -> 10
+	10 [label=ASSAULT xlabel=1]
+	10 -> 10
+	11 [label="MOTOR VEHICLE THEFT" xlabel=10]
+	11 -> 11
+	11 [label="MOTOR VEHICLE THEFT" xlabel=1]
+	11 -> 11
+	11 [label="MOTOR VEHICLE THEFT" xlabel=9]
+	11 -> 11
+	11 [label="MOTOR VEHICLE THEFT" xlabel=1]
+	11 -> 11
+	11 [label="MOTOR VEHICLE THEFT" xlabel=8]
+	11 -> 11
+	11 [label="MOTOR VEHICLE THEFT" xlabel=1]
+	11 -> 11
+	12 [label=THEFT xlabel=7]
+	11 -> 12
+	11 [label="MOTOR VEHICLE THEFT" xlabel=6]
+	12 -> 11
+	11 [label="MOTOR VEHICLE THEFT" xlabel=1]
+	11 -> 11
+	11 [label="MOTOR VEHICLE THEFT" xlabel=5]
+	11 -> 11
+	11 [label="MOTOR VEHICLE THEFT" xlabel=1]
+	11 -> 11
+	12 [label=THEFT xlabel=4]
+	11 -> 12
+	12 [label=THEFT xlabel=3]
+	12 -> 12
+	11 [label="MOTOR VEHICLE THEFT" xlabel=2]
+	12 -> 11
+	11 [label="MOTOR VEHICLE THEFT" xlabel=1]
+	11 -> 11
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=2]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=5]
+	12 -> 12
+	12 [label=THEFT xlabel=4]
+	12 -> 12
+	12 [label=THEFT xlabel=3]
+	12 -> 12
+	12 [label=THEFT xlabel=2]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=2]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=3]
+	12 -> 12
+	12 [label=THEFT xlabel=2]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=2]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=4]
+	12 -> 12
+	12 [label=THEFT xlabel=3]
+	12 -> 12
+	12 [label=THEFT xlabel=2]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=2]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=3]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	12 [label=THEFT xlabel=2]
+	12 -> 12
+	12 [label=THEFT xlabel=1]
+	12 -> 12
+	13 [label="CRIMINAL DAMAGE" xlabel=11]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=10]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=9]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=8]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=7]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=6]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=5]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=4]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=3]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=2]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=1]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=17]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=16]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=15]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=14]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=13]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=12]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=11]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=10]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=9]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=8]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=7]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=6]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=5]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=4]
+	13 -> 13
+	13 [label="CRIMINAL DAMAGE" xlabel=3]
+	13 -> 13
+	14 [label="OTHER OFFENSE" xlabel=2]
+	13 -> 14
+	13 [label="CRIMINAL DAMAGE" xlabel=1]
+	14 -> 13
+	14 [label="OTHER OFFENSE" xlabel=20]
+	14 -> 14
+	14 [label="OTHER OFFENSE" xlabel=19]
+	14 -> 14
+	14 [label="OTHER OFFENSE" xlabel=18]
+	14 -> 14
+	16 [label="WEAPONS VIOLATION" xlabel=17]
+	14 -> 16
+	14 [label="OTHER OFFENSE" xlabel=4]
+	16 -> 14
+	14 [label="OTHER OFFENSE" xlabel=2]
+	14 -> 14
+	14 [label="OTHER OFFENSE" xlabel=1]
+	14 -> 14
+	14 [label="OTHER OFFENSE" xlabel=1]
+	14 -> 14
+	14 [label="OTHER OFFENSE" xlabel=3]
+	14 -> 14
+	14 [label="OTHER OFFENSE" xlabel=2]
+	14 -> 14
+	14 [label="OTHER OFFENSE" xlabel=1]
+	14 -> 14
+	14 [label="OTHER OFFENSE" xlabel=1]
+	14 -> 14
+	14 [label="OTHER OFFENSE" xlabel=2]
+	14 -> 14
+	14 [label="OTHER OFFENSE" xlabel=1]
+	14 -> 14
+	14 [label="OTHER OFFENSE" xlabel=1]
+	14 -> 14
+	16 [label="WEAPONS VIOLATION" xlabel=16]
+	16 -> 16
+	16 [label="WEAPONS VIOLATION" xlabel=15]
+	16 -> 16
+	16 [label="WEAPONS VIOLATION" xlabel=14]
+	16 -> 16
+	16 [label="WEAPONS VIOLATION" xlabel=13]
+	16 -> 16
+	16 [label="WEAPONS VIOLATION" xlabel=12]
+	16 -> 16
+	16 [label="WEAPONS VIOLATION" xlabel=11]
+	16 -> 16
+	16 [label="WEAPONS VIOLATION" xlabel=10]
+	16 -> 16
+	16 [label="WEAPONS VIOLATION" xlabel=9]
+	16 -> 16
+	18 [label="DECEPTIVE PRACTICE" xlabel=8]
+	16 -> 18
+	16 [label="WEAPONS VIOLATION" xlabel=7]
+	18 -> 16
+	16 [label="WEAPONS VIOLATION" xlabel=6]
+	16 -> 16
+	16 [label="WEAPONS VIOLATION" xlabel=5]
+	16 -> 16
+	16 [label="WEAPONS VIOLATION" xlabel=4]
+	16 -> 16
+	16 [label="WEAPONS VIOLATION" xlabel=3]
+	16 -> 16
+	18 [label="DECEPTIVE PRACTICE" xlabel=2]
+	16 -> 18
+	16 [label="WEAPONS VIOLATION" xlabel=1]
+	18 -> 16
+	18 [label="DECEPTIVE PRACTICE" xlabel=6]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=4]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=3]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=2]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=2]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=3]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=2]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=2]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	21 [label="CRIMINAL TRESPASS" xlabel=5]
+	18 -> 21
+	18 [label="DECEPTIVE PRACTICE" xlabel=4]
+	21 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=3]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=2]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=2]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=3]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=2]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=2]
+	18 -> 18
+	18 [label="DECEPTIVE PRACTICE" xlabel=1]
+	18 -> 18
+	25 [label=NARCOTICS xlabel=3]
+	21 -> 25
+	25 [label=NARCOTICS xlabel=2]
+	25 -> 25
+	21 [label="CRIMINAL TRESPASS" xlabel=1]
+	25 -> 21
+	27 [label="LIQUOR LAW VIOLATION" xlabel=2]
+	25 -> 27
+	25 [label=NARCOTICS xlabel=1]
+	27 -> 25
+}

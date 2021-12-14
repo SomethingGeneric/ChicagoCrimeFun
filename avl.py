@@ -208,6 +208,7 @@ class AVLTree:
         """Returns the string of an in_order traversal"""
         return "{} {} {}".format(self._in_order(node.left), node.value, self._in_order(node.right)).strip()  if node is not None else ""
     
+    # TODO: Fix up these print statements they look horrible.
     # Returns the tree as a string as a postorder traversal.
     def postorder(self):
         return self._postorder(self.root)
