@@ -1,0 +1,8 @@
+body {
+    color: #124081;
+    background-color: black;
+}
+
+h1, h2, h3, h4, h5, p {
+    font-family: "IBM Plex Mono","JetBrains Mono","Fira Mono",Consolas,Inconsolata,monospace;
+}

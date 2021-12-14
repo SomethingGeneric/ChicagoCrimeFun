@@ -99,7 +99,7 @@ class ChicagoCrimeFun:
     def do_sort(self, x):
         return {k: v for k, v in sorted(x.items(), key=lambda item: item[1])}
 
-    def build_loc_priority(self):
+    def build_loc_priority(self, graphIt=False):
         """
         Should be used to build your location-priority AVL tree
         """
@@ -115,15 +115,16 @@ class ChicagoCrimeFun:
             else:
                 print("Ignoring data point w/ primary type: " + cd.primary_type)
 
-        # Visualize the data
-        v = VisualizeData()
-        dot = v.visualize_data(self.location_tree)
-        dot.format = "png"
-        dot.strict = True
-        dot.view(filename="location_tree", directory="./visualizations/")
+        if graphIt:
+            # Visualize the data
+            v = VisualizeData()
+            dot = v.visualize_data(self.location_tree)
+            dot.format = "png"
+            dot.strict = True
+            dot.view(filename="location_tree", directory="./visualizations/")
 
     # Function that creates the crime priority.
-    def build_crime_priority(self):
+    def build_crime_priority(self, graphIt=False):
         """
         Should be used to build your crime type-priority AVL tree
         """
@@ -142,11 +143,12 @@ class ChicagoCrimeFun:
                 )
                 sys.exit(1)
 
-        v = VisualizeData()
-        dot = v.visualize_data(self.type_tree)
-        dot.format = "png"
-        dot.strict = True
-        dot.view(filename="type_tree", directory="./visualizations/")
+        if graphIt:
+            v = VisualizeData()
+            dot = v.visualize_data(self.type_tree)
+            dot.format = "png"
+            dot.strict = True
+            dot.view(filename="type_tree", directory="./visualizations/")
 
     def add_random_case(self, n):
         with open(TRAIN_FILE) as f:
@@ -387,9 +389,9 @@ if __name__ == "__main__":
     ccf = ChicagoCrimeFun()
 
     print_info("2 - Building location tree")
-    ccf.build_loc_priority()
+    ccf.build_loc_priority(graphIt=True)
     print_info("3 - Loading type priority tree")
-    ccf.build_crime_priority()
+    ccf.build_crime_priority(graphIt=True)
 
     # print_info("4 - Adding random cases")
     # ccf.add_random_case(20)

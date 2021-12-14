@@ -1,14 +1,20 @@
 # stdlib
-import os
+import os, webbrowser
 
 # pip
 from flask import *
 
 # local
-# from ChicagoCrime import ChicagoCrimeFun
+from ChicagoCrimeFun import *
 
-# print("Loading data")
-# ccf = ChicagoCrimeFun()
+print_info("-- Initializing backend --")
+print_info("1 - Loading data")
+ccf = ChicagoCrimeFun()
+print_info("2 - Building location tree")
+ccf.build_loc_priority()
+print_info("3 - Loading type priority tree")
+ccf.build_crime_priority()
+
 
 app = Flask(__name__)
 
@@ -19,23 +25,7 @@ if not os.path.exists("maps"):
 
 @app.route("/")
 def index():
-    html = """
-<html>
-<head>
-<title>Chicago Crime</title>
-</head>
-<body>
-<h1>Chicago Crime</h1>
-<ul>
-$STUFF$
-</li>
-</body>
-</html>    
-"""
-    insert = ""
-    for fn in os.listdir("maps"):
-        insert += "<li><a href='/map/" + fn + "'>" + fn + "</a></li>"
-    return html.replace("$STUFF$", insert)
+    return render_template("base.html",page_title="Home", leftc="<p>Left</p>", rightc="<p>Right</p>")
 
 
 @app.route("/map/<filename>")
@@ -46,4 +36,5 @@ def map(filename):
 
 
 if __name__ == "__main__":
+    webbrowser.open_new_tab("http://localhost:5000")
     app.run(debug=True)
