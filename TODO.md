@@ -8,9 +8,12 @@
 	[x] decide_next_patrol: Errors out w/ a `new_request` param
 	[x] Code assumes header in data (need to check!)
 [ ] Flask page
+[ ] Essay / report / whatever
 
 ## Zhengkai
+[ ] Essay / report / whatever
 
 ## Ramon
+[ ] Essay / report / whatever
 [ ] Fix AVL viz
 [ ] Heap visualization
