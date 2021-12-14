@@ -176,9 +176,11 @@ class MaxHeap:
     def peek(self):
         return self.heap[self.FRONT]
 
+
 class MaxHeapSort:
     def __init__(self):
         pass
+
     def sort(self, seq):
         heap = MaxHeap(len(seq))
         for i in seq:
@@ -186,6 +188,7 @@ class MaxHeapSort:
         for i in range(len(seq)):
             seq[i] = heap.pop()
         return seq
+
 
 if __name__ == "__main__":
     """minheap = MinHeap()
@@ -206,7 +209,6 @@ if __name__ == "__main__":
         n = random.randint(1, 100)
         if n not in seq:
             seq.append(n)
-
 
     print(seq)
     mxs = MaxHeapSort()

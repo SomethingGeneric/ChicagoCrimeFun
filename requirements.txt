@@ -10,3 +10,5 @@ gmplot
 flask
 graphviz
 plotnine
+colorama
+termcolor

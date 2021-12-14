@@ -9,6 +9,10 @@ import networkx as nx
 from networkx.drawing.nx_agraph import graphviz_layout
 import numpy as np
 import gmplot
+from colorama import init
+from termcolor import colored
+
+init()
 
 # Our own code
 from avl import AVLTree, CrimeData, AVLTreeNode
@@ -17,20 +21,36 @@ from visualize import VisualizeData
 
 test_fn = sys.argv[1] if len(sys.argv) > 1 else ""
 
-#TRAIN_FILE = "Chicago_Crimes_2018-2019_Train.csv" if test_fn == "" else test_fn
-TRAIN_FILE = "Chicago_Crimes_Test.csv"
+TRAIN_FILE = "Chicago_Crimes_Test.csv" if test_fn == "" else test_fn
+
+# SCALE_FACTOR = 0.00001
+SCALE_FACTOR = 0.0001
 
 print("Using dataset:" + TRAIN_FILE)
 
 API_KEY = "AIzaSyC5DbWswLfC0oLuFLe8ZhSOfOL5VkCsJ60"
 s = os.sep
 
+
+def print_error(something):
+    print(colored(something, "red"))
+
+
+def print_warn(something):
+    print(colored(something, "yellow"))
+
+
+def print_info(something):
+    print(colored(something, "cyan"))
+
+
 class payload:
-    def __init__(self,key,value,points=None,label=""):
+    def __init__(self, key, value, points=None, label=""):
         self.key = key
         self.value = value
         self.points = points
         self.label = label
+
 
 class ChicagoCrimeFun:
     def __init__(self, filename=TRAIN_FILE):
@@ -52,7 +72,10 @@ class ChicagoCrimeFun:
         with open(filename, newline="") as csvfile:
             csvreader = csv.reader(csvfile)  # read in the file, split it into a list.
             for lines in csvreader:
-                self.data.append(lines)
+                if "IUCR" not in lines:
+                    self.data.append(lines)
+                else:
+                    print_warn("Ignoring lines: " + str(lines))
 
         # load our list of crimes, where the top is the "worst"
         # or most severe (there is a lot of bias here :(  )
@@ -71,10 +94,7 @@ class ChicagoCrimeFun:
             tc = CrimeData(case)
             self.cds.append(tc)
 
-        # first "crime" is just the header
-        self.total_crimes -= 1
-
-        print("Total data points: " + str(self.total_crimes))
+        print_info("Total data points: " + str(self.total_crimes))
 
     def do_sort(self, x):
         return {k: v for k, v in sorted(x.items(), key=lambda item: item[1])}
@@ -95,13 +115,14 @@ class ChicagoCrimeFun:
             else:
                 print("Ignoring data point w/ primary type: " + cd.primary_type)
 
-        #Visualize the data
+        # Visualize the data
         v = VisualizeData()
         dot = v.visualize_data(self.location_tree)
-        dot.format = 'png'
-        dot.view(filename='location_tree', directory='./visualizations/')
+        dot.format = "png"
+        dot.strict = True
+        dot.view(filename="location_tree", directory="./visualizations/")
 
-    # Function that creates the crime priority. 
+    # Function that creates the crime priority.
     def build_crime_priority(self):
         """
         Should be used to build your crime type-priority AVL tree
@@ -123,8 +144,9 @@ class ChicagoCrimeFun:
 
         v = VisualizeData()
         dot = v.visualize_data(self.type_tree)
-        dot.format = 'png'
-        dot.view(filename='type_tree', directory='./visualizations/')
+        dot.format = "png"
+        dot.strict = True
+        dot.view(filename="type_tree", directory="./visualizations/")
 
     def add_random_case(self, n):
         with open(TRAIN_FILE) as f:
@@ -138,37 +160,43 @@ class ChicagoCrimeFun:
         Parameters:
             dispatch_string: [string] A string that represents a recent 911 dispatch call request that is reported to the police
         """
-        csv = dispatch_string.split(",")
-        primary_type = csv[5]
-        if primary_type in self.priority_dict:
-            priority = self.priority_dict[primary_type]
-            self.dispatch_queue.insert(priority, dispatch_string)
+        if not "," in dispatch_string:
+            print_warn("That's not a proper string!")
         else:
-            print(
-                "Couldn't lookup primary type: "
-                + primary_type
-                + ", so we're assigning it a priority of 0 (MOST URGENT"
-            )
-            self.dispatch_queue.insert(0, dispatch_string)
+            csv = dispatch_string.split(",")
+            if len(csv) < 6:
+                print_warn("You're missing attributes!")
+            else:
+                primary_type = csv[5]
+                if primary_type in self.priority_dict:
+                    priority = self.priority_dict[primary_type]
+                    self.dispatch_queue.insert(priority, dispatch_string)
+                else:
+                    print_warn(
+                        "Couldn't lookup primary type: "
+                        + primary_type
+                        + ", so we're assigning it a priority of 0 (MOST URGENT"
+                    )
+                    self.dispatch_queue.insert(0, dispatch_string)
 
     def dump_next(self):
         if not self.dispatch_queue.is_empty():
-            print(self.dispatch_queue.peek())
+            print_info(self.dispatch_queue.peek())
         else:
-            print("Nothing to dump")
+            print_warn("Nothing to dump")
 
     def construct_crime_priority_list(self):
         """
         Construct a list of crime types, sorted by priority
         """
         for crime in self.priority_dict.keys():
-            print("Indexing all " + crime)
+            print_info("Indexing all " + crime)
             temp_list = []
             for cd in self.cds:
                 if cd.primary_type == crime:
                     temp_list.append(cd)
 
-            print("There are " + str(len(temp_list)) + " " + crime + "s")
+            print_info("There are " + str(len(temp_list)) + " " + crime + "s")
 
             if len(temp_list) > 1:
                 first = temp_list[-2]
@@ -177,30 +205,54 @@ class ChicagoCrimeFun:
                 second = temp_list[-1]
                 x2, y2 = float(second.latitude), float(second.longitude)
 
-                box = "((" + str(x1) + ", " + str(y1) + "), (" + str(x2) + ", " + str(y2) + "), (" + str(x1) + ", " + str(y2) + "), (" + str(x2) + ", " + str(y1) + "))"
+                box = (
+                    "(("
+                    + str(x1)
+                    + ", "
+                    + str(y1)
+                    + "), ("
+                    + str(x2)
+                    + ", "
+                    + str(y2)
+                    + "), ("
+                    + str(x1)
+                    + ", "
+                    + str(y2)
+                    + "), ("
+                    + str(x2)
+                    + ", "
+                    + str(y1)
+                    + "))"
+                )
 
-                points = (
-                    [x1, x2, x2, x1],
-                    [y1,y1,y2,y2])
+                points = ([x1, x2, x2, x1], [y1, y1, y2, y2])
 
                 p = payload(self.priority_dict[crime], box, points, label=crime)
                 self.crime_priority_list.append(p)
             else:
-                print("Not enough data points to extrapolate " + crime)
+                print_warn("Not enough data points to extrapolate " + crime)
 
-    def make_bounds(self, data, isPoint=True, marker_text="", filename="map.html"):
+    def gmap_make(self, data, marker_text="", filename="map.html"):
         """
         Construct a map of the data using the Google Maps API
         """
-        gmap4 = gmplot.GoogleMapPlotter.from_geocode("Chicago, IL", apikey=API_KEY)
-        if isPoint:
-            x,y = data
-            gmap4.marker(x, y, color="cornflowerblue", title=marker_text)
-        else:
-            lats,longs = data.points
-            marker_text = data.label
-            gmap4.polygon(lats,longs, color="cornflowerblue", title=marker_text)
+        lats, longs = data
+        gmap4 = gmplot.GoogleMapPlotter(lats[0], longs[0], 100, apikey=API_KEY)
+        gmap4.polygon(lats, longs, color="cornflowerblue", title=marker_text)
         gmap4.draw(filename)
+
+    def point_to_box(self, x1, y1):
+
+        if x1 == "" or y1 == "":
+            return None
+
+        x1 = float(x1)
+        y1 = float(y1)
+
+        x2 = x1 + SCALE_FACTOR
+        y2 = y1 + SCALE_FACTOR
+
+        return ([x1, x2, x2, x1], [y1, y1, y2, y2])
 
     def decide_next_patrol(self, new_request=None, map_it=False, filename="map.html"):
         """
@@ -216,72 +268,89 @@ class ChicagoCrimeFun:
         # have to rewrite this tomorrow :(
 
         if new_request is None:
-            print("We have no new request")
+            print_warn("We have no new request")
             if self.dispatch_queue.is_empty():
                 # Now we need to use some past data to make best use of our resources
                 if self.crime_priority_list == []:
                     self.construct_crime_priority_list()
 
                 payload = self.crime_priority_list[0]
-                self.make_bounds(payload, False, filename)
+                self.gmap_make(payload.points, filename)
+                print_error("TESTING that one")
                 return payload.value
             else:
                 # we have an existing call, hence we need to do something *right now*
-                print("we had a call in the queue, let's respond to that")
+                print_warn("we had a call in the queue, let's respond to that")
                 prio, recent_call = self.dispatch_queue.remove()
-                if len(recent_call.split(",")) >= 21:  # we have a location attribute
-                    return recent_call.split(",")[21]
-                else:  # we need to combine index 19 and 20
+
+                x1 = recent_call.split(",")[19]
+                y1 = recent_call.split(",")[20]
+
+                data = self.point_to_box(x1, y1)
+
+                if data is not None:
                     if map_it:
-                        self.make_bounds((recent_call.split(",")[19],recent_call.split(",")[20]), True, filename)
-                    return (
-                        "("
-                        + recent_call.split(",")[19]
-                        + ","
-                        + recent_call.split(",")[20]
-                        + ")"
-                    )
+                        self.gmap_make(
+                            data,
+                            filename,
+                        )
+                    return data
+                else:
+                    return "No location data"
         else:
             # we have a new call, but is it more important than the previous one?
-            print(
+            print_info(
                 "We have a new call, let's decide if we should respond to it or the existing one in queue"
             )
-            my_priority = self.priority_dict[new_request.split(",")[5]]
-            prio, recent_call = self.dispatch_queue.peek()
-            if my_priority < prio:
-                # this new request is more important than the other one.
-                print("responding to the new call")
-                if len(new_request.split(",")) >= 21:  # we have a location attribute
-                    return new_request.split(",")[21]
-                else:  # we need to combine index 19 and 20
-                    if map_it:
-                        self.make_bounds((recent_call.split(",")[19],recent_call.split(",")[20]), True, filename)
-                    return (
-                        "("
-                        + new_request.split(",")[19]
-                        + ","
-                        + new_request.split(",")[20]
-                        + ")"
-                    )
+
+            if not "," in new_request or len(new_request.split(",")) != 6:
+                print_warn(
+                    "Something is wonky with this new request. Y'all should probably get on it."
+                )
+                print_warn("Here's the raw data: " + new_request)
             else:
-                # new request is less important than the last one
-                print("responding to the existing call")
-                # we don't need to save this output since we defined it above w/ the peek call
-                self.dispatch_queue.remove()
-                # let's also add the new call that we're ignoring *for now*
-                self.dispatch_queue.insert(new_request)
-                if len(recent_call.split(",")) >= 21:  # we have a location attribute
-                    return recent_call.split(",")[21]
-                else:  # we need to combine index 19 and 20
-                    if map_it:
-                        self.make_bounds((recent_call.split(",")[19],recent_call.split(",")[20]), True, filename)
-                    return (
-                        "("
-                        + recent_call.split(",")[19]
-                        + ","
-                        + recent_call.split(",")[20]
-                        + ")"
-                    )
+
+                my_priority = self.priority_dict[new_request.split(",")[5]]
+                prio, recent_call = self.dispatch_queue.peek()
+
+                if my_priority < prio:
+                    # this new request is more important than the other one.
+                    print_info("responding to the new call")
+                    x1 = new_request.split(",")[19]
+                    y1 = new_request.split(",")[20]
+
+                    data = self.point_to_box(x1, y1)
+
+                    if data is not None:
+                        if map_it:
+                            self.gmap_make(
+                                data,
+                                filename,
+                            )
+                        return data
+                    else:
+                        return "No location data"
+                else:
+                    # new request is less important than the last one
+                    print_info("responding to the existing call")
+                    # we don't need to save this output since we defined it above w/ the peek call
+                    self.dispatch_queue.remove()
+                    # let's also add the new call that we're ignoring *for now*
+                    self.dispatch_queue.insert(new_request)
+                    x1 = recent_call.split(",")[19]
+                    y1 = recent_call.split(",")[20]
+
+                    data = self.point_to_box(x1, y1)
+
+                    if data is not None:
+                        if map_it:
+                            self.gmap_make(
+                                data,
+                                filename,
+                            )
+                        return data
+                    else:
+                        return "No location data"
 
         return "default case?"
 
@@ -309,24 +378,25 @@ class ChicagoCrimeFun:
 
     def map_all_types(self):
         for primary in self.primary_types:
-            print("Making map for " + primary)
+            print_info("Making map for " + primary)
             self.google_maps(otype=primary, browser=False)
 
 
 if __name__ == "__main__":
-    print("1 - Loading data")
+    print_info("1 - Loading data")
     ccf = ChicagoCrimeFun()
 
-    print("2 - Building location tree")
+    print_info("2 - Building location tree")
     ccf.build_loc_priority()
-    print("3 - Loading type priority tree")
+    print_info("3 - Loading type priority tree")
     ccf.build_crime_priority()
 
-    #print("4 - Adding random cases")
-    #ccf.add_random_case(20)
+    # print_info("4 - Adding random cases")
+    # ccf.add_random_case(20)
 
-    # print("5 - testing highest priority report")
+    # print_info("5 - testing highest priority report")
     # ccf.dump_next()
 
-    print("6 - Deciding next patrol location")
-    print(ccf.decide_next_patrol())
+    print_info("6 - Deciding next patrol location")
+    print_info("Output: " + str(ccf.decide_next_patrol(map_it=True)))
+    webbrowser.open_new_tab("map.html")
