@@ -265,10 +265,6 @@ class ChicagoCrimeFun:
             [tuple] A tuple of length 4 that represents the 4 points of an area to patrol.
         """
 
-        # TODO: all the cases where we're going to a specific location are returning one point, rather than
-        # a bounding box as the project suggests. If Dancy can elaborate on why the box would be better then we'll
-        # have to rewrite this tomorrow :(
-
         if new_request is None:
             print_warn("We have no new request")
             if self.dispatch_queue.is_empty():
@@ -277,7 +273,8 @@ class ChicagoCrimeFun:
                     self.construct_crime_priority_list()
 
                 payload = self.crime_priority_list[0]
-                self.gmap_make(payload.points, filename)
+                if map_it:
+                    self.gmap_make(payload.points, filename)
                 print_error("TESTING that one")
                 return payload.value
             else:
