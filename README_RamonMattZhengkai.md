@@ -33,7 +33,7 @@ Using print statements and the debugging tool that visual studio code provides. 
 
 ## Phase 1 Visualization:
 
-Heatmaps of crime types:
+Heatmaps of crime types: <br/>
 ![Concealed Carry Violation](visualizations/concealed_carry_violation.png)
 
 ![Liquor Law Violation](visualizations/liquor_law_violations.png)
