@@ -1,12 +1,23 @@
 <h2>Current dispatch</h2>
+<!-- This iframe is used to embed the gmplot output map, showing where we reccomend to go. -->
 <iframe height=500 width=500 id="map_box" src="{{ifr}}"></iframe>
+<!-- And if 500x500 doesn't suit your fancy, you can always open in a new tab -->
 <h5><a id="maplink" href="" target="_blank"></a></h5>
+<!-- 
+    We also fill out this box with the raw GPS, in case the gmplot fails or if the user wants to
+    open full google maps. I dunno. Seemed like a good idea.
+-->
 <h3 id="dispatch_cords">(None)</h3>
 
 <hr/>
 
 <h2>Request Dispatch</h2>
 <form>
+    <!-- 
+        This box takes the optional input of a new emergency report, to be passed to our
+        'decide_next_patrol' method via the flask endpoint. (See 'doDispatch' in 'static/dispatch.js' for 
+        a more detailed description of this whole process)
+    -->
     <input class="form-control" id="new_request" value="None">
     <br/>
     <button onclick="doDispatch();" type="button" class="btn btn-primary">Dispatch</button>

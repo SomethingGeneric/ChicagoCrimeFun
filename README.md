@@ -46,7 +46,11 @@ Tree visualizations!
 
 (Web app)
 
-## Refactoring & Comments
+## Code Refactoring and Revsions
+
+We feel that the approach we've taken to assigning priority, while not perfect, is fairly equitable given issues discussed in the assigned readings. The fact of the matter is that the percieved bias in predictive policing is largely due to outside social factors in the United States, and systematic opression of minority groups. Thus, our design of this system is (or would be) merely one tiny factor in the larger social justice context. 
+
+Of course, we aknowledge that a system like this in production would likely be regularly inspected (we hope!) by department staff and those it affects. We've made sure to document how functions work, and tried to make the code as readable as possible so that hopefully anyone can see that it is functioning as the comments claim.
 
 ## Police Station Placement Design
 

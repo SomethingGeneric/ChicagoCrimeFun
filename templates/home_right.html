@@ -1,4 +1,12 @@
 <h2>Scaling Factor for dispatch</h2>
+<!--
+    The scaling factor is used by the main class when it has to make a box around a given point in 
+    a dispatch string. The origional coordinates of (x,y) are edited to form an additional (x1,y1),
+    where x1 = x + scale_factor, and same for y1. Then, we form a box using these two points.
+
+    The exact details of communicating back to flask can be seen in the definition of 'setScale()'
+    in 'static/dispatch.js'
+-->
 <input class="form-control" id="scale_factor" value="{{sf}}">
 <button onclick="setScale();" type="button" class="btn btn-primary">Set</button>
 
@@ -6,6 +14,11 @@
 
 <h2>Pending Calls</h2>
 <form>
+    <!--
+        This textarea is used by JS to report on pending calls in the dispatch queue.
+        Hence, it should be empty by default. (Hopefully we're not ignoring too many
+        ongoing emergencies!!)
+    -->
     <textarea readonly class="form-control" id="pending_calls"></textarea>
 </form>
 
@@ -13,5 +26,9 @@
 
 <h2>Past Dispatches</h2>
 <form>
+    <!--
+        This area keeps a simple plaintext log of previous decisions, wether they're
+        predictions for future crime, or dispatches to the scene of a concrete report.
+    -->
     <textarea readonly class="form-control" id="history_box"></textarea>
 </form>

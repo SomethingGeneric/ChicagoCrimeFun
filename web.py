@@ -1,15 +1,27 @@
-# stdlib
+###########
+# Imports #
+###########
+# Python standard library modules
 import os, webbrowser, random, string, shutil
 
-# pip
+# PIP Packages (community libaries & frameworks)
 from flask import *
 
-# local
+# Other code local to this project
 from ChicagoCrimeFun import *
+# The above import defines ChicagoCrimeFun,
+# and the print_info, print_warn, etc functions used below
+# and in some of the flask routes defined later in the file.
 
+#######################
+# Deployment settings #
+#######################
 SERVE_URL = "0.0.0.0"
 SERVE_PORT = 6969 # blame Ramon for this. It was 5000 previously I swear. - Matt
 
+##################################
+# Setup of dataset and AVL Trees #
+##################################
 print_info("-- Initializing backend --")
 print_info("1 - Loading data")
 ccf = ChicagoCrimeFun()
@@ -25,31 +37,62 @@ ccf.add_random_case(20)
 print_info("4 - Constructing crime priority list")
 ccf.construct_crime_priority_list()
 
-
-app = Flask(__name__)
-
+################################################
+# Generate heatmaps of previous crime reports, #
+# if not previously done. This could lock up   #
+# the loaing process for a while.              #
+################################################
 if not os.path.exists("heatmaps"):
     print("Generating maps. Please wait")
     ccf.map_all_types()
 
+##############################################################
+# This dir is used to store the maps that the webUI displays #
+# after the user asks for a new dispatch location            #
+##############################################################
 if not os.path.exists("dispatch_maps"):
     os.makedirs("dispatch_maps")
 
+###############################
+# Cleaning up any stale files #
+###############################
 nuke_these = ["map.html", "dispatch_history.txt", ".dpurl"]
 
 for something in nuke_these:
     if os.path.exists(something):
         os.remove(something)
 
+#################################
+# Initalizing the web framework #
+#################################
+app = Flask(__name__)
+
+############################################################################
+# In Flask, routes are certain sub-urls that the program will respond to.  #
+# For example, the "/" endpoint below is the main page of the application. #
+# The exact functions that each endpoint/route uses will be explained      #
+############################################################################
+
+
 @app.route("/")
 def index():
+    """Build the main page of the app (contains most user-facing functions)"""
 
+    # .dpurl is intended to set up the map to display a previous result if the
+    # user refreshes the page. It doesn't work quite right. In theory this
+    # should be done with cookies. We didn't have time to learn how to properly
+    # implement client-side first-party cookies, and do it safely. That would be
+    # the proper way to go about this in production, on a deployment not run locally
     if os.path.exists(".dpurl"):
         ifr = open(".dpurl").read()
         os.remove(".dpurl")
     else:
         ifr = "/empty"
 
+    # The render_template function takes in an html document from the 'templates/' directory,
+    # and subs in given values as requested. Here, we also use sub-templates 'home_left' and 'home_right'
+    # so that we can make more of the content dynamic. To reduce the number of comments in each endpoint,
+    # we're going to describe these variables in more detail within the templates themselves.
     return render_template(
         "base.html",
         page_title="Home",
