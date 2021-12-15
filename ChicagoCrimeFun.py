@@ -18,6 +18,7 @@ init()
 from avl import AVLTree, CrimeData, AVLTreeNode
 from heap import MinHeap
 from visualize import VisualizeData
+from jankheap import SomeHeap
 
 test_fn = sys.argv[1] if len(sys.argv) > 1 else ""
 
@@ -63,7 +64,9 @@ class ChicagoCrimeFun:
         self.location_tree = AVLTree()
         self.type_tree = AVLTree()
 
-        self.dispatch_queue = MinHeap()
+        #self.dispatch_queue = MinHeap()
+        self.dispatch_queue = SomeHeap()
+
         self.crime_priority_list = []
 
         self.scaling_factor = scaling_factor
@@ -256,8 +259,8 @@ class ChicagoCrimeFun:
         x1 = float(x1)
         y1 = float(y1)
 
-        x2 = x1 + self.scaling_factor
-        y2 = y1 + self.scaling_factor
+        x2 = x1 + float(self.scaling_factor)
+        y2 = y1 + float(self.scaling_factor)
 
         return ([x1, x2, x2, x1], [y1, y1, y2, y2])
 
@@ -346,21 +349,75 @@ class ChicagoCrimeFun:
                 "We have a new call, let's decide if we should respond to it or the existing one in queue"
             )
 
-            if not "," in new_request or len(csv.reader([new_request]).__next__()) != 20:
-                print_warn(
-                    "Something is wonky with this new request. Y'all should probably get on it."
+            if not "," in new_request or len(csv.reader([new_request]).__next__()) != 22:
+                print_error(
+                    "Something is wonky with this new request. Y'all should probably get on it.\n"
                 )
-                print_warn("Here's the raw data: " + new_request)
+                print_error("Here's the raw data: " + new_request)
+                print_error("Here's the n of attrs: " + str(len(csv.reader([new_request]).__next__())))
                 return "EMERGENCY:" + new_request
             else:
 
-                my_priority = self.priority_dict[new_request.split(",")[5]]
-                prio, recent_call = self.dispatch_queue.peek()
+                if not self.dispatch_queue.is_empty():
+                    my_priority = self.priority_dict[csv.reader([new_request]).__next__()[5]]
+                    prio, recent_call = self.dispatch_queue.peek()
 
-                if my_priority < prio:
-                    # this new request is more important than the other one.
-                    print_info("responding to the new call")
+                    print("My prio: " + str(my_priority))
+                    print("Other prio: " + str(prio))
 
+                    if my_priority < prio:
+                        # this new request is more important than the other one.
+                        print_info("responding to the new call")
+
+                        # ah yes. to list or not to list, that is the question. (thanks CSV module!)
+                        attrs = csv.reader([new_request]).__next__()
+
+                        x1 = attrs[19]
+                        y1 = attrs[20]
+
+                        data = self.point_to_box(x1, y1)
+
+                        if data is not None:
+                            if map_it:
+                                self.gmap_make(
+                                    data,
+                                    filename,
+                                )
+                            if log_it:
+                                self.store_ds(new_request)
+                            return data
+                        else:
+                            return "No location data"
+                    else:
+                        # new request is less important than the last one
+                        print_info("responding to the existing call")
+                        # we don't need to save this output since we defined it above w/ the peek call
+                        self.dispatch_queue.remove()
+                        # let's also add the new call that we're ignoring *for now*
+                        self.dispatch_queue.insert(new_request)
+
+                        # ah yes. to list or not to list, that is the question. (thanks CSV module!)
+                        attrs = csv.reader([recent_call]).__next__()
+
+                        x1 = attrs[19]
+                        y1 = attrs[20]
+
+                        data = self.point_to_box(x1, y1)
+
+                        if data is not None:
+                            if map_it:
+                                self.gmap_make(
+                                    data,
+                                    filename,
+                                )
+                            if log_it:
+                                self.store_ds(recent_call)
+                            return data
+                        else:
+                            return "No location data"
+
+                else: # dispatch queue is empty
+                    print_info("Responding to incoming call. Dispatch queue empty.")
                     # ah yes. to list or not to list, that is the question. (thanks CSV module!)
                     attrs = csv.reader([new_request]).__next__()
 
@@ -380,33 +437,7 @@ class ChicagoCrimeFun:
                         return data
                     else:
                         return "No location data"
-                else:
-                    # new request is less important than the last one
-                    print_info("responding to the existing call")
-                    # we don't need to save this output since we defined it above w/ the peek call
-                    self.dispatch_queue.remove()
-                    # let's also add the new call that we're ignoring *for now*
-                    self.dispatch_queue.insert(new_request)
 
-                    # ah yes. to list or not to list, that is the question. (thanks CSV module!)
-                    attrs = csv.reader([recent_call]).__next__()
-
-                    x1 = attrs[19]
-                    y1 = attrs[20]
-
-                    data = self.point_to_box(x1, y1)
-
-                    if data is not None:
-                        if map_it:
-                            self.gmap_make(
-                                data,
-                                filename,
-                            )
-                        if log_it:
-                            self.store_ds(recent_call)
-                        return data
-                    else:
-                        return "No location data"
 
         return "default case?"
 

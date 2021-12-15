@@ -55,6 +55,9 @@ async function doDispatch() {
     // this is also sometimes 'None', but that's dealt with by Flask
     var new_string = document.getElementById('new_request').value;
 
+    // Reset input box.
+    document.getElementById('new_request').value = "None";
+
     // The only potential input to the 'decide_next_patrol' method is
     // the new_request, thank god. otherwise thise would be a nasty JSON
     // encoding.
@@ -66,36 +69,42 @@ async function doDispatch() {
     // But if it isn't an error, we get a coordinate box and a URL to a map 
     // separated by '---' (This was chosen since it's impossible for the generated
     // map URL or the coordinate box to contain that exact set of characters)
-    if ( data != "ERROR---ERROR" ) {
-        var parts = data.split("---");
-
-        // Part 0 is the raw box that's been graphed. Put it in the <h3> meant for it.
-        document.getElementById("dispatch_cords").innerHTML = parts[0];
-
-        // Part 1 is the URL to the map output, so we need to set the iframe's SRC to that filename
-        // but we do have to also prefix it with the endpoint name '/dispatch/maps/'
-        document.getElementById("map_box").src = "/dispatch/maps/" + parts[1];
-
-        // We also setup this <a> to allow the user to open the map in a new tab
-        // also, the text gets set here so that on the initial page load the whole
-        // element is hidden. :) 
-        document.getElementById("maplink").href = "/dispatch/maps/" + parts[1];
-        document.getElementById("maplink").innerHTML = "Open map in new tab";
-
-        // Again, because simple HTTP, we append a '--PRED' if the result was not
-        // a case, but rather an inference. If that's the case, we need to 
-        // inform the user, so that the cop knows they're not going to the scene
-        // of a live incident.
-        if ( parts.length == 3 ) {
-            // This edit is so long since it has to also retain the initial text set above (the coordinate box)
-            document.getElementById("dispatch_cords").innerHTML = "<p class='alert'>This dispatch was a prediction, not a case. Use with caution.</p>" + document.getElementById('dispatch_cords').innerHTML;
-        }
-
+    if ( data.includes("EMERGENCY") ) { // EMERGENCY is issued if the dispatch string fails checks for all attributes
+        document.getElementById("dispatch_cords").innerHTML = "<p class='alert'>" + data + "</p>";
+        document.getElementById("map_box").src = "/empty";
+        alert("Unknown dispatch string. You should respond.");
     } else {
-        // Like we said above, we're not really able to pass a verbose error. :,(
-        alert("Error.");
+        if ( data != "ERROR---ERROR" ) {
+            var parts = data.split("---");
+    
+            // Part 0 is the raw box that's been graphed. Put it in the <h3> meant for it.
+            document.getElementById("dispatch_cords").innerHTML = parts[0];
+    
+            // Part 1 is the URL to the map output, so we need to set the iframe's SRC to that filename
+            // but we do have to also prefix it with the endpoint name '/dispatch/maps/'
+            document.getElementById("map_box").src = "/dispatch/maps/" + parts[1];
+    
+            // We also setup this <a> to allow the user to open the map in a new tab
+            // also, the text gets set here so that on the initial page load the whole
+            // element is hidden. :) 
+            document.getElementById("maplink").href = "/dispatch/maps/" + parts[1];
+            document.getElementById("maplink").innerHTML = "Open map in new tab";
+    
+            // Again, because simple HTTP, we append a '--PRED' if the result was not
+            // a case, but rather an inference. If that's the case, we need to 
+            // inform the user, so that the cop knows they're not going to the scene
+            // of a live incident.
+            if ( parts.length == 3 ) {
+                // This edit is so long since it has to also retain the initial text set above (the coordinate box)
+                document.getElementById("dispatch_cords").innerHTML = "<p class='alert'>This dispatch was a prediction, not a case. Use with caution.</p>" + document.getElementById('dispatch_cords').innerHTML;
+            }
+    
+        } else {
+            // Like we said above, we're not really able to pass a verbose error. :,(
+            alert("Error.");
+        }
     }
-
+    
     // This function sets off async tasks to update the two textareas on the right
     // which should show the dispatch queue, and also the past decisions we've made
     // see definition at the bottom.

@@ -31,8 +31,8 @@ ccf.build_loc_priority()
 print_info("3 - Loading type priority tree")
 ccf.build_crime_priority()
 
-print_info("4 - Adding random cases")
-ccf.add_random_case(20)
+#print_info("4 - Adding random cases")
+#ccf.add_random_case(20)
 
 print_info("4 - Constructing crime priority list")
 ccf.construct_crime_priority_list()
@@ -140,17 +140,15 @@ def put_dispatch():
                 f.write(fn)
             return result + "---" + fn + EX
     else:
-        return "ERROR---ERROR"
+        if "EMERGENCY" in result:
+            return result
+        else:
+            return "ERROR---ERROR"
 
 # TODO: This one is borken because the Heap code is borked.
 @app.route("/pending")
 def pending():
-    list_of_stuff = []
-    while ccf.dispatch_queue.size != 0:
-        i, ds = ccf.dispatch_queue.remove()
-        list_of_stuff.append(ds)
-        ccf.dispatch_queue.insert(i,ds)
-    return "\n".join(list_of_stuff)
+    return ccf.dispatch_queue.valrepr()
 
 
 @app.route("/past_patrols")
