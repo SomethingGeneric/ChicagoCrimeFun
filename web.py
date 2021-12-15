@@ -7,7 +7,7 @@ from flask import *
 # local
 from ChicagoCrimeFun import *
 
-SERVE_URL = "localhost"
+SERVE_URL = "0.0.0.0"
 SERVE_PORT = 5000
 
 print_info("-- Initializing backend --")
