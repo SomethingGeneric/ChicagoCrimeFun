@@ -16,7 +16,6 @@
 * `make` (or `make run`) - to test our `ChicagoCrime.py` file, which, at the moment, outputs some metadata about the CSV :shipit:
 * `make web` - serves the flask app
 * `make test` - small script w/ made-up data to test the ADT
-* `make yourmom` - Ramon makes your mom.
 
 ## Outside resources related to dataset
 * https://news.wttw.com/sites/default/files/Map%20of%20Chicago%20Police%20Districts%20and%20Beats.pdf
