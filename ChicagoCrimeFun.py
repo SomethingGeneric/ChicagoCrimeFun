@@ -262,7 +262,14 @@ class ChicagoCrimeFun:
         Store the dispatch string for flask
         """
         with open("dispatch_history.txt","a+") as f:
-            f.write(ds + "\n")
+            f.write(ds + "\n\n")
+
+    def mark_pred(self):
+        """
+        We're bodging. This dotfile indicates that the last dispatch was not based on an exact call,
+        but rather our guess as to where it's worth sending a patrol preemptively.
+        """
+        os.system("touch .pred")
 
     def decide_next_patrol(self, new_request=None, map_it=False, filename="map.html", log_it=False):
         """
@@ -291,12 +298,11 @@ class ChicagoCrimeFun:
                 self.crime_priority_list.pop(0)
 
                 if map_it:
-                    print_warn("Mapping?")
                     self.gmap_make(payload.points, filename)
-                    print_warn("Mapping done?")
 
                 if log_it:
                     self.store_ds("Dispatched patrol to " + str(payload.points) + " since we predict " + payload.label)
+                    self.mark_pred()
 
                 return payload.value
             else:

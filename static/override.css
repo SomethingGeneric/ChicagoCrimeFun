@@ -10,3 +10,8 @@ h1, h2, h3, h4, h5, p {
 a {
     text-decoration: solid;
 }
+
+.alert {
+    color: red;
+    font-weight: bold;
+}

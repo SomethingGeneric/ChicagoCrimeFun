@@ -1,5 +1,8 @@
 // funny js go brr
 
+var pending_lines = 4;
+var history_lines = 4;
+
 // From: https://stackoverflow.com/a/4033310
 function httpGetAsync(theUrl, callback)
 {
@@ -31,9 +34,16 @@ function doDispatch() {
         var parts = data.split("---");
         document.getElementById("dispatch_cords").innerHTML = parts[0];
         document.getElementById("map_box").src = "/dispatch/maps/" + parts[1];
+
+        if ( parts.length == 3 ) {
+            document.getElementById("dispatch_cords").innerHTML = "<div class='alert'>This dispatch was a prediction, not a case. Use with caution.</div><br/>" + document.getElementById('dispatch_cords').innerHTML;
+        }
+
     } else {
         alert("Been borked.");
     }
+
+    refreshLiveData();
 
 }
 
@@ -43,4 +53,25 @@ function initRefreshQueue() {
 
 function updateRefreshQueue(resp) {
     document.getElementById("pending_calls").innerHTML = resp;
+    if ( resp != "" ) {
+        pending_lines += 4;
+    }
+    document.getElementById('pending_calls').rows = pending_lines;
+}
+
+function initRefreshHistory() {
+    httpGetAsync("/past_patrols", updateHistoryBox);
+}
+
+function updateHistoryBox(resp) {
+    document.getElementById("history_box").innerHTML = resp;
+    if ( resp != "" ) {
+        history_lines += 4;
+    }
+    document.getElementById("history_box").rows = history_lines;
+}
+
+function refreshLiveData() {
+    initRefreshQueue();
+    initRefreshHistory();
 }

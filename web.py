@@ -19,8 +19,8 @@ ccf.build_loc_priority()
 print_info("3 - Loading type priority tree")
 ccf.build_crime_priority()
 
-print_info("4 - Adding random cases")
-ccf.add_random_case(20)
+#print_info("4 - Adding random cases")
+#ccf.add_random_case(20)
 
 print_info("4 - Constructing crime priority list")
 ccf.construct_crime_priority_list()
@@ -43,7 +43,7 @@ for something in nuke_these:
 
 @app.route("/")
 def index():
-    return render_template("base.html",page_title="Home", leftc=render_template("home_left.html"), rightc=render_template("home_right.html"), onload_func="initRefreshQueue()")
+    return render_template("base.html",page_title="Home", leftc=render_template("home_left.html"), rightc=render_template("home_right.html"), onload_func="refreshLiveData()")
 
 @app.route("/do_dispatch/<ds>")
 def get_dispatch(ds=None):
@@ -59,12 +59,17 @@ def get_dispatch(ds=None):
 
     result = ccf.decide_next_patrol(new_request,map_it=True,log_it=True)
 
+    EX = ""
+    if os.path.exists(".pred"):
+        os.remove(".pred")
+        EX = "---PRED"
+
     shutil.move("map.html", "dispatch_maps" + os.sep + fn)
 
     if result == "No location data":
         return "ERROR---ERROR"
     else:
-        return result + "---" + fn
+        return result + "---" + fn + EX
 
 @app.route("/pending")
 def pending():
@@ -79,7 +84,7 @@ def pending():
 def past_patrols():
     if os.path.exists("dispatch_history.txt"):
         with open("dispatch_history.txt") as f:
-            return f.read().replace("\n","<br/>")
+            return f.read()
     else:
         return ""
 
