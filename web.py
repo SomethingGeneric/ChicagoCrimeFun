@@ -145,6 +145,10 @@ def dmap(filename):
 def empty():
     return render_template("empty.html")
 
+@app.route("/update")
+def git():
+    os.system("git pull")
+    sys.exit(0)
 
 if __name__ == "__main__":
     webbrowser.open_new_tab("http://" + SERVE_URL + ":" + str(SERVE_PORT))
