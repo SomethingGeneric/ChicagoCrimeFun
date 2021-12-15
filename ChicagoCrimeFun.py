@@ -288,6 +288,7 @@ class ChicagoCrimeFun:
                     self.construct_crime_priority_list()
 
                 payload = self.crime_priority_list[0]
+                self.crime_priority_list.pop(0)
 
                 if map_it:
                     print_warn("Mapping?")

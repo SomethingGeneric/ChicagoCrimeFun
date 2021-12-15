@@ -1,5 +1,5 @@
 # stdlib
-import os, webbrowser, random, string
+import os, webbrowser, random, string, shutil
 
 # pip
 from flask import *
@@ -35,8 +35,11 @@ if not os.path.exists("maps"):
 if not os.path.exists("dispatch_maps"):
     os.makedirs("dispatch_maps")
 
-if os.path.exists("dispatch_history.txt"):
-    os.remove("dispatch_history.txt")
+nuke_these = ["map.html", "dispatch_history.txt"]
+
+for something in nuke_these:
+    if os.path.exists(something):
+        os.remove(something)
 
 @app.route("/")
 def index():
@@ -54,7 +57,9 @@ def get_dispatch(ds=None):
 
     fn = ''.join(random.choices(string.ascii_lowercase + string.digits, k=64)) + ".html"
 
-    result = ccf.decide_next_patrol(new_request,map_it=True,filename="dispatch_maps/"+fn,log_it=True)
+    result = ccf.decide_next_patrol(new_request,map_it=True,log_it=True)
+
+    shutil.move("map.html", "dispatch_maps" + os.sep + fn)
 
     if result == "No location data":
         return "ERROR---ERROR"
@@ -66,7 +71,8 @@ def pending():
     waiting = ccf.dispatch_queue
     list_of_stuff = []
     while waiting.size != 0:
-        list_of_stuff.append(str(waiting.remove()))
+        _, ds = waiting.remove()
+        list_of_stuff.append(ds)
     return "\n".join(list_of_stuff)
 
 @app.route("/past_patrols")
