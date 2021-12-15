@@ -20,8 +20,8 @@ ccf.build_loc_priority()
 print_info("3 - Loading type priority tree")
 ccf.build_crime_priority()
 
-# print_info("4 - Adding random cases")
-# ccf.add_random_case(20)
+print_info("4 - Adding random cases")
+ccf.add_random_case(20)
 
 print_info("4 - Constructing crime priority list")
 ccf.construct_crime_priority_list()
@@ -36,7 +36,7 @@ if not os.path.exists("heatmaps"):
 if not os.path.exists("dispatch_maps"):
     os.makedirs("dispatch_maps")
 
-nuke_these = ["map.html", "dispatch_history.txt"]
+nuke_these = ["map.html", "dispatch_history.txt", ".dpurl"]
 
 for something in nuke_these:
     if os.path.exists(something):
@@ -82,7 +82,7 @@ def put_dispatch():
 
     fn = "".join(random.choices(string.ascii_lowercase + string.digits, k=64)) + ".html"
 
-    result = ccf.decide_next_patrol(new_request, map_it=True, log_it=True)
+    result = str(ccf.decide_next_patrol(new_request, map_it=True, log_it=True))
 
     EX = ""
     if os.path.exists(".pred"):
@@ -103,11 +103,11 @@ def put_dispatch():
 
 @app.route("/pending")
 def pending():
-    waiting = ccf.dispatch_queue
     list_of_stuff = []
-    while waiting.size != 0:
-        _, ds = waiting.remove()
+    while ccf.dispatch_queue.size != 0:
+        i, ds = ccf.dispatch_queue.remove()
         list_of_stuff.append(ds)
+        ccf.dispatch_queue.insert(i,ds)
     return "\n".join(list_of_stuff)
 
 

@@ -151,10 +151,15 @@ class ChicagoCrimeFun:
             dot.view(filename="type_tree", directory="./visualizations/")
 
     def add_random_case(self, n):
+        used = []
         with open(TRAIN_FILE) as f:
             lines = f.readlines()
         for i in range(n):
-            self.add_dispatch(lines[randint(0, len(lines) - 1)])
+            index = randint(0, len(lines) - 1)
+            while index in used:
+                index = randint(0, len(lines) - 1)
+            used.append(index)
+            self.add_dispatch(lines[index])
 
     def add_dispatch(self, dispatch_string):
         """
@@ -316,8 +321,11 @@ class ChicagoCrimeFun:
                 print_warn("we had a call in the queue, let's respond to that")
                 prio, recent_call = self.dispatch_queue.remove()
 
-                x1 = recent_call.split(",")[19]
-                y1 = recent_call.split(",")[20]
+                 # ah yes. to list or not to list, that is the question. (thanks CSV module!)
+                attrs = csv.reader([recent_call]).__next__()
+
+                x1 = attrs[19]
+                y1 = attrs[20]
 
                 data = self.point_to_box(x1, y1)
 
@@ -338,12 +346,12 @@ class ChicagoCrimeFun:
                 "We have a new call, let's decide if we should respond to it or the existing one in queue"
             )
 
-            if not "," in new_request or len(new_request.split(",")) != 20:
+            if not "," in new_request or len(csv.reader([new_request]).__next__()) != 20:
                 print_warn(
                     "Something is wonky with this new request. Y'all should probably get on it."
                 )
                 print_warn("Here's the raw data: " + new_request)
-                print_warn("Here's len: " + str(len(new_request.split(","))))
+                return "EMERGENCY:" + new_request
             else:
 
                 my_priority = self.priority_dict[new_request.split(",")[5]]
@@ -352,8 +360,12 @@ class ChicagoCrimeFun:
                 if my_priority < prio:
                     # this new request is more important than the other one.
                     print_info("responding to the new call")
-                    x1 = new_request.split(",")[19]
-                    y1 = new_request.split(",")[20]
+
+                    # ah yes. to list or not to list, that is the question. (thanks CSV module!)
+                    attrs = csv.reader([new_request]).__next__()
+
+                    x1 = attrs[19]
+                    y1 = attrs[20]
 
                     data = self.point_to_box(x1, y1)
 
@@ -375,8 +387,12 @@ class ChicagoCrimeFun:
                     self.dispatch_queue.remove()
                     # let's also add the new call that we're ignoring *for now*
                     self.dispatch_queue.insert(new_request)
-                    x1 = recent_call.split(",")[19]
-                    y1 = recent_call.split(",")[20]
+
+                    # ah yes. to list or not to list, that is the question. (thanks CSV module!)
+                    attrs = csv.reader([recent_call]).__next__()
+
+                    x1 = attrs[19]
+                    y1 = attrs[20]
 
                     data = self.point_to_box(x1, y1)
 
@@ -431,8 +447,8 @@ if __name__ == "__main__":
     print_info("3 - Loading type priority tree")
     ccf.build_crime_priority(graphIt=True)
 
-    # print_info("4 - Adding random cases")
-    # ccf.add_random_case(20)
+    print_info("4 - Adding random cases")
+    ccf.add_random_case(20)
 
     # print_info("5 - testing highest priority report")
     # ccf.dump_next()

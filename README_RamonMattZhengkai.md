@@ -16,7 +16,7 @@ A Chicago crime data dispatch system to help officers arrest more people to furt
 
 ## Run:
 * `make` (or `make run`) - to test our `ChicagoCrime.py` file, which, at the moment, outputs some metadata about the CSV :shipit:
-* `make web` - serves the flask app which organizes the heatmaps that were previously generated
+* `make web` - serves the flask app
 * `make test` - small script w/ made-up data to test the ADT
 
 ## Outside resources related to dataset

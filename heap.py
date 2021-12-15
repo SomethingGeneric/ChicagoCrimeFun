@@ -69,9 +69,15 @@ class MinHeap:
 
     # Function to insert a node into the heap
     def insert(self, element, rep):
+        print("Inserting " + str(element) + " with " + str(rep))
         if self.size >= self.maxsize:
             return
         self.size += 1
+        
+        while self.has(element):
+            element += 0.001
+            print("Upping element value to " + str(element))
+        print("-"*10)
 
         self.heap[self.size] = element
 
@@ -88,16 +94,29 @@ class MinHeap:
     # Function to remove and return the minimum element
     def remove(self):
         popped = self.heap[self.FRONT]
+        rep = self.cheat[popped]
+        self.cheat.pop(popped)
+
         self.heap[self.FRONT] = self.heap[self.size]
         self.size -= 1
-        self.minheapify(self.FRONT)
+        if self.size != 0:
+            self.minheapify(self.FRONT)
         # return popped
-        return (self.FRONT, self.cheat[popped])
+        return (popped, rep)
 
     # show next element, but don't remove it
     def peek(self):
         return (self.FRONT, self.cheat[self.heap[self.FRONT]])
 
+    # nnhgnhngh
+    def has(self, key):
+        if key in self.cheat:
+            return True
+        else:
+            return False
+
+
+############################################################################
 
 class MaxHeap:
     def __init__(self, maxsize):

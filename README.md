@@ -14,7 +14,7 @@
 
 ## Run:
 * `make` (or `make run`) - to test our `ChicagoCrime.py` file, which, at the moment, outputs some metadata about the CSV :shipit:
-* `make web` - serves the flask app which organizes the heatmaps that were previously generated
+* `make web` - serves the flask app
 * `make test` - small script w/ made-up data to test the ADT
 * `make yourmom` - Ramon makes your mom.
 
