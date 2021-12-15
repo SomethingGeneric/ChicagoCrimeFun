@@ -1,5 +1,5 @@
 # stdlib
-import os, webbrowser
+import os, webbrowser, random, string
 
 # pip
 from flask import *
@@ -7,13 +7,23 @@ from flask import *
 # local
 from ChicagoCrimeFun import *
 
+SERVE_URL = "localhost"
+SERVE_PORT = 5000
+
 print_info("-- Initializing backend --")
 print_info("1 - Loading data")
 ccf = ChicagoCrimeFun()
+
 print_info("2 - Building location tree")
 ccf.build_loc_priority()
 print_info("3 - Loading type priority tree")
 ccf.build_crime_priority()
+
+print_info("4 - Adding random cases")
+ccf.add_random_case(20)
+
+print_info("4 - Constructing crime priority list")
+ccf.construct_crime_priority_list()
 
 
 app = Flask(__name__)
@@ -22,11 +32,50 @@ if not os.path.exists("maps"):
     print("Generating maps. Please wait")
     ccf.map_all_types()
 
+if not os.path.exists("dispatch_maps"):
+    os.makedirs("dispatch_maps")
+
+if os.path.exists("dispatch_history.txt"):
+    os.remove("dispatch_history.txt")
 
 @app.route("/")
 def index():
-    return render_template("base.html",page_title="Home", leftc="<p>Left</p>", rightc="<p>Right</p>")
+    return render_template("base.html",page_title="Home", leftc=render_template("home_left.html"), rightc=render_template("home_right.html"), onload_func="initRefreshQueue()")
 
+@app.route("/do_dispatch/<ds>")
+def get_dispatch(ds=None):
+    new_request = ds
+
+    if new_request != None:
+        new_request = new_request.replace("CS",",")
+
+    if new_request == "None":
+        new_request = None
+
+    fn = ''.join(random.choices(string.ascii_lowercase + string.digits, k=64)) + ".html"
+
+    result = ccf.decide_next_patrol(new_request,map_it=True,filename="dispatch_maps/"+fn,log_it=True)
+
+    if result == "No location data":
+        return "ERROR---ERROR"
+    else:
+        return result + "---" + fn
+
+@app.route("/pending")
+def pending():
+    waiting = ccf.dispatch_queue
+    list_of_stuff = []
+    while waiting.size != 0:
+        list_of_stuff.append(str(waiting.remove()))
+    return "\n".join(list_of_stuff)
+
+@app.route("/past_patrols")
+def past_patrols():
+    if os.path.exists("dispatch_history.txt"):
+        with open("dispatch_history.txt") as f:
+            return f.read().replace("\n","<br/>")
+    else:
+        return ""
 
 @app.route("/heatmaps")
 def heatmaps():
@@ -42,7 +91,17 @@ def hmap(filename):
         abort(404)
     return send_file("heatmaps" + os.sep + filename)
 
+@app.route("/dispatch/maps/<filename>")
+def dmap(filename):
+    if not os.path.exists("dispatch_maps" + os.sep + filename):
+        abort(404)
+    return send_file("dispatch_maps" + os.sep + filename)
+
+# There's definitely a better way to satisfy the iframe default
+@app.route("/empty")
+def empty():
+    return "<p>Empty</p>"
 
 if __name__ == "__main__":
-    webbrowser.open_new_tab("http://localhost:5000")
-    app.run(debug=True)
+    webbrowser.open_new_tab("http://" + SERVE_URL + ":" + str(SERVE_PORT))
+    app.run(host=SERVE_URL, port=SERVE_PORT, debug=True)

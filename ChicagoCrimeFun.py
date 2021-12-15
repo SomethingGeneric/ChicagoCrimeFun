@@ -45,11 +45,12 @@ def print_info(something):
 
 
 class payload:
-    def __init__(self, key, value, points=None, label=""):
+    def __init__(self, key, value, points=None, label="", ds=""):
         self.key = key
         self.value = value
         self.points = points
         self.label = label
+        self.ds = ds
 
 
 class ChicagoCrimeFun:
@@ -256,7 +257,14 @@ class ChicagoCrimeFun:
 
         return ([x1, x2, x2, x1], [y1, y1, y2, y2])
 
-    def decide_next_patrol(self, new_request=None, map_it=False, filename="map.html"):
+    def store_ds(self, ds):
+        """
+        Store the dispatch string for flask
+        """
+        with open("dispatch_history.txt","a+") as f:
+            f.write(ds + "\n")
+
+    def decide_next_patrol(self, new_request=None, map_it=False, filename="map.html", log_it=False):
         """
         Used to decide next place to send patrol
         Parameters:
@@ -264,6 +272,13 @@ class ChicagoCrimeFun:
         Returns:
             [tuple] A tuple of length 4 that represents the 4 points of an area to patrol.
         """
+
+        print_warn("-- DECIDING PATROL --")
+        print_warn("New request: " + str(new_request))
+        print_warn("Mapping: " + str(map_it))
+        if map_it:
+            print_warn("Map FN: " + filename)
+        print_warn("Logging: " + str(log_it))
 
         if new_request is None:
             print_warn("We have no new request")
@@ -273,9 +288,15 @@ class ChicagoCrimeFun:
                     self.construct_crime_priority_list()
 
                 payload = self.crime_priority_list[0]
+
                 if map_it:
+                    print_warn("Mapping?")
                     self.gmap_make(payload.points, filename)
-                print_error("TESTING that one")
+                    print_warn("Mapping done?")
+
+                if log_it:
+                    self.store_ds("Dispatched patrol to " + str(payload.points) + " since we predict " + payload.label)
+
                 return payload.value
             else:
                 # we have an existing call, hence we need to do something *right now*
@@ -293,6 +314,8 @@ class ChicagoCrimeFun:
                             data,
                             filename,
                         )
+                    if log_it:
+                        self.store_ds(recent_call)
                     return data
                 else:
                     return "No location data"
@@ -326,6 +349,8 @@ class ChicagoCrimeFun:
                                 data,
                                 filename,
                             )
+                        if log_it:
+                            self.store_ds(new_request)
                         return data
                     else:
                         return "No location data"
@@ -347,6 +372,8 @@ class ChicagoCrimeFun:
                                 data,
                                 filename,
                             )
+                        if log_it:
+                            self.store_ds(recent_call)
                         return data
                     else:
                         return "No location data"
