@@ -28,7 +28,7 @@ ccf.construct_crime_priority_list()
 
 app = Flask(__name__)
 
-if not os.path.exists("maps"):
+if not os.path.exists("heatmaps"):
     print("Generating maps. Please wait")
     ccf.map_all_types()
 

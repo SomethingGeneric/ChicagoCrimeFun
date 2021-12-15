@@ -411,7 +411,7 @@ class ChicagoCrimeFun:
                     longitudes.append(float(item.longitude))
         gmap4 = gmplot.GoogleMapPlotter.from_geocode("Chicago, IL", apikey=API_KEY)
         gmap4.heatmap(latitudes, longitudes)
-        fn = "maps" + s + otype + "-" + str(randint(1, 1000)) + ".html"
+        fn = "heatmaps" + s + otype + "-" + str(randint(1, 1000)) + ".html"
         gmap4.draw(fn)
         if browser:
             webbrowser.open_new_tab(fn)
