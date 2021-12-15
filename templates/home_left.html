@@ -1,8 +1,18 @@
 <h2>Current dispatch</h2>
-<iframe height=500 width=500 id="map_box" src="/empty"></iframe>
+<iframe height=500 width=500 id="map_box" src="{{ifr}}"></iframe>
+<h5><a id="maplink" href="" target="_blank"></a></h5>
 <h3 id="dispatch_cords">(None)</h3>
+
+<hr/>
+
 <h2>Request Dispatch</h2>
 <form>
     <input class="form-control" id="new_request" value="None">
+    <br/>
     <button onclick="doDispatch();" type="button" class="btn btn-primary">Dispatch</button>
 </form>
+
+<hr/>
+
+<h2>Historical Data</h2>
+<p><a href="/heatmaps">Heatmaps by crime type</a></p>

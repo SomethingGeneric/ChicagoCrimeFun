@@ -15,3 +15,8 @@ a {
     color: red;
     font-weight: bold;
 }
+
+.void {
+    background-color: white;
+    color: black;
+}

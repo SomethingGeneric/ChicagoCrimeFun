@@ -43,7 +43,14 @@ for something in nuke_these:
 
 @app.route("/")
 def index():
-    return render_template("base.html",page_title="Home", leftc=render_template("home_left.html"), rightc=render_template("home_right.html"), onload_func="refreshLiveData()")
+
+    if os.path.exists(".dpurl"):
+        ifr = open(".dpurl").read()
+        os.remove(".dpurl")
+    else:
+        ifr = "/empty"
+
+    return render_template("base.html",page_title="Home", leftc=render_template("home_left.html"), rightc=render_template("home_right.html"), onload_func="refreshLiveData()", ifr=ifr)
 
 @app.route("/do_dispatch/<ds>")
 def get_dispatch(ds=None):
@@ -69,6 +76,8 @@ def get_dispatch(ds=None):
     if result == "No location data":
         return "ERROR---ERROR"
     else:
+        with open(".dpurl","w") as f:
+            f.write(fn)
         return result + "---" + fn + EX
 
 @app.route("/pending")
@@ -111,7 +120,7 @@ def dmap(filename):
 # There's definitely a better way to satisfy the iframe default
 @app.route("/empty")
 def empty():
-    return "<p>Empty</p>"
+    return render_template("empty.html")
 
 if __name__ == "__main__":
     webbrowser.open_new_tab("http://" + SERVE_URL + ":" + str(SERVE_PORT))

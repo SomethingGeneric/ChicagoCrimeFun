@@ -35,8 +35,11 @@ function doDispatch() {
         document.getElementById("dispatch_cords").innerHTML = parts[0];
         document.getElementById("map_box").src = "/dispatch/maps/" + parts[1];
 
+        document.getElementById("maplink").href = "/dispatch/maps/" + parts[1];
+        document.getElementById("maplink").innerHTML = "Open map in new tab";
+
         if ( parts.length == 3 ) {
-            document.getElementById("dispatch_cords").innerHTML = "<div class='alert'>This dispatch was a prediction, not a case. Use with caution.</div><br/>" + document.getElementById('dispatch_cords').innerHTML;
+            document.getElementById("dispatch_cords").innerHTML = "<p class='alert'>This dispatch was a prediction, not a case. Use with caution.</p>" + document.getElementById('dispatch_cords').innerHTML;
         }
 
     } else {

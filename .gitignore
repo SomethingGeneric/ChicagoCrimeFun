@@ -7,6 +7,8 @@
 # Flask related
 dispatch_history.txt
 dispatch_maps/
+.dpurl
+.pred
 
 ########## End custom ##########
 
