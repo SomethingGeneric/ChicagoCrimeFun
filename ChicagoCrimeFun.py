@@ -261,7 +261,7 @@ class ChicagoCrimeFun:
         """
         Store the dispatch string for flask
         """
-        with open("dispatch_history.txt","a+") as f:
+        with open("dispatch_history.txt", "a+") as f:
             f.write(ds + "\n\n")
 
     def mark_pred(self):
@@ -271,7 +271,9 @@ class ChicagoCrimeFun:
         """
         os.system("touch .pred")
 
-    def decide_next_patrol(self, new_request=None, map_it=False, filename="map.html", log_it=False):
+    def decide_next_patrol(
+        self, new_request=None, map_it=False, filename="map.html", log_it=False
+    ):
         """
         Used to decide next place to send patrol
         Parameters:
@@ -301,7 +303,12 @@ class ChicagoCrimeFun:
                     self.gmap_make(payload.points, filename)
 
                 if log_it:
-                    self.store_ds("Dispatched patrol to " + str(payload.points) + " since we predict " + payload.label)
+                    self.store_ds(
+                        "Dispatched patrol to "
+                        + str(payload.points)
+                        + " since we predict "
+                        + payload.label
+                    )
                     self.mark_pred()
 
                 return payload.value

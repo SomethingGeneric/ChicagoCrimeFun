@@ -19,8 +19,8 @@ ccf.build_loc_priority()
 print_info("3 - Loading type priority tree")
 ccf.build_crime_priority()
 
-#print_info("4 - Adding random cases")
-#ccf.add_random_case(20)
+# print_info("4 - Adding random cases")
+# ccf.add_random_case(20)
 
 print_info("4 - Constructing crime priority list")
 ccf.construct_crime_priority_list()
@@ -41,6 +41,7 @@ for something in nuke_these:
     if os.path.exists(something):
         os.remove(something)
 
+
 @app.route("/")
 def index():
 
@@ -50,21 +51,29 @@ def index():
     else:
         ifr = "/empty"
 
-    return render_template("base.html",page_title="Home", leftc=render_template("home_left.html"), rightc=render_template("home_right.html"), onload_func="refreshLiveData()", ifr=ifr)
+    return render_template(
+        "base.html",
+        page_title="Home",
+        leftc=render_template("home_left.html"),
+        rightc=render_template("home_right.html"),
+        onload_func="refreshLiveData()",
+        ifr=ifr,
+    )
+
 
 @app.route("/do_dispatch/<ds>")
 def get_dispatch(ds=None):
     new_request = ds
 
     if new_request != None:
-        new_request = new_request.replace("CS",",")
+        new_request = new_request.replace("CS", ",")
 
     if new_request == "None":
         new_request = None
 
-    fn = ''.join(random.choices(string.ascii_lowercase + string.digits, k=64)) + ".html"
+    fn = "".join(random.choices(string.ascii_lowercase + string.digits, k=64)) + ".html"
 
-    result = ccf.decide_next_patrol(new_request,map_it=True,log_it=True)
+    result = ccf.decide_next_patrol(new_request, map_it=True, log_it=True)
 
     EX = ""
     if os.path.exists(".pred"):
@@ -76,9 +85,10 @@ def get_dispatch(ds=None):
     if result == "No location data":
         return "ERROR---ERROR"
     else:
-        with open(".dpurl","w") as f:
+        with open(".dpurl", "w") as f:
             f.write(fn)
         return result + "---" + fn + EX
+
 
 @app.route("/pending")
 def pending():
@@ -89,6 +99,7 @@ def pending():
         list_of_stuff.append(ds)
     return "\n".join(list_of_stuff)
 
+
 @app.route("/past_patrols")
 def past_patrols():
     if os.path.exists("dispatch_history.txt"):
@@ -97,13 +108,23 @@ def past_patrols():
     else:
         return ""
 
+
 @app.route("/heatmaps")
 def heatmaps():
     hm_html = "<ul>"
     for filename in os.listdir("heatmaps"):
-        hm_html += "<li><a target='_blank' href='heatmaps/" + filename + "'>" + filename.replace(".html","") + "</a></li>"
+        hm_html += (
+            "<li><a target='_blank' href='heatmaps/"
+            + filename
+            + "'>"
+            + filename.replace(".html", "")
+            + "</a></li>"
+        )
     hm_html += "</ul>"
-    return render_template("base.html",page_title="Heatmaps", leftc="<h2>Historical Trends</h2>"+hm_html)
+    return render_template(
+        "base.html", page_title="Heatmaps", leftc="<h2>Historical Trends</h2>" + hm_html
+    )
+
 
 @app.route("/heatmaps/<filename>")
 def hmap(filename):
@@ -111,16 +132,19 @@ def hmap(filename):
         abort(404)
     return send_file("heatmaps" + os.sep + filename)
 
+
 @app.route("/dispatch/maps/<filename>")
 def dmap(filename):
     if not os.path.exists("dispatch_maps" + os.sep + filename):
         abort(404)
     return send_file("dispatch_maps" + os.sep + filename)
 
+
 # There's definitely a better way to satisfy the iframe default
 @app.route("/empty")
 def empty():
     return render_template("empty.html")
+
 
 if __name__ == "__main__":
     webbrowser.open_new_tab("http://" + SERVE_URL + ":" + str(SERVE_PORT))
