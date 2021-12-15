@@ -18,7 +18,7 @@ init()
 from avl import AVLTree, CrimeData, AVLTreeNode
 from heap import MinHeap
 from visualize import VisualizeData
-from jankheap import SomeHeap
+
 
 test_fn = sys.argv[1] if len(sys.argv) > 1 else ""
 
@@ -64,8 +64,7 @@ class ChicagoCrimeFun:
         self.location_tree = AVLTree()
         self.type_tree = AVLTree()
 
-        #self.dispatch_queue = MinHeap()
-        self.dispatch_queue = SomeHeap()
+        self.dispatch_queue = MinHeap()
 
         self.crime_priority_list = []
 

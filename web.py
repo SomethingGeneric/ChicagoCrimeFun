@@ -12,6 +12,7 @@ from ChicagoCrimeFun import *
 # The above import defines ChicagoCrimeFun,
 # and the print_info, print_warn, etc functions used below
 # and in some of the flask routes defined later in the file.
+from jankheap import SomeHeap
 
 #######################
 # Deployment settings #
@@ -25,6 +26,8 @@ SERVE_PORT = 6969 # blame Ramon for this. It was 5000 previously I swear. - Matt
 print_info("-- Initializing backend --")
 print_info("1 - Loading data")
 ccf = ChicagoCrimeFun()
+
+ccf.dispatch_queue = SomeHeap()
 
 print_info("2 - Building location tree")
 ccf.build_loc_priority()
