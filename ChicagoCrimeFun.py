@@ -21,7 +21,7 @@ from visualize import VisualizeData
 
 test_fn = sys.argv[1] if len(sys.argv) > 1 else ""
 
-TRAIN_FILE = "Chicago_Crimes_Test.csv" if test_fn == "" else test_fn
+TRAIN_FILE = "datasets" + os.sep + "Chicago_Crimes_Test.csv" if test_fn == "" else test_fn
 
 print("Using dataset:" + TRAIN_FILE)
 

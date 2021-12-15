@@ -1,6 +1,5 @@
 # stdlib
 import os, webbrowser, random, string, shutil
-import urllib.parse
 
 # pip
 from flask import *
@@ -9,7 +8,7 @@ from flask import *
 from ChicagoCrimeFun import *
 
 SERVE_URL = "0.0.0.0"
-SERVE_PORT = 6969
+SERVE_PORT = 6969 # blame Ramon for this. It was 5000 previously I swear. - Matt
 
 print_info("-- Initializing backend --")
 print_info("1 - Loading data")

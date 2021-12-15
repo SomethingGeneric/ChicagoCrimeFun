@@ -33,12 +33,33 @@ Using print statements and the debugging tool that visual studio code provides. 
 
 ## Phase 1 Visualization:
 
-![Concealed Carry Violation](concealed_carry_violation.png)
+Heatmaps of crime types:
+![Concealed Carry Violation](visualizations/concealed_carry_violation.png)
 
-![Liquor Law Violation](liquor_law_violations.png)
+![Liquor Law Violation](visualizations/liquor_law_violations.png)
 
 
 ## Phase 2 Visualization:
 
-![Tree Test](type_tree.png)
-![AVL Tree](digraph.png)
+Tree visualizations!
+![Tree Test](visualizations/type_tree.png)
+
+![AVL Tree](visualizations/digraph.png)
+
+## Phase 3 Visualizations:
+
+(Web app)
+
+## Refactoring & Comments
+
+## Picking where to place police stations
+### An approach
+To place police stations, we would likely write a method to find the GPS coordinates of each indcident of a given type. (For example, `ROBBERY`)
+Then, we could use a FastPriorityQueue to store each pair under it's priority ranking.
+Finally, we can average all elements of each priority tier. These datapoints would then be considered the rough geographic center of each type. 
+Depending on the number of stations desired, you could either:
+* average the datapoints, to get one rough geographic center of crime
+* or, use those location points as new stations
+### Caveat
+Obviously, option 1 above would result in a massive station that's roughly in the center of the whole city, so that might not be particuarally useful.
+However, the second option could potentially yield new insight, and hence be useful in staging resources near enough the potential location for, say, vehicle hijacking so that a response could be made in time.
