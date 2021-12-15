@@ -3,11 +3,11 @@ import csv, webbrowser, os, sys
 from random import randint
 
 # PIP3 packages
-import matplotlib
-import matplotlib.pyplot as plt
-import networkx as nx
-from networkx.drawing.nx_agraph import graphviz_layout
-import numpy as np
+# import matplotlib
+# import matplotlib.pyplot as plt
+# import networkx as nx
+# from networkx.drawing.nx_agraph import graphviz_layout
+# import numpy as np
 import gmplot
 from colorama import init
 from termcolor import colored

@@ -8,5 +8,3 @@ web:
 	python web.py
 test:
 	python test_adt.py
-yourmom:
-	python visualize.py

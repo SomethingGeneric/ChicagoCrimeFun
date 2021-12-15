@@ -54,7 +54,7 @@ async function doDispatch() {
         }
 
     } else {
-        alert("Been borked.");
+        alert("Error.");
     }
 
     refreshLiveData();

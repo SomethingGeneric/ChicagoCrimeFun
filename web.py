@@ -9,7 +9,7 @@ from flask import *
 from ChicagoCrimeFun import *
 
 SERVE_URL = "0.0.0.0"
-SERVE_PORT = 5000
+SERVE_PORT = 6969
 
 print_info("-- Initializing backend --")
 print_info("1 - Loading data")

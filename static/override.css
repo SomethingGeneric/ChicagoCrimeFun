@@ -1,10 +1,47 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+
 body {
-    color: #124081;
-    background-color: black;
+    color: white;
+    background-color: #124081;
 }
 
 h1, h2, h3, h4, h5, p {
     font-family: "IBM Plex Mono","JetBrains Mono","Fira Mono",Consolas,Inconsolata,monospace;
+}
+
+.header {
+    padding-left: 10rem;
+    font-family: 'Lato', sans-serif;
+}
+
+.dateandtime {
+    float: right;
+    padding-right: 5rem;
+    clear: both;
+    padding-top: 50px;
+    font-family: 'Lato', sans-serif;
+}
+
+.dateandtime p { 
+    margin-top: -20px; 
+    font-size: 20px;
+}
+
+.header a {
+    color:white;
+    text-transform: uppercase;
+    padding-top: 15px;
+    padding-bottom: 2.5px;
+}
+
+.subheader {
+    padding-left: 10rem;
+    padding-bottom: 10px;
+    font-family: 'Alex Brush', cursive;
 }
 
 a {
@@ -19,4 +56,30 @@ a {
 .void {
     background-color: white;
     color: black;
+}
+
+.bar-top {
+    width: 100%;
+    height: 3rem;
+    margin-bottom: 20px;
+    background-color: #c79f2d;
+}
+
+
+.bar-bottom {
+    width: 100%;
+    height: 3rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #c79f2d;
+}
+
+.pastdata {
+    padding-left: 30px;
+}
+
+.Inc {
+    float: right;
+    padding-right: 10px;
+    color: #e2e2e2;
 }
