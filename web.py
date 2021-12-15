@@ -1,5 +1,6 @@
 # stdlib
 import os, webbrowser, random, string, shutil
+import urllib.parse
 
 # pip
 from flask import *
@@ -41,7 +42,6 @@ for something in nuke_these:
     if os.path.exists(something):
         os.remove(something)
 
-
 @app.route("/")
 def index():
 
@@ -54,21 +54,30 @@ def index():
     return render_template(
         "base.html",
         page_title="Home",
-        leftc=render_template("home_left.html"),
-        rightc=render_template("home_right.html"),
+        leftc=render_template("home_left.html", ifr=ifr),
+        rightc=render_template("home_right.html", sf=ccf.scaling_factor),
         onload_func="refreshLiveData()",
-        ifr=ifr,
     )
 
+@app.route("/setscale/<val>")
+def setscale(val):
+    ccf.scaling_factor = val
+    return "Done"
 
-@app.route("/do_dispatch/<ds>")
-def get_dispatch(ds=None):
-    new_request = ds
+@app.route("/getscale")
+def getscale():
+    return str(ccf.scaling_factor)
 
-    if new_request != None:
-        new_request = new_request.replace("CS", ",")
 
-    if new_request == "None":
+@app.route("/put_dispatch", methods=["POST"])
+def put_dispatch():
+    
+    new_request = request.get_json()
+
+    if new_request is not None:
+        new_request = new_request['new_request']
+
+    if new_request == 'None':
         new_request = None
 
     fn = "".join(random.choices(string.ascii_lowercase + string.digits, k=64)) + ".html"
@@ -80,14 +89,16 @@ def get_dispatch(ds=None):
         os.remove(".pred")
         EX = "---PRED"
 
-    shutil.move("map.html", "dispatch_maps" + os.sep + fn)
-
-    if result == "No location data":
-        return "ERROR---ERROR"
+    if os.path.exists("map.html"):
+        shutil.move("map.html", "dispatch_maps" + os.sep + fn)
+        if result == "No location data":
+            return "ERROR---ERROR"
+        else:
+            with open(".dpurl", "w") as f:
+                f.write(fn)
+            return result + "---" + fn + EX
     else:
-        with open(".dpurl", "w") as f:
-            f.write(fn)
-        return result + "---" + fn + EX
+        return "ERROR---ERROR"
 
 
 @app.route("/pending")

@@ -24,11 +24,22 @@ function httpGet(theUrl)
     return xmlHttp.responseText;
 }
 
-function doDispatch() {
+async function postJsonData(jsonObject) {
+    const response = await fetch("/put_dispatch", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(jsonObject)
+    });
+    
+    const actualResponse = await response.text();
+    return actualResponse;
+}
 
-    var new_string = document.getElementById('new_request').value.replaceAll(",","CS"); // look man form data is a lot of work :,(
+async function doDispatch() {
 
-    var data = httpGet("/do_dispatch/" + new_string);
+    var new_string = document.getElementById('new_request').value; // look man form data is a lot of work :,(
+
+    var data = await postJsonData({"new_request":new_string});
 
     if ( data != "ERROR---ERROR" ) {
         var parts = data.split("---");
@@ -74,7 +85,21 @@ function updateHistoryBox(resp) {
     document.getElementById("history_box").rows = history_lines;
 }
 
+function initRefreshScale() {
+    httpGetAsync("/getscale", updateScaleBox);
+}
+
+function updateScaleBox(resp) {
+    document.getElementById("scale_factor").innerHTML = resp;
+
+}
+
 function refreshLiveData() {
     initRefreshQueue();
     initRefreshHistory();
+    initRefreshScale();
+}
+
+function setScale() {
+    httpGet("/setscale/" + document.getElementById('scale_factor').value);
 }

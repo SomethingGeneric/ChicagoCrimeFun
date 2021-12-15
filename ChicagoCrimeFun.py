@@ -23,9 +23,6 @@ test_fn = sys.argv[1] if len(sys.argv) > 1 else ""
 
 TRAIN_FILE = "Chicago_Crimes_Test.csv" if test_fn == "" else test_fn
 
-# SCALE_FACTOR = 0.00001
-SCALE_FACTOR = 0.0001
-
 print("Using dataset:" + TRAIN_FILE)
 
 API_KEY = "AIzaSyC5DbWswLfC0oLuFLe8ZhSOfOL5VkCsJ60"
@@ -54,7 +51,7 @@ class payload:
 
 
 class ChicagoCrimeFun:
-    def __init__(self, filename=TRAIN_FILE):
+    def __init__(self, filename=TRAIN_FILE, scaling_factor=0.0001):
         """
         Constructor that could do several things, including read in your training data
         """
@@ -68,6 +65,8 @@ class ChicagoCrimeFun:
 
         self.dispatch_queue = MinHeap()
         self.crime_priority_list = []
+
+        self.scaling_factor = scaling_factor
 
         # https://docs.python.org/3/library/csv.html
         with open(filename, newline="") as csvfile:
@@ -252,8 +251,8 @@ class ChicagoCrimeFun:
         x1 = float(x1)
         y1 = float(y1)
 
-        x2 = x1 + SCALE_FACTOR
-        y2 = y1 + SCALE_FACTOR
+        x2 = x1 + self.scaling_factor
+        y2 = y1 + self.scaling_factor
 
         return ([x1, x2, x2, x1], [y1, y1, y2, y2])
 
@@ -339,11 +338,12 @@ class ChicagoCrimeFun:
                 "We have a new call, let's decide if we should respond to it or the existing one in queue"
             )
 
-            if not "," in new_request or len(new_request.split(",")) != 6:
+            if not "," in new_request or len(new_request.split(",")) != 20:
                 print_warn(
                     "Something is wonky with this new request. Y'all should probably get on it."
                 )
                 print_warn("Here's the raw data: " + new_request)
+                print_warn("Here's len: " + str(len(new_request.split(","))))
             else:
 
                 my_priority = self.priority_dict[new_request.split(",")[5]]
