@@ -45,6 +45,12 @@ def main():
             myTree.insert(AVLTreeNode(j, count))
             count += 1
         # It will give the first attribute the highest priority in what you first inserted into the array.
+    # Duplicate testing for the tree.
+    if n == 10:
+        for i in range(1, 10):
+            myTree.insert(AVLTreeNode(1, 1))
+            myTree.insert(AVLTreeNode(2, 2))
+            myTree.insert(AVLTreeNode(3, 3))
     else:
         print("Exiting...")
         exit(0)

@@ -207,34 +207,3 @@ class MaxHeapSort:
         for i in range(len(seq)):
             seq[i] = heap.pop()
         return seq
-
-
-if __name__ == "__main__":
-    """minheap = MinHeap()
-    minheap.insert(5, "five")
-    minheap.insert(12, "twelve")
-    minheap.insert(2, "two")
-    minheap.insert(9, "nine")
-    minheap.insert(11, "eleven")
-    minheap.insert(13, "thirteen")
-    minheap.insert(7, "seven")
-    minheap.insert(6, "six")
-    minheap.insert(8, "eight")
-    print("The Min val is " + str(minheap.remove()))"""
-
-    seq = []
-
-    for i in range(20):
-        n = random.randint(1, 100)
-        if n not in seq:
-            seq.append(n)
-
-    print(seq)
-    mxs = MaxHeapSort()
-    copy_seq = seq[:]
-    copy_seq.sort(reverse=True)
-    seq = mxs.sort(seq)
-
-    print("Python: " + str(copy_seq))
-
-    print("Ours: " + str(seq))

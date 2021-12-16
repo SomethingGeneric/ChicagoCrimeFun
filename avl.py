@@ -49,7 +49,6 @@ class AVLTree:
     def insert(self, node):
         self._insert(self.root, node)
 
-    # FIXME: The value is the priority make sure I am using it correctly.
     def _insert(self, root, node):
         # If the root is None, return a new node.
         if self.root is None:
@@ -64,9 +63,7 @@ class AVLTree:
         # If the root value is less than the node value, insert the node to the right.
         else:
             # Check if the right child is None if not call the insert function again.
-            root.right = (
-                self._insert(root.right, node) if root.right is not None else node
-            )
+            root.right = self._insert(root.right, node) if root.right is not None else node
             # Assigns the parent of the node.
             root.right.parent = root
 
@@ -125,9 +122,7 @@ class AVLTree:
         # self.update_height(node)
         # self.update_height(pivot)
         node.height = max(self._get_height(node.left), self._get_height(node.right)) + 1
-        pivot.height = (
-            max(self._get_height(pivot.left), self._get_height(pivot.right)) + 1
-        )
+        pivot.height = (max(self._get_height(pivot.left), self._get_height(pivot.right)) + 1)
 
         # Update the balance of the nodes.
         # self.balance(node)
@@ -156,9 +151,7 @@ class AVLTree:
         # self.update_height(node)
         # self.update_height(pivot)
         node.height = max(self._get_height(node.left), self._get_height(node.right)) + 1
-        pivot.height = (
-            max(self._get_height(pivot.left), self._get_height(pivot.right)) + 1
-        )
+        pivot.height = max(self._get_height(pivot.left), self._get_height(pivot.right)) + 1
 
         # Update the balance of the nodes.
         # self.balance(node)

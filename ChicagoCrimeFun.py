@@ -122,7 +122,8 @@ class ChicagoCrimeFun:
             v = VisualizeData()
             dot = v.visualize_data(self.location_tree)
             dot.format = "png"
-            dot.strict = True
+            dot.strict='true'
+            dot.compound='true'
             dot.view(filename="location_tree", directory="./visualizations/")
 
     # Function that creates the crime priority.

@@ -15,7 +15,7 @@ class VisualizeData:
         
         # Create Digraph object.
         if dot is None:
-            dot = Digraph(strict=False)
+            dot = Digraph()
             dot.node(name=str(tree), label=str(tree.key), xlabel=str(tree.height))
 
         # Traverse through the left subtree.
