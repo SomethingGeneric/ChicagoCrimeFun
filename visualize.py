@@ -2,13 +2,15 @@ from graphviz import Digraph
 class VisualizeData:    
     def visualize_data(self, tree, dot=None, initial_call=True):    
         """
-        Visualize funcion.
         Tranverses the tree and creates a graph.
             Arguments:
-            Arg1: [object] The binary tree.
-            Arg2: [object] The graph.
-            Arg3: [boolean] The first node is root. 
-        """
+            arg1: [object] The binary tree.
+            arg2: [object] The graphviz object.
+            arg3: [boolean] The first node is root: True. 
+            
+        Returns:
+            [object]: The graph (needed to be formatted).
+        """        
         # For first call use the root node. For subsequent calls use the node.
         if initial_call:
             tree = tree.root
