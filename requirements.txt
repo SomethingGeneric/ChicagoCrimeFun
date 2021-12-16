@@ -1,14 +1,8 @@
 black
-matplotlib
-networkx
 pygraphviz
 ete3
-newick
-toytree
-numpy
 gmplot
 flask
 graphviz
-plotnine
 colorama
 termcolor
