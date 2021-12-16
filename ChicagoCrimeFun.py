@@ -26,9 +26,15 @@ TRAIN_FILE = "datasets" + os.sep + "Chicago_Crimes_Test.csv" if test_fn == "" el
 
 print("Using dataset:" + TRAIN_FILE)
 
-API_KEY = "AIzaSyC5DbWswLfC0oLuFLe8ZhSOfOL5VkCsJ60"
+API_KEY = ""
 s = os.sep
 
+if API_KEY == "":
+    print_error("You'll have to set your Google Maps API key in the script before you can use it.")
+    print_error("You can get one here: https://developers.google.com/maps/documentation/javascript/get-api-key")
+    print_error("The product you want to use is Google Maps JavaScript API.")
+    print_error("You can set it in the script by changing the API_KEY variable at the top of the script.")
+    sys.exit(1)
 
 def print_error(something):
     print(colored(something, "red"))
