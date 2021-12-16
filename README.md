@@ -25,7 +25,7 @@ The way we did this was by now keeping track of a parent node which helped us ke
 The visualization of the tree is now done by graphviz because it was a easy way to visualize the tree. We have tried other visualization packages but they were not as easy to visualize since the code was not working properly. 
 
 ## Testing:
-Using print statements and the debugging tool that visual studio code provides. We also created a test_adt.py file which tests the ADT.
+Using print statements and the debugging tool that visual studio code provides. We also created a `TestAVLTree.py` file which tests the ADT.
 
 ## Phase 1 Visualization:
 
@@ -37,20 +37,27 @@ Heatmaps of crime types: <br/>
 
 ## Phase 2 Visualization:
 
-Tree visualizations!
-![Tree Test](visualizations/type_tree.png)
-
+Tree visualization!
 ![AVL Tree](visualizations/digraph.png)
 
 ## Phase 3 Visualizations:
 
-(Web app)
+Trees:
+![Type Tree](visualizations/type_tree.png)
+![Location Tree](visualizations/location_tree.png)
+
+Also, see the section on web app!
 
 ## Code Refactoring and Revsions
 
 We feel that the approach we've taken to assigning priority, while not perfect, is fairly equitable given issues discussed in the assigned readings. The fact of the matter is that the percieved bias in predictive policing is largely due to outside social factors in the United States, and systematic opression of minority groups. Thus, our design of this system is (or would be) merely one tiny factor in the larger social justice context. 
 
 Of course, we aknowledge that a system like this in production would likely be regularly inspected (we hope!) by department staff and those it affects. We've made sure to document how functions work, and tried to make the code as readable as possible so that hopefully anyone can see that it is functioning as the comments claim.
+
+## Creativity
+To make our predictions more presentable to the average police dispatcher, we’ve developed a web-frontend, to get results and useful information from our dispatch recommendations.
+
+The flask app is also written in a way that should allow for other groups to plug in their `ChicagoCrimeFun.py` files to get results based on their own decision algorithm.
 
 ## Police Station Placement Design
 
