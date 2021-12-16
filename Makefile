@@ -7,4 +7,4 @@ setup:
 web:
 	python web.py
 test:
-	python test_adt.py
+	python TestAVLTree.py
