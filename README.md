@@ -73,5 +73,8 @@ Depending on the number of stations desired, you could either:
 Obviously, option 1 above would result in a massive station that's roughly in the center of the whole city, so that might not be particuarally useful.
 However, the second option could potentially yield new insight, and hence be useful in staging resources near enough the potential location for, say, vehicle hijacking so that a response could be made in time.
 
+## Using our Flask UI with another project
+See ![USAGE.md](USAGE.md) for instructions and warnings when using `web.py` with other projects.
+
 ## Outside resources related to dataset
 * https://news.wttw.com/sites/default/files/Map%20of%20Chicago%20Police%20Districts%20and%20Beats.pdf
