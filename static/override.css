@@ -14,7 +14,7 @@ h1, h2, h3, h4, h5, p {
 }
 
 .header {
-    padding-left: 10rem;
+    padding-left: 2rem;
     font-family: 'Lato', sans-serif;
 }
 
@@ -39,7 +39,7 @@ h1, h2, h3, h4, h5, p {
 }
 
 .subheader {
-    padding-left: 10rem;
+    padding-left: 1.5rem;
     padding-bottom: 10px;
     font-family: 'Alex Brush', cursive;
 }
@@ -83,3 +83,4 @@ a {
     padding-right: 10px;
     color: #e2e2e2;
 }
+
