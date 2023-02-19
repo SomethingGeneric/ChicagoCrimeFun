@@ -1,7 +1,3 @@
-import graphviz
-
-# TODO: Have a use case for the parent attribute. I update when I rotate it (i.e. left rotation and right rotation), but don't use it for any other purpose.
-# TODO: AVL, AVL --> f(x) --> heap (crime dispatch)
 class CrimeData:  # use the key for data
     def __init__(self, data):
         self.id = data[0]
@@ -49,42 +45,42 @@ class AVLTree:
     def insert(self, node):
         self._insert(self.root, node)
 
-    def _insert(self, root, node):
+    def _insert(self, node, key):
         # If the root is None, return a new node.
         if self.root is None:
-            self.root = node
+            self.root = key
             return self.root
         # If the root value is greater than the node value, insert the node to the left.
-        elif node.value < root.value:
+        elif key.value < node.value:
             # Check if the left child is None if not call the insert function again.
-            root.left = self._insert(root.left, node) if root.left is not None else node
+            node.left = self._insert(node.left, key) if node.left is not None else key
             # Assigns the parent of the node.
-            root.left.parent = root
+            node.left.parent = node
         # If the root value is less than the node value, insert the node to the right.
-        elif node.value > root.key:
+        elif key.value > node.value:
             # Check if the right child is None if not call the insert function again.
-            root.right = self._insert(root.right, node) if root.right is not None else node
+            node.right = self._insert(node.right, key) if node.right is not None else key
             # Assigns the parent of the node.
-            root.right.parent = root
+            node.right.parent = node
         else:
             # Return if the node exists in the tree.
-            return root
+            return node
 
         # Update the height of the nodes.
         # self.update_height(root)
-        root.height = max(self._get_height(root.left), self._get_height(root.right)) + 1
+        node.height = max(self._get_height(node.left), self._get_height(node.right)) + 1
 
         # Update the balance of the nodes.
         # self.balance(root)
-        root.balance = self._get_height(root.left) - self._get_height(root.right)
+        node.balance = self._get_height(node.left) - self._get_height(node.right)
 
         # Update the root node based on the new node.
-        self.root = self.rebalance(root)
+        self.root = self._get_balance(node)
 
         return self.root
 
-    # Rebalance the tree if it is unbalanced.
-    def rebalance(self, node):
+    # _get_balance the tree if it is unbalanced.
+    def _get_balance(self, node):
 
         # Case 1: Right Right
         if node.balance == -2:
@@ -113,7 +109,6 @@ class AVLTree:
         if node.left is None:
             return node
 
-        # TODO: Do a step before assigning the pivot.
         pivot = node.left
         temp_node = pivot.right
         pivot.right = node
@@ -138,7 +133,6 @@ class AVLTree:
         if node.right is None:
             return node
 
-        # TODO: Do a step before assigning the pivot.
         pivot = node.right
         temp_node = pivot.left
         pivot.left = node
@@ -175,7 +169,6 @@ class AVLTree:
         self.root = self._remove(self.root, key)
 
     def _remove(self, node, key):
-        # TODO: Get the successor and predecessor of the node.
         if node is None:
             return node
         elif key < node.value:
@@ -183,7 +176,20 @@ class AVLTree:
         elif key > node.value:
             node.right = self._remove(node.right, key)
         else:
-            pass  # TODO: Code to be written.
+            # Case 1: Leaf node
+            if not node.left and not node.right:
+                node = None
+            # Case 2: Node with one child
+            elif not node.left or not node.right:
+                if node.left:
+                    node = node.left
+                else:
+                    node = node.right
+            # Case 3: Node with two children
+            else:
+                temp = self._get_min_node(node.right)
+                node.key = temp.key
+                node.right = self._remove(node.right, temp.key)
 
         # Update the height of the nodes.
         node.height = max(self._get_height(node.left), self._get_height(node.right)) + 1
@@ -191,10 +197,13 @@ class AVLTree:
         # Update the balance of the nodes.
         node.balance = self._get_height(node.left) - self._get_height(node.right)
 
-        return self.rebalance(node)
+        return self._get_balance(node)
+    
+    def _get_min_node():
+        while node.left:
+            node = node.left
+        return node
 
-    # TODO: Find a better print statement to do this with. I don't know... it works, however, its ugly.
-    # Returns the tree as a string as an in_order traversal.
     def in_order(self):
         return self._in_order(self.root)
 
@@ -208,8 +217,6 @@ class AVLTree:
             else ""
         )
 
-    # TODO: Fix up these print statements they look horrible.
-    # Returns the tree as a string as a postorder traversal.
     def postorder(self):
         return self._postorder(self.root)
 
