@@ -61,11 +61,14 @@ class AVLTree:
             # Assigns the parent of the node.
             root.left.parent = root
         # If the root value is less than the node value, insert the node to the right.
-        else:
+        elif node.value > root.key:
             # Check if the right child is None if not call the insert function again.
             root.right = self._insert(root.right, node) if root.right is not None else node
             # Assigns the parent of the node.
             root.right.parent = root
+        else:
+            # Return if the node exists in the tree.
+            return root
 
         # Update the height of the nodes.
         # self.update_height(root)
@@ -119,14 +122,10 @@ class AVLTree:
         node.left = temp_node
 
         # Update the height of the nodes.
-        # self.update_height(node)
-        # self.update_height(pivot)
         node.height = max(self._get_height(node.left), self._get_height(node.right)) + 1
         pivot.height = (max(self._get_height(pivot.left), self._get_height(pivot.right)) + 1)
 
         # Update the balance of the nodes.
-        # self.balance(node)
-        # self.balance(pivot)
         node.balance = self._get_height(node.left) - self._get_height(node.right)
         pivot.balance = self._get_height(pivot.left) - self._get_height(pivot.right)
 
@@ -148,14 +147,10 @@ class AVLTree:
         node.right = temp_node
 
         # Update the height of the nodes.
-        # self.update_height(node)
-        # self.update_height(pivot)
         node.height = max(self._get_height(node.left), self._get_height(node.right)) + 1
         pivot.height = max(self._get_height(pivot.left), self._get_height(pivot.right)) + 1
 
-        # Update the balance of the nodes.
-        # self.balance(node)
-        # self.balance(pivot)
+        # Update the balance of the nodes.    
         node.balance = self._get_height(node.left) - self._get_height(node.right)
         pivot.balance = self._get_height(pivot.left) - self._get_height(pivot.right)
 
@@ -241,7 +236,3 @@ class AVLTree:
             if node is not None
             else ""
         )
-
-
-if __name__ == "__main__":
-    a = AVLTree()
