@@ -1,10 +1,10 @@
 run:
-	python ChicagoCrimeFun.py
+	python3 ChicagoCrimeFun.py
 format:
 	black .
 setup:
-	python -m pip install -r requirements.txt
+	python3 -m pip install -r requirements.txt
 web:
-	python web.py
+	python3 web.py
 test:
-	python TestAVLTree.py
+	python3 TestAVLTree.py
