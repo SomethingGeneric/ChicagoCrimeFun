@@ -17,7 +17,8 @@ from ChicagoCrimeFun import *
 # Deployment settings #
 #######################
 SERVE_URL = "0.0.0.0"
-SERVE_PORT = 6969 # blame Ramon for this. It was 5000 previously I swear. - Matt
+# SERVE_PORT = 6969 # blame Ramon for this. It was 5000 previously I swear. - Matt
+SERVE_PORT = 42069 # blame Matt for this change. - Ramon
 
 ##################################
 # Setup of dataset and AVL Trees #
@@ -145,7 +146,6 @@ def put_dispatch():
         else:
             return "ERROR---ERROR"
 
-# TODO: This one is borken because the Heap code is borked.
 @app.route("/pending")
 def pending():
     return ccf.dispatch_queue.valrepr()
