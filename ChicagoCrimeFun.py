@@ -3,11 +3,6 @@ import csv, webbrowser, os, sys
 from random import randint
 
 # PIP3 packages
-# import matplotlib
-# import matplotlib.pyplot as plt
-# import networkx as nx
-# from networkx.drawing.nx_agraph import graphviz_layout
-# import numpy as np
 import gmplot
 from colorama import init
 from termcolor import colored
@@ -16,7 +11,7 @@ init()
 
 # Our own code
 from avl import AVLTree, CrimeData, AVLTreeNode
-from heap import MinHeap
+from minheap import MinHeap
 from visualize import VisualizeData
 
 
@@ -102,6 +97,9 @@ class ChicagoCrimeFun:
 
         print_info("Total data points: " + str(self.total_crimes))
 
+    def get_dispatch_queue(self):
+        return self.dispatch_queue
+
     def do_sort(self, x):
         return {k: v for k, v in sorted(x.items(), key=lambda item: item[1])}
 
@@ -124,7 +122,7 @@ class ChicagoCrimeFun:
         if graphIt:
             # Visualize the data
             v = VisualizeData()
-            dot = v.visualize_data(self.location_tree)
+            dot = v.visualize_avl(self.location_tree)
             dot.format = "png"
             dot.strict='true'
             dot.compound='true'
@@ -152,7 +150,7 @@ class ChicagoCrimeFun:
 
         if graphIt:
             v = VisualizeData()
-            dot = v.visualize_data(self.type_tree)
+            dot = v.visualize_avl(self.type_tree)
             dot.format = "png"
             dot.strict = True
             dot.view(filename="type_tree", directory="./visualizations/")
@@ -168,30 +166,37 @@ class ChicagoCrimeFun:
             used.append(index)
             self.add_dispatch(lines[index])
 
-    def add_dispatch(self, dispatch_string):
+    def add_dispatch(self, dispatch):
         """
         Method to add a dispatch to our dispatch_queue
         Parameters:
             dispatch_string: [string] A string that represents a recent 911 dispatch call request that is reported to the police
         """
-        if not "," in dispatch_string:
+
+        if not "," in dispatch.disp_string:
             print_warn("That's not a proper string!")
         else:
-            csv = dispatch_string.split(",")
+            csv = dispatch.disp_string.split(",")
             if len(csv) < 6:
                 print_warn("You're missing attributes!")
             else:
                 primary_type = csv[5]
                 if primary_type in self.priority_dict:
                     priority = self.priority_dict[primary_type]
-                    self.dispatch_queue.insert(priority, dispatch_string)
+                    self.dispatch_queue.insert(priority, dispatch.disp_string)
+
+
+                # primary_type = csv[5]
+                # if primary_type in self.priority_dict:
+                    # priority = self.priority_dict[primary_type]
+                #     self.dispatch_queue.insert(priority, dispatch_string.)
                 else:
                     print_warn(
                         "Couldn't lookup primary type: "
                         + primary_type
                         + ", so we're assigning it a priority of 0 (MOST URGENT"
                     )
-                    self.dispatch_queue.insert(0, dispatch_string)
+                    self.dispatch_queue.insert(0, dispatch.disp_string)
 
     def dump_next(self):
         if not self.dispatch_queue.is_empty():
@@ -260,8 +265,11 @@ class ChicagoCrimeFun:
         if x1 == "" or y1 == "":
             return None
 
-        x1 = float(x1)
-        y1 = float(y1)
+        try:
+            x1 = float(x1)
+            y1 = float(y1)
+        except ValueError:
+            raise Exception("Can't convert string to float.")
 
         x2 = x1 + float(self.scaling_factor)
         y2 = y1 + float(self.scaling_factor)
@@ -281,10 +289,8 @@ class ChicagoCrimeFun:
         but rather our guess as to where it's worth sending a patrol preemptively.
         """
         os.system("touch .pred")
-
-    def decide_next_patrol(
-        self, new_request=None, map_it=False, filename="map.html", log_it=False
-    ):
+                
+    def decide_next_patrol(self, new_request=None, map_it=False, filename="map.html", log_it=False):
         """
         Used to decide next place to send patrol
         Parameters:
@@ -300,7 +306,7 @@ class ChicagoCrimeFun:
             print_warn("Map FN: " + filename)
         print_warn("Logging: " + str(log_it))
 
-        if new_request is None:
+        if not new_request:
             print_warn("We have no new request")
             if self.dispatch_queue.is_empty():
                 # Now we need to use some past data to make best use of our resources
@@ -322,17 +328,24 @@ class ChicagoCrimeFun:
                     )
                     self.mark_pred()
 
-                return payload.value
+                return str(payload.value)
             else:
                 # we have an existing call, hence we need to do something *right now*
                 print_warn("we had a call in the queue, let's respond to that")
-                prio, recent_call = self.dispatch_queue.remove()
+                priority, recent_call = self.dispatch_queue.remove()
 
-                 # ah yes. to list or not to list, that is the question. (thanks CSV module!)
+                # ah yes. to list or not to list, that is the question. (thanks CSV module!)
                 attrs = csv.reader([recent_call]).__next__()
 
-                x1 = attrs[19]
-                y1 = attrs[20]
+                # Default value.
+                x1 = 10
+                y1 = 10
+
+                try:
+                    x1 = attrs[19]
+                    y1 = attrs[20]
+                except:
+                    print("Default border size.")
 
                 data = self.point_to_box(x1, y1)
 
@@ -344,7 +357,7 @@ class ChicagoCrimeFun:
                         )
                     if log_it:
                         self.store_ds(recent_call)
-                    return data
+                    return str(data)
                 else:
                     return "No location data"
         else:
@@ -361,15 +374,14 @@ class ChicagoCrimeFun:
                 print_error("Here's the n of attrs: " + str(len(csv.reader([new_request]).__next__())))
                 return "EMERGENCY:" + new_request
             else:
-
                 if not self.dispatch_queue.is_empty():
                     my_priority = self.priority_dict[csv.reader([new_request]).__next__()[5]]
-                    prio, recent_call = self.dispatch_queue.peek()
+                    priority, recent_call = self.dispatch_queue.peek()
 
-                    print("My prio: " + str(my_priority))
-                    print("Other prio: " + str(prio))
+                    print("My priority: " + str(my_priority))
+                    print("Other priority: " + str(priority))
 
-                    if my_priority < prio:
+                    if my_priority < priority:
                         # this new request is more important than the other one.
                         print_info("responding to the new call")
 
@@ -389,7 +401,7 @@ class ChicagoCrimeFun:
                                 )
                             if log_it:
                                 self.store_ds(new_request)
-                            return data
+                            return str(data)
                         else:
                             return "No location data"
                     else:
@@ -416,13 +428,12 @@ class ChicagoCrimeFun:
                                 )
                             if log_it:
                                 self.store_ds(recent_call)
-                            return data
+                            return str(data)
                         else:
                             return "No location data"
 
                 else: # dispatch queue is empty
                     print_info("Responding to incoming call. Dispatch queue empty.")
-                    # ah yes. to list or not to list, that is the question. (thanks CSV module!)
                     attrs = csv.reader([new_request]).__next__()
 
                     x1 = attrs[19]
@@ -438,12 +449,10 @@ class ChicagoCrimeFun:
                             )
                         if log_it:
                             self.store_ds(new_request)
-                        return data
+                        return str(data)
                     else:
                         return "No location data"
 
-
-        return "default case?"
 
     def google_maps(self, otype="THEFT", browser=True):
         """
@@ -485,8 +494,8 @@ if __name__ == "__main__":
     print_info("4 - Adding random cases")
     ccf.add_random_case(20)
 
-    # print_info("5 - testing highest priority report")
-    # ccf.dump_next()
+    print_info("5 - testing highest priority report")
+    ccf.dump_next()
 
     print_info("6 - Deciding next patrol location")
     print_info("Output: " + str(ccf.decide_next_patrol(map_it=True)))
