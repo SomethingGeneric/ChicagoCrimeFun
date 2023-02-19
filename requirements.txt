@@ -1,8 +1,6 @@
 black
-pygraphviz
 ete3
 gmplot
 flask
-graphviz
 colorama
 termcolor
