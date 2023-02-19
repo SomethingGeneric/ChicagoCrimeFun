@@ -58,7 +58,7 @@ Enter option: """
 
     # Visualize the tree
     v = VisualizeData()
-    dot = v.visualize_data(myTree)
+    dot = v.visualize_avl(myTree)
     dot.format = "png"
     dot.view(filename="avltree", directory="./visualizations/")
 
