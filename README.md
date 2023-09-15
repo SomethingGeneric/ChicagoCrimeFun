@@ -78,3 +78,6 @@ See ![USAGE.md](USAGE.md) for instructions and warnings when using `web.py` with
 
 ## Outside resources related to dataset
 * https://news.wttw.com/sites/default/files/Map%20of%20Chicago%20Police%20Districts%20and%20Beats.pdf
+
+# This project has moved:
+[GitLab Repository](https://gitlab.mattcompton.dev/matt/ChicagoCrimeFun)
